@@ -1,5 +1,20 @@
 {
     "version": "0.2.0",
     "configurations": [
+         {
+            "name": "Development",
+            "request": "launch",
+            "type": "al",
+            "environmentType": "Sandbox",
+            "environmentName": "PassSB1",
+            "breakOnError": "All",
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true,
+            "tenant": "134cbe21-430b-448c-b0ae-c7f8555c8d1e",
+            "startupObjectId": 22,
+            "startupObjectType": "Page"
+        }
     ]
 }
+

@@ -13,19 +13,20 @@
   "dependencies": [],
   "screenshots": [],
   "platform": "1.0.0.0",
-  "application": "22.0.0.0",
+  "application": "28.0.0.0",
   "idRanges": [
     {
       "from": 52000,
       "to": 52100
     }
   ],
-  "features": [
-    "NoImplicitWith"
-  ],
   "resourceExposurePolicy": {
     "allowDebugging": true,
     "allowDownloadingSource": false,
     "includeSourceInSymbolFile": false
-  }
+  },
+  "runtime": "16.0",
+  "features": [
+    "NoImplicitWith"
+  ]
 }
