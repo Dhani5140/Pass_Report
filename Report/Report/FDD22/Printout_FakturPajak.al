@@ -1,4 +1,4 @@
-report 52000 FakturPajak
+report 52002 FakturPajak
 {
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
@@ -17,8 +17,7 @@ report 52000 FakturPajak
 
     requestpage
     {
-        // AboutTitle = 'Teaching tip title';
-        // AboutText = 'Teaching tip content';
+
         layout
         {
             area(Content)
