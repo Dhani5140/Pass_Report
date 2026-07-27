@@ -10,7 +10,14 @@
   "help": "",
   "url": "",
   "logo": "",
-  "dependencies": [],
+  "dependencies": [
+    {
+  "id": "6046c0bd-7447-4d4f-a36a-da5fcf8ffc46",
+  "name": "Pass",
+  "publisher": "MII",
+  "version": "1.0.0.9"
+    }
+  ],
   "screenshots": [],
   "platform": "1.0.0.0",
   "application": "28.0.0.0",
