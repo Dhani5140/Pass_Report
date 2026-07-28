@@ -8,10 +8,19 @@ report 52001 SuratJalanWhSp
     {
         dataitem("Warehouse Shipment Header"; "Warehouse Shipment Header")
         {
+            RequestFilterFields = "No.";
             column(Nama_Driver; "Nama Driver") { }
+
+            column(Shipment_Date; "Shipment Date") { }
+
+
+            column(No_; "No.") { }
             dataitem("Warehouse Shipment Line"; "Warehouse Shipment Line")
             {
+
+
                 DataItemLink = "No." = field("No.");
+
                 column(Invoice_No_; "Invoice No.") { }
                 column(Destination_No_; "Destination No.") { }
                 column(Cubage; Cubage) { }
@@ -65,7 +74,7 @@ report 52001 SuratJalanWhSp
         layout(SuratJalanWhSp)
         {
             Type = RDLC;
-            LayoutFile = './Report/FDD20/SuratJalanWhSp.rdlc';
+            LayoutFile = './Report/FDD20/SuratJalanWhSp.rdl';
         }
     }
 }
