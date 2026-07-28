@@ -8,6 +8,7 @@ report 52000 TandaTerimaBuktiTagih
     {
         dataitem(Advance_Header; "Advance Header")
         {
+            RequestFilterFields = "No.";
             column(No_; "No.") { }
             dataitem("Gen. Journal Line"; "Gen. Journal Line")
             {
@@ -61,7 +62,7 @@ report 52000 TandaTerimaBuktiTagih
         layout(TandaTerimaBuktiTagih)
         {
             Type = RDLC;
-            LayoutFile = './Report/FDD5/TandaTerimaBuktiTagih.rdlc';
+            LayoutFile = './Report/FDD5/TandaTerimaBuktiTagih.rdl';
         }
     }
 }
