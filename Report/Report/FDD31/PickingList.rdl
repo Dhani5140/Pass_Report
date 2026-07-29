@@ -627,6 +627,9 @@ End Function
         <Field Name="Location_Code">
           <DataField>Location_Code</DataField>
         </Field>
+        <Field Name="Warehouse_Shipment_No_">
+          <DataField>Warehouse_Shipment_No_</DataField>
+        </Field>
         <Field Name="No_">
           <DataField>No_</DataField>
         </Field>
@@ -647,6 +650,24 @@ End Function
         </Field>
         <Field Name="Qty__to_HandleFormat">
           <DataField>Qty__to_HandleFormat</DataField>
+        </Field>
+        <Field Name="qtyBesar">
+          <DataField>qtyBesar</DataField>
+        </Field>
+        <Field Name="qtyBesarFormat">
+          <DataField>qtyBesarFormat</DataField>
+        </Field>
+        <Field Name="qtySedang">
+          <DataField>qtySedang</DataField>
+        </Field>
+        <Field Name="qtySedangFormat">
+          <DataField>qtySedangFormat</DataField>
+        </Field>
+        <Field Name="qtykecil">
+          <DataField>qtykecil</DataField>
+        </Field>
+        <Field Name="qtykecilFormat">
+          <DataField>qtykecilFormat</DataField>
         </Field>
         <Field Name="Satuan_Besar">
           <DataField>Satuan_Besar</DataField>
