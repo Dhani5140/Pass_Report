@@ -29,6 +29,9 @@ report 52003 PickingList
                 column(Item_No_; "Item No.") { }
                 column(Description; Description) { }
                 column(Qty__to_Handle; "Qty. to Handle") { }
+                column(qtyBesar; qtyBesar) { }
+                column(qtySedang; qtySedang) { }
+                column(qtykecil; qtykecil) { }
 
                 dataitem("Item"; "Item")
                 {
@@ -45,6 +48,26 @@ report 52003 PickingList
                         column(Qty__per_Unit_of_Measure; "Qty. per Unit of Measure") { }
                     }
                 }
+
+                trigger OnAfterGetRecord()
+                var
+                    item: Record Item;
+                begin
+                    Clear(qtyBesar);
+                    Clear(qtySedang);
+                    Clear(qtykecil);
+
+                    item.SetFilter("No.", '%1', "Warehouse Activity Line"."Item No.");
+                    if item.FindFirst() then begin
+                        if item."Satuan Besar" = "Warehouse Activity Line"."Unit of Measure Code" then begin
+                            qtyBesar := "Warehouse Activity Line"."Qty. to Handle";
+                        end else if item."Satuan Sedang" = "Warehouse Activity Line"."Unit of Measure Code" then begin
+                            qtySedang := "Warehouse Activity Line"."Qty. to Handle";
+                        end else begin
+                            qtykecil := "Warehouse Activity Line"."Qty. to Handle";
+                        end;
+                    end;
+                end;
             }
 
             trigger OnAfterGetRecord(
@@ -64,4 +87,9 @@ report 52003 PickingList
             LayoutFile = './Report/FDD31/PickingList.rdl';
         }
     }
+
+    var
+        qtyBesar: Decimal;
+        qtySedang: Decimal;
+        qtykecil: Decimal;
 }
