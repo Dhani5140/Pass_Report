@@ -8,7 +8,8 @@ report 52001 SuratJalanWhSp
     {
         dataitem("Warehouse Shipment Header"; "Warehouse Shipment Header")
         {
-            RequestFilterFields = "No.";
+            RequestFilterFields = "Location Code";
+
             column(Nama_Driver; "Nama Driver") { }
 
             column(Shipment_Date; "Shipment Date") { }
