@@ -39,10 +39,10 @@ report 52004 SuratJalanRetur
 
                 trigger OnAfterGetRecord()
                 var
-                    BarisReturPenjualan: Record "Sales Line";
-                    LogTransaksi: Record "Value Entry";
-                    HeaderFakturPenjualan: Record "Sales Invoice Header";
-                    BarisFakturPenjualan: Record "Sales Invoice Line";
+                    salesReturLine: Record "Sales Line";
+                    valueEntry: Record "Value Entry";
+                    salesInvHeader: Record "Sales Invoice Header";
+                    salesInvLine: Record "Sales Invoice Line";
                 begin
                     Clear(No_Faktur_Penjualan);
                     Clear(Tanggal_Dokumen);
@@ -51,52 +51,33 @@ report 52004 SuratJalanRetur
                     Clear(Alamat_Pelanggan);
                     Clear(Total_Nominal_Faktur);
 
-                    // Mencari Faktur asli daritransaksi retur (Value Entry)
-                    if BarisReturPenjualan.Get(BarisReturPenjualan."Document Type"::"Return Order", "Source No.", "Source Line No.") then begin
-                        if BarisReturPenjualan."Appl.-from Item Entry" <> 0 then begin
-                            LogTransaksi.SetRange("Item Ledger Entry No.", BarisReturPenjualan."Appl.-from Item Entry");
-                            LogTransaksi.SetRange("Document Type", LogTransaksi."Document Type"::"Sales Invoice");
-                            if LogTransaksi.FindFirst() then
-                                No_Faktur_Penjualan := LogTransaksi."Document No.";
+                    if salesReturLine.Get(salesReturLine."Document Type"::"Return Order", "Source No.", "Source Line No.") then begin
+                        if salesReturLine."Appl.-from Item Entry" <> 0 then begin
+                            valueEntry.SetRange("Item Ledger Entry No.", salesReturLine."Appl.-from Item Entry");
+                            valueEntry.SetRange("Document Type", valueEntry."Document Type"::"Sales Invoice");
+                            if valueEntry.FindFirst() then
+                                No_Faktur_Penjualan := valueEntry."Document No.";
                         end;
                     end;
 
-                    // Mengambil detail customer & total nominal faktur dari Sales Invoice Header
                     if No_Faktur_Penjualan <> '' then begin
-                        if HeaderFakturPenjualan.Get(No_Faktur_Penjualan) then begin
-                            Tanggal_Dokumen := HeaderFakturPenjualan."Document Date";
-                            No_Pelanggan := HeaderFakturPenjualan."Sell-to Customer No.";
-                            Nama_Pelanggan := HeaderFakturPenjualan."Sell-to Customer Name";
-                            Alamat_Pelanggan := HeaderFakturPenjualan."Ship-to Address";
+                        if salesInvHeader.Get(No_Faktur_Penjualan) then begin
+                            Tanggal_Dokumen := salesInvHeader."Document Date";
+                            No_Pelanggan := salesInvHeader."Sell-to Customer No.";
+                            Nama_Pelanggan := salesInvHeader."Sell-to Customer Name";
+                            Alamat_Pelanggan := salesInvHeader."Ship-to Address";
                             if Alamat_Pelanggan = '' then
-                                Alamat_Pelanggan := HeaderFakturPenjualan."Bill-to Address";
+                                Alamat_Pelanggan := salesInvHeader."Bill-to Address";
 
-                            BarisFakturPenjualan.SetRange("Document No.", No_Faktur_Penjualan);
-                            if BarisFakturPenjualan.FindSet() then begin
+                            salesInvLine.SetRange("Document No.", No_Faktur_Penjualan);
+                            if salesInvLine.FindSet() then begin
                                 repeat
-                                    Total_Nominal_Faktur += BarisFakturPenjualan."Amount Including VAT";
-                                until BarisFakturPenjualan.Next() = 0;
+                                    Total_Nominal_Faktur += salesInvLine."Amount Including VAT";
+                                until salesInvLine.Next() = 0;
                             end;
                         end;
                     end;
                 end;
-            }
-        }
-    }
-
-    requestpage
-    {
-        layout
-        {
-            area(Content)
-            {
-            }
-        }
-
-        actions
-        {
-            area(processing)
-            {
             }
         }
     }

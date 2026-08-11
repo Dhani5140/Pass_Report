@@ -8,11 +8,9 @@ tableextension 52000 "Warehouse Receipt Header Ext" extends "Warehouse Receipt H
             TableRelation = "Shipping Agent";
             DataClassification = CustomerContent;
 
-            // onvalidate => ter-triger saat user klik/pilih shipping agent
             trigger OnValidate()
             begin
-                // panggil function
-                VerifikasiApakahDokumenRetur();
+                CekDokumenRetur();
             end;
         }
         field(52001; "Shipping Agent Service Code"; Code[10])
@@ -23,23 +21,18 @@ tableextension 52000 "Warehouse Receipt Header Ext" extends "Warehouse Receipt H
 
             trigger OnValidate()
             begin
-                VerifikasiApakahDokumenRetur();
+                CekDokumenRetur();
             end;
         }
     }
 
-    // function self
-    local procedure VerifikasiApakahDokumenRetur()
+    local procedure CekDokumenRetur()
     var
-        BarisPenerimaanGudang: Record "Warehouse Receipt Line";
+        whseRcptLine: Record "Warehouse Receipt Line";
     begin
-        BarisPenerimaanGudang.SetRange("No.", Rec."No.");
-        // Verifikasi bahwa yang bisa isi itu hanya source document dari sales return order (sro)
-        BarisPenerimaanGudang.SetRange("Source Document", BarisPenerimaanGudang."Source Document"::"Sales Return Order");
-        // kalau bukan dari sro tampilkan error nitif
-        if BarisPenerimaanGudang.IsEmpty() then
+        whseRcptLine.SetRange("No.", Rec."No.");
+        whseRcptLine.SetRange("Source Document", whseRcptLine."Source Document"::"Sales Return Order");
+        if whseRcptLine.IsEmpty() then
             Error('No return orders');
     end;
 }
-
-

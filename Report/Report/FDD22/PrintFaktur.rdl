@@ -7,22 +7,43 @@
         <DataProvider>SQL</DataProvider>
         <ConnectString />
       </ConnectionProperties>
-      <rd:DataSourceID>72a8c3d1-92b8-4d56-bc90-dfcb9d7d8e24</rd:DataSourceID>
+      <rd:DataSourceID>a1b2c3d4-e5f6-7890-abcd-ef1234567890</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <ReportSections>
     <ReportSection>
       <Body>
         <ReportItems>
-          <!-- Header: Location Address (Top Left) -->
-          <Textbox Name="LocAddress">
+          <Textbox Name="CompanyName">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!Alamat_Gudang.Value, "DataSet_Result")</Value>
+                    <Value>PT. PANGAN SEJAHTERA SANTOSA</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>11pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.05in</Top>
+            <Left>0in</Left>
+            <Height>0.2in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Textbox Name="CompanyAddress">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Company_Address.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>8.5pt</FontSize>
@@ -31,22 +52,105 @@
                 </TextRuns>
               </Paragraph>
             </Paragraphs>
-            <Top>0.05in</Top>
+            <Top>0.25in</Top>
             <Left>0in</Left>
-            <Height>0.4in</Height>
-            <Width>2.4in</Width>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
           </Textbox>
-          <!-- Center Title -->
-          <Textbox Name="Title">
+          <Textbox Name="CompanyPhone">
+            <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>SURAT JALAN RETUR</Value>
+                    <Value>=First(Fields!Company_Phone.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
-                      <FontSize>12pt</FontSize>
+                      <FontSize>8.5pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.41in</Top>
+            <Left>0in</Left>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Textbox Name="CompanyPhone2">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Telp: 021-66679167</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>8.5pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.57in</Top>
+            <Left>0in</Left>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Textbox Name="CompanyWA">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Suara Pelanggan Hub: 0811-1988-0001 (WA)</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>8.5pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.73in</Top>
+            <Left>0in</Left>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Textbox Name="CompanyNPWP">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="NPWP: " &amp; First(Fields!Company_NPWP.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>8.5pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.89in</Top>
+            <Left>0in</Left>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Textbox Name="TitleInvoice">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>INVOICE</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
@@ -57,188 +161,40 @@
               </Paragraph>
             </Paragraphs>
             <Top>0.05in</Top>
-            <Left>2.5in</Left>
-            <Height>0.35in</Height>
-            <Width>3.0in</Width>
+            <Left>3.0in</Left>
+            <Height>0.3in</Height>
+            <Width>2.5in</Width>
           </Textbox>
-          <!-- Header Fields (Left Side) -->
-          <Textbox Name="No_Faktur">
+          <Textbox Name="KepadaYth">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="NO FAKTUR      : " &amp; First(Fields!No_Faktur_Penjualan.Value, "DataSet_Result")</Value>
+                    <Value>="Kepada Yth, " &amp; First(Fields!Customer_No.Value, "DataSet_Result") &amp; " - " &amp; First(Fields!Customer_Name.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>9pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
               </Paragraph>
             </Paragraphs>
-            <Top>0.55in</Top>
+            <Top>1.15in</Top>
             <Left>0in</Left>
-            <Height>0.16in</Height>
+            <Height>0.2in</Height>
             <Width>4.0in</Width>
           </Textbox>
-          <Textbox Name="SO_Retur">
+          <Textbox Name="CustAddress">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="SO RETUR        : " &amp; First(Fields!Source_No_.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-              </Paragraph>
-            </Paragraphs>
-            <Top>0.71in</Top>
-            <Left>0in</Left>
-            <Height>0.16in</Height>
-            <Width>4.0in</Width>
-          </Textbox>
-          <Textbox Name="Alamat">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="ALAMAT           : " &amp; First(Fields!Alamat_Pelanggan.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-              </Paragraph>
-            </Paragraphs>
-            <Top>0.87in</Top>
-            <Left>0in</Left>
-            <Height>0.16in</Height>
-            <Width>4.0in</Width>
-          </Textbox>
-          <!-- Header Fields (Right Side) -->
-          <Textbox Name="KodeCustomer">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="KODE CUSTOMER   : " &amp; First(Fields!No_Pelanggan.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-              </Paragraph>
-            </Paragraphs>
-            <Top>0.55in</Top>
-            <Left>4.5in</Left>
-            <Height>0.16in</Height>
-            <Width>3.5in</Width>
-          </Textbox>
-          <Textbox Name="NamaCustomer">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="NAMA CUSTOMER   : " &amp; First(Fields!Nama_Pelanggan.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-              </Paragraph>
-            </Paragraphs>
-            <Top>0.71in</Top>
-            <Left>4.5in</Left>
-            <Height>0.16in</Height>
-            <Width>3.5in</Width>
-          </Textbox>
-          <Textbox Name="NamaDriver">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="NAMA DRIVER       : " &amp; First(Fields!Nama_Supir.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-              </Paragraph>
-            </Paragraphs>
-            <Top>0.87in</Top>
-            <Left>4.5in</Left>
-            <Height>0.16in</Height>
-            <Width>3.5in</Width>
-          </Textbox>
-          <Textbox Name="NoPol">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="NO POL                     : " &amp; First(Fields!Plat_Nomor.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-              </Paragraph>
-            </Paragraphs>
-            <Top>1.03in</Top>
-            <Left>4.5in</Left>
-            <Height>0.16in</Height>
-            <Width>3.5in</Width>
-          </Textbox>
-          <Textbox Name="Tanggal">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="TANGGAL                 : " &amp; First(Fields!PrintDateText.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-              </Paragraph>
-            </Paragraphs>
-            <Top>1.19in</Top>
-            <Left>4.5in</Left>
-            <Height>0.16in</Height>
-            <Width>3.5in</Width>
-          </Textbox>
-          <Textbox Name="Cabang">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="CABANG                  : " &amp; First(Fields!Nama_Cabang.Value, "DataSet_Result")</Value>
+                    <Value>=First(Fields!Customer_Address.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>9pt</FontSize>
@@ -248,201 +204,172 @@
               </Paragraph>
             </Paragraphs>
             <Top>1.35in</Top>
+            <Left>0in</Left>
+            <Height>0.3in</Height>
+            <Width>4.0in</Width>
+          </Textbox>
+          <Textbox Name="SalesmanInfo">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Salesman          : " &amp; First(Fields!Salesman_Code.Value, "DataSet_Result") &amp; " - " &amp; First(Fields!Salesman_Name.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.15in</Top>
             <Left>4.5in</Left>
             <Height>0.16in</Height>
             <Width>3.5in</Width>
           </Textbox>
-          <!-- Main Details Table -->
-          <Tablix Name="Tablix1">
+          <Textbox Name="PickingListInfo">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="No. Picking List  : " &amp; First(Fields!Picking_List_No.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.31in</Top>
+            <Left>4.5in</Left>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Textbox Name="DateInfo">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Date              : " &amp; Format(First(Fields!Order_Date.Value, "DataSet_Result"), "dd-MMM-yyyy")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.47in</Top>
+            <Left>4.5in</Left>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Textbox Name="DueDateInfo">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Due Date          : " &amp; Format(First(Fields!Due_Date.Value, "DataSet_Result"), "dd-MMM-yyyy")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.63in</Top>
+            <Left>4.5in</Left>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Textbox Name="PaymentTermsInfo">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Payment Terms  : " &amp; First(Fields!Payment_Terms.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.79in</Top>
+            <Left>4.5in</Left>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Textbox Name="InvoiceNoInfo">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="No. Invoice       : " &amp; First(Fields!Invoice_No_.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.95in</Top>
+            <Left>4.5in</Left>
+            <Height>0.16in</Height>
+            <Width>3.5in</Width>
+          </Textbox>
+          <Tablix Name="TablixItem">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.4in</Width>
+                  <Width>1.0in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.2in</Width>
+                  <Width>2.8in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.4in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.7in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.8in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.8in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.8in</Width>
+                  <Width>1.4in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.9in</Width>
                 </TablixColumn>
+                <TablixColumn>
+                  <Width>0.9in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.0in</Width>
+                </TablixColumn>
               </TablixColumns>
               <TablixRows>
-                <!-- Header Row -->
                 <TablixRow>
                   <Height>0.28in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="H_No">
+                        <Textbox Name="H_Kode">
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>NO</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>4pt</PaddingLeft>
-                            <PaddingRight>4pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="H_KodeBarang">
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>KODE BARANG</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>4pt</PaddingLeft>
-                            <PaddingRight>4pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="H_NamaBarang">
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>NAMA BARANG</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>4pt</PaddingLeft>
-                            <PaddingRight>4pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="H_Satuan">
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>SATUAN</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>4pt</PaddingLeft>
-                            <PaddingRight>4pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="H_Request">
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>REQUEST</Value>
+                                  <Value>Kode</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -451,124 +378,16 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>PENARIKAN</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
-                            <TopBorder>
+                            <Border>
                               <Color>Black</Color>
                               <Style>Solid</Style>
                               <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>4pt</PaddingLeft>
-                            <PaddingRight>4pt</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="H_Jumlah">
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>JUMLAH</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>PENARIKAN</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>4pt</PaddingLeft>
-                            <PaddingRight>4pt</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="H_GoodBad">
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>GOOD/BAD</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
+                            </Border>
                             <PaddingLeft>4pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -579,13 +398,13 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="H_Keterangan">
+                        <Textbox Name="H_NamaProduk">
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>KETERANGAN</Value>
+                                  <Value>Nama Produk</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -593,19 +412,157 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
-                            <TopBorder>
+                            <Border>
                               <Color>Black</Color>
                               <Style>Solid</Style>
                               <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
+                            </Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="H_Kuantitas">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Kuantitas</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
                               <Color>Black</Color>
                               <Style>Solid</Style>
                               <Width>1pt</Width>
-                            </BottomBorder>
+                            </Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="H_HrgJual">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Hrg/ Jual</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="H_Potongan">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Potongan</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </Border>
+                            <PaddingLeft>4pt</PaddingLeft>
+                            <PaddingRight>4pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="H_JumlahRp">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Jumlah Rp</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </Border>
                             <PaddingLeft>4pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -616,42 +573,12 @@
                     </TablixCell>
                   </TablixCells>
                 </TablixRow>
-                <!-- Details Row -->
                 <TablixRow>
-                  <Height>0.18in</Height>
+                  <Height>0.2in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="No">
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=RowNumber("Tablix1")</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>4pt</PaddingLeft>
-                            <PaddingRight>4pt</PaddingRight>
-                            <PaddingTop>1.5pt</PaddingTop>
-                            <PaddingBottom>1.5pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Item_No_">
+                        <Textbox Name="D_ItemNo">
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -668,7 +595,9 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
                             </Border>
                             <PaddingLeft>4pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
@@ -680,7 +609,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Description">
+                        <Textbox Name="D_Description">
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -697,7 +626,9 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
                             </Border>
                             <PaddingLeft>4pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
@@ -709,13 +640,13 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Unit_of_Measure_Code">
+                        <Textbox Name="D_Kuantitas">
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Unit_of_Measure_Code.Value</Value>
+                                  <Value>=Fields!Kuantitas_Teks.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -726,7 +657,9 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
                             </Border>
                             <PaddingLeft>4pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
@@ -738,45 +671,13 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Qty">
+                        <Textbox Name="D_HrgJual">
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!Qty.Value = 0, "-", Format(Fields!Qty.Value, "#,##0"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>4pt</PaddingLeft>
-                            <PaddingRight>4pt</PaddingRight>
-                            <PaddingTop>1.5pt</PaddingTop>
-                            <PaddingBottom>1.5pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="QtyToReceive">
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=iif(Fields!QtyToReceive.Value = 0, "-", Format(Fields!QtyToReceive.Value, "#,##0"))</Value>
+                                  <Value>=iif(Fields!Hrg_Jual.Value = 0, "", Format(Fields!Hrg_Jual.Value, "#,##0"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -790,7 +691,9 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
                             </Border>
                             <PaddingLeft>4pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
@@ -802,24 +705,29 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Bin_Code">
+                        <Textbox Name="D_Potongan">
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Bin_Code.Value</Value>
+                                  <Value>=iif(Fields!Potongan.Value = 0, "", Format(Fields!Potongan.Value, "#,##0"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
                             </Border>
                             <PaddingLeft>4pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
@@ -831,24 +739,29 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Keterangan">
+                        <Textbox Name="D_JumlahRp">
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=iif(Fields!Jumlah_Rp.Value = 0, "", Format(Fields!Jumlah_Rp.Value, "#,##0"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
                             </Border>
                             <PaddingLeft>4pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
@@ -870,8 +783,6 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -885,58 +796,21 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Top>1.65in</Top>
+            <Top>2.25in</Top>
             <Left>0in</Left>
-            <Height>0.46in</Height>
+            <Height>0.48in</Height>
             <Width>8.0in</Width>
           </Tablix>
-          <!-- LineBottom: Horizontal line below table -->
-          <Line Name="LineBottom">
-            <Top>2.15in</Top>
-            <Left>0in</Left>
-            <Height>0in</Height>
-            <Width>8.0in</Width>
-            <Style>
-              <Border>
-                <Color>Black</Color>
-                <Style>Solid</Style>
-                <Width>1pt</Width>
-              </Border>
-            </Style>
-          </Line>
-          <!-- Total Labels (Totals of request and jumlah) -->
-          <Textbox Name="TotalText">
+          <Textbox Name="LabelSubtotal">
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>TOTAL</Value>
+                    <Value>Subtotal</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>9pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-              </Paragraph>
-            </Paragraphs>
-            <Top>2.20in</Top>
-            <Left>2.0in</Left>
-            <Height>0.16in</Height>
-            <Width>1.0in</Width>
-          </Textbox>
-          <Textbox Name="Total_Request">
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=Format(Sum(Fields!Qty.Value, "DataSet_Result"), "#,##0")</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>9pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -945,85 +819,260 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>2.20in</Top>
-            <Left>4.7in</Left>
-            <Height>0.16in</Height>
-            <Width>0.8in</Width>
-          </Textbox>
-          <Textbox Name="Total_Jumlah">
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=Format(Sum(Fields!QtyToReceive.Value, "DataSet_Result"), "#,##0")</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>9pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Right</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <Top>2.20in</Top>
-            <Left>5.5in</Left>
-            <Height>0.16in</Height>
-            <Width>0.8in</Width>
-          </Textbox>
-          <!-- Signatures (5 Column Layout with CanGrow and Safe Spacing) -->
-          <Textbox Name="Sig_Dibuat">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Dibuat oleh,</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>8.5pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value xml:space="preserve">
-
-( Adm Gudang )
-Tanggal:</Value>
-                    <Style>
-                      <FontFamily>Arial</FontFamily>
-                      <FontSize>8.5pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <Top>2.45in</Top>
-            <Left>0in</Left>
-            <Height>0.55in</Height>
+            <Top>2.85in</Top>
+            <Left>5.0in</Left>
+            <Height>0.18in</Height>
             <Width>1.5in</Width>
           </Textbox>
-          <Textbox Name="Sig_Diserahkan">
+          <Textbox Name="ValSubtotal">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Format(First(Fields!Subtotal.Value, "DataSet_Result"), "#,##0")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>2.85in</Top>
+            <Left>6.5in</Left>
+            <Height>0.18in</Height>
+            <Width>1.5in</Width>
+          </Textbox>
+          <Textbox Name="LabelDisc">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Disc Inv</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.03in</Top>
+            <Left>5.0in</Left>
+            <Height>0.18in</Height>
+            <Width>1.5in</Width>
+          </Textbox>
+          <Textbox Name="ValDisc">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Format(First(Fields!Disc_Inv.Value, "DataSet_Result"), "#,##0")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.03in</Top>
+            <Left>6.5in</Left>
+            <Height>0.18in</Height>
+            <Width>1.5in</Width>
+          </Textbox>
+          <Textbox Name="LabelDPP">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>DPP</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.21in</Top>
+            <Left>5.0in</Left>
+            <Height>0.18in</Height>
+            <Width>1.5in</Width>
+          </Textbox>
+          <Textbox Name="ValDPP">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Format(First(Fields!DPP.Value, "DataSet_Result"), "#,##0")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.21in</Top>
+            <Left>6.5in</Left>
+            <Height>0.18in</Height>
+            <Width>1.5in</Width>
+          </Textbox>
+          <Textbox Name="LabelPPN">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>PPN</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.39in</Top>
+            <Left>5.0in</Left>
+            <Height>0.18in</Height>
+            <Width>1.5in</Width>
+          </Textbox>
+          <Textbox Name="ValPPN">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="(" &amp; Format(First(Fields!PPN_Pct.Value, "DataSet_Result"), "0") &amp; "%) " &amp; Format(First(Fields!PPN_Amt.Value, "DataSet_Result"), "#,##0")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.39in</Top>
+            <Left>6.5in</Left>
+            <Height>0.18in</Height>
+            <Width>1.5in</Width>
+          </Textbox>
+          <Textbox Name="LabelTotal">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Total</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>10pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.57in</Top>
+            <Left>5.0in</Left>
+            <Height>0.2in</Height>
+            <Width>1.5in</Width>
+          </Textbox>
+          <Textbox Name="ValTotal">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Format(First(Fields!Total.Value, "DataSet_Result"), "#,##0")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>10pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.57in</Top>
+            <Left>6.5in</Left>
+            <Height>0.2in</Height>
+            <Width>1.5in</Width>
+          </Textbox>
+          <Textbox Name="BankInfo">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Diserahkan oleh,</Value>
+                    <Value>Nama Bank  : (TBC)</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>8.5pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>No AC       : (TBC)</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>8.5pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>3.85in</Top>
+            <Left>0in</Left>
+            <Height>0.4in</Height>
+            <Width>2.5in</Width>
+          </Textbox>
+          <Textbox Name="SigOtorisasi">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Otorisasi</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>8.5pt</FontSize>
@@ -1039,8 +1088,9 @@ Tanggal:</Value>
                   <TextRun>
                     <Value xml:space="preserve">
 
-( Customer )
-Tanggal:</Value>
+
+
+(                    )</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>8.5pt</FontSize>
@@ -1052,19 +1102,19 @@ Tanggal:</Value>
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>2.45in</Top>
+            <Top>3.85in</Top>
             <Left>1.5in</Left>
-            <Height>0.55in</Height>
+            <Height>0.8in</Height>
             <Width>1.5in</Width>
           </Textbox>
-          <Textbox Name="Sig_DiterimaDriver">
+          <Textbox Name="SigKaGudang">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Diterima oleh,</Value>
+                    <Value>Ka. Gudang</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>8.5pt</FontSize>
@@ -1080,8 +1130,9 @@ Tanggal:</Value>
                   <TextRun>
                     <Value xml:space="preserve">
 
-( Driver )
-Tanggal:</Value>
+
+
+(                    )</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>8.5pt</FontSize>
@@ -1093,19 +1144,19 @@ Tanggal:</Value>
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>2.45in</Top>
+            <Top>3.85in</Top>
             <Left>3.0in</Left>
-            <Height>0.55in</Height>
+            <Height>0.8in</Height>
             <Width>1.5in</Width>
           </Textbox>
-          <Textbox Name="Sig_DiterimaGudang">
+          <Textbox Name="SigPengirim">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Diterima oleh,</Value>
+                    <Value>Pengirim</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>8.5pt</FontSize>
@@ -1121,8 +1172,9 @@ Tanggal:</Value>
                   <TextRun>
                     <Value xml:space="preserve">
 
-( Gudang )
-Tanggal:</Value>
+
+
+(                    )</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>8.5pt</FontSize>
@@ -1134,50 +1186,158 @@ Tanggal:</Value>
                 </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>2.45in</Top>
+            <Top>3.85in</Top>
             <Left>4.5in</Left>
-            <Height>0.55in</Height>
+            <Height>0.8in</Height>
             <Width>1.5in</Width>
           </Textbox>
-          <Textbox Name="Sig_Notes">
+          <Textbox Name="SigPenerima">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Catatan</Value>
+                    <Value>Penerima</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>8.5pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>*) Diisi dengan Nama
-- Produk bisa diretur apabila Form Permintaan Retur telah disetujui</Value>
+                    <Value xml:space="preserve">
+
+
+
+(                    )</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
-                      <FontSize>7.5pt</FontSize>
+                      <FontSize>8.5pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
-            <Top>2.45in</Top>
+            <Top>3.85in</Top>
             <Left>6.0in</Left>
-            <Height>0.55in</Height>
+            <Height>0.8in</Height>
             <Width>2.0in</Width>
           </Textbox>
+          <Textbox Name="CatatanFooter">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Produk yang diterima harap diperiksa kembali</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>4.75in</Top>
+            <Left>0in</Left>
+            <Height>0.2in</Height>
+            <Width>4.0in</Width>
+          </Textbox>
+          <Textbox Name="SPVFooter">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="SPV Finance Accounting: " &amp; First(Fields!SPV_Finance.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>4.75in</Top>
+            <Left>4.0in</Left>
+            <Height>0.2in</Height>
+            <Width>4.0in</Width>
+          </Textbox>
+          <Textbox Name="DateTimeFooter">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Print_DateTime.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>4.95in</Top>
+            <Left>4.0in</Left>
+            <Height>0.2in</Height>
+            <Width>4.0in</Width>
+          </Textbox>
         </ReportItems>
-        <Height>3.1in</Height>
+        <Height>5.2in</Height>
       </Body>
       <Width>8.0in</Width>
       <Page>
+        <PageHeader>
+          <Height>0.25in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="PageNumber">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Page " &amp; Globals!PageNumber &amp; " of " &amp; Globals!TotalPages</Value>
+                      <Style>
+                        <FontFamily>Arial</FontFamily>
+                        <FontSize>8.5pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0in</Top>
+              <Left>6.0in</Left>
+              <Height>0.2in</Height>
+              <Width>2.0in</Width>
+            </Textbox>
+          </ReportItems>
+          <Style />
+        </PageHeader>
         <PageWidth>8.5in</PageWidth>
         <PageHeight>11in</PageHeight>
         <LeftMargin>0.25in</LeftMargin>
@@ -1226,33 +1386,96 @@ End Function
   <Language>=User!Language</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
-  <rd:ReportID>72a8c3d1-92b8-4d56-bc90-dfcb9d7d8e24</rd:ReportID>
+  <rd:ReportID>a1b2c3d4-e5f6-7890-abcd-ef1234567890</rd:ReportID>
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
         <Field Name="No_">
           <DataField>No_</DataField>
         </Field>
-        <Field Name="PrintDateText">
-          <DataField>PrintDateText</DataField>
-        </Field>
-        <Field Name="Plat_Nomor">
-          <DataField>Plat_Nomor</DataField>
-        </Field>
-        <Field Name="Nama_Supir">
-          <DataField>Nama_Supir</DataField>
-        </Field>
-        <Field Name="Alamat_Gudang">
-          <DataField>Alamat_Gudang</DataField>
-        </Field>
-        <Field Name="Nama_Cabang">
-          <DataField>Nama_Cabang</DataField>
-        </Field>
         <Field Name="Location_Code">
           <DataField>Location_Code</DataField>
         </Field>
-        <Field Name="Source_No_">
-          <DataField>Source_No_</DataField>
+        <Field Name="Company_Address">
+          <DataField>Company_Address</DataField>
+        </Field>
+        <Field Name="Company_Phone">
+          <DataField>Company_Phone</DataField>
+        </Field>
+        <Field Name="Company_NPWP">
+          <DataField>Company_NPWP</DataField>
+        </Field>
+        <Field Name="Salesman_Code">
+          <DataField>Salesman_Code</DataField>
+        </Field>
+        <Field Name="Salesman_Name">
+          <DataField>Salesman_Name</DataField>
+        </Field>
+        <Field Name="Picking_List_No">
+          <DataField>Picking_List_No</DataField>
+        </Field>
+        <Field Name="Order_Date">
+          <DataField>Order_Date</DataField>
+        </Field>
+        <Field Name="Due_Date">
+          <DataField>Due_Date</DataField>
+        </Field>
+        <Field Name="Payment_Terms">
+          <DataField>Payment_Terms</DataField>
+        </Field>
+        <Field Name="Customer_No">
+          <DataField>Customer_No</DataField>
+        </Field>
+        <Field Name="Customer_Name">
+          <DataField>Customer_Name</DataField>
+        </Field>
+        <Field Name="Customer_Address">
+          <DataField>Customer_Address</DataField>
+        </Field>
+        <Field Name="Print_DateTime">
+          <DataField>Print_DateTime</DataField>
+        </Field>
+        <Field Name="SPV_Finance">
+          <DataField>SPV_Finance</DataField>
+        </Field>
+        <Field Name="Invoice_No_">
+          <DataField>Invoice_No_</DataField>
+        </Field>
+        <Field Name="Subtotal">
+          <DataField>Subtotal</DataField>
+        </Field>
+        <Field Name="SubtotalFormat">
+          <DataField>SubtotalFormat</DataField>
+        </Field>
+        <Field Name="Disc_Inv">
+          <DataField>Disc_Inv</DataField>
+        </Field>
+        <Field Name="Disc_InvFormat">
+          <DataField>Disc_InvFormat</DataField>
+        </Field>
+        <Field Name="DPP">
+          <DataField>DPP</DataField>
+        </Field>
+        <Field Name="DPPFormat">
+          <DataField>DPPFormat</DataField>
+        </Field>
+        <Field Name="PPN_Pct">
+          <DataField>PPN_Pct</DataField>
+        </Field>
+        <Field Name="PPN_PctFormat">
+          <DataField>PPN_PctFormat</DataField>
+        </Field>
+        <Field Name="PPN_Amt">
+          <DataField>PPN_Amt</DataField>
+        </Field>
+        <Field Name="PPN_AmtFormat">
+          <DataField>PPN_AmtFormat</DataField>
+        </Field>
+        <Field Name="Total">
+          <DataField>Total</DataField>
+        </Field>
+        <Field Name="TotalFormat">
+          <DataField>TotalFormat</DataField>
         </Field>
         <Field Name="Item_No_">
           <DataField>Item_No_</DataField>
@@ -1260,44 +1483,32 @@ End Function
         <Field Name="Description">
           <DataField>Description</DataField>
         </Field>
-        <Field Name="Unit_of_Measure_Code">
-          <DataField>Unit_of_Measure_Code</DataField>
+        <Field Name="Qty_Picked_Base">
+          <DataField>Qty_Picked_Base</DataField>
         </Field>
-        <Field Name="Qty">
-          <DataField>Qty</DataField>
+        <Field Name="Qty_Picked_BaseFormat">
+          <DataField>Qty_Picked_BaseFormat</DataField>
         </Field>
-        <Field Name="QtyFormat">
-          <DataField>QtyFormat</DataField>
+        <Field Name="Kuantitas_Teks">
+          <DataField>Kuantitas_Teks</DataField>
         </Field>
-        <Field Name="QtyToReceive">
-          <DataField>QtyToReceive</DataField>
+        <Field Name="Hrg_Jual">
+          <DataField>Hrg_Jual</DataField>
         </Field>
-        <Field Name="QtyToReceiveFormat">
-          <DataField>QtyToReceiveFormat</DataField>
+        <Field Name="Hrg_JualFormat">
+          <DataField>Hrg_JualFormat</DataField>
         </Field>
-        <Field Name="Bin_Code">
-          <DataField>Bin_Code</DataField>
+        <Field Name="Potongan">
+          <DataField>Potongan</DataField>
         </Field>
-        <Field Name="No_Faktur_Penjualan">
-          <DataField>No_Faktur_Penjualan</DataField>
+        <Field Name="PotonganFormat">
+          <DataField>PotonganFormat</DataField>
         </Field>
-        <Field Name="Tanggal_Dokumen">
-          <DataField>Tanggal_Dokumen</DataField>
+        <Field Name="Jumlah_Rp">
+          <DataField>Jumlah_Rp</DataField>
         </Field>
-        <Field Name="No_Pelanggan">
-          <DataField>No_Pelanggan</DataField>
-        </Field>
-        <Field Name="Nama_Pelanggan">
-          <DataField>Nama_Pelanggan</DataField>
-        </Field>
-        <Field Name="Alamat_Pelanggan">
-          <DataField>Alamat_Pelanggan</DataField>
-        </Field>
-        <Field Name="Total_Nominal_Faktur">
-          <DataField>Total_Nominal_Faktur</DataField>
-        </Field>
-        <Field Name="Total_Nominal_FakturFormat">
-          <DataField>Total_Nominal_FakturFormat</DataField>
+        <Field Name="Jumlah_RpFormat">
+          <DataField>Jumlah_RpFormat</DataField>
         </Field>
       </Fields>
       <Query>

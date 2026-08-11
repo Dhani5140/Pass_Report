@@ -1,5 +1,5 @@
 permissionset 52000 PermissionReport
 {
     Assignable = true;
-    Permissions = report FakturPajak = X;
+    Permissions = report PrintFaktur = X;
 }
