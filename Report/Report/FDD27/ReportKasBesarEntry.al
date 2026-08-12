@@ -1,6 +1,7 @@
 report 52004 "Kas Besar Entry"
 {
     Caption = 'Kas Besar Entry';
+    UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     DefaultRenderingLayout = KasBesarEntryRDLC;
 
