@@ -13,8 +13,8 @@
             "enableSqlInformationDebugger": true,
             "tenant": "bc228ea2-387f-4965-b2f4-8fc0c2ff5149",
             "startupObjectId": 22,
-            "startupObjectType": "Page"
+            "startupObjectType": "Page",
+            "schemaUpdateMode": "ForceSync"
         }
     ]
 }
-
