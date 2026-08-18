@@ -13,13 +13,10 @@ report 52003 PickingList
             column(Location_Code; "Location Code") { }
             column(Warehouse_Shipment_No_; "Warehouse Shipment No.") { }
             column(No_; "No.") { }
-
-            dataitem("Shipping Agent Services"; "Shipping Agent Services")
-            {
-
-                column(Plat_Nomor; "Plat Nomor") { }
-                column(Driver_Name; "Driver Name") { }
-            }
+            column(PrintDateTxt; PrintDateTxt) { }
+            column(PrintTimeTxt; PrintTimeTxt) { }
+            column(Plat_Nomor; Plat_Nomor) { }
+            column(Driver_Name; Driver_Name) { }
 
             dataitem("Warehouse Activity Line"; "Warehouse Activity Line")
             {
@@ -57,6 +54,8 @@ report 52003 PickingList
                     Clear(qtySedang);
                     Clear(qtykecil);
 
+
+
                     item.SetFilter("No.", '%1', "Warehouse Activity Line"."Item No.");
                     if item.FindFirst() then begin
                         if item."Satuan Besar" = "Warehouse Activity Line"."Unit of Measure Code" then begin
@@ -70,11 +69,19 @@ report 52003 PickingList
                 end;
             }
 
-            trigger OnAfterGetRecord(
-
-            )
+            trigger OnAfterGetRecord()
+            var
+                ShippingAgentServ: Record "Shipping Agent Services";
             begin
+                PrintDateTxt := Format(Today, 0, '<Month Text> <Day,2>, <Year4>');
+                PrintTimeTxt := Format(Time, 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>');
 
+                Clear(Plat_Nomor);
+                Clear(Driver_Name);
+                if ShippingAgentServ.FindFirst() then begin
+                    Plat_Nomor := ShippingAgentServ."Plat Nomor";
+                    Driver_Name := ShippingAgentServ."Driver Name";
+                end;
             end;
         }
     }
@@ -92,4 +99,8 @@ report 52003 PickingList
         qtyBesar: Decimal;
         qtySedang: Decimal;
         qtykecil: Decimal;
+        PrintDateTxt: Text[50];
+        PrintTimeTxt: Text[50];
+        Plat_Nomor: Text[100];
+        Driver_Name: Text[100];
 }

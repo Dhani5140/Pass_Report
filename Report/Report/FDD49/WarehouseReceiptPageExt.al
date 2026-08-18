@@ -32,7 +32,7 @@ pageextension 52002 "Warehouse Receipt Page Ext" extends "Warehouse Receipt"
                 trigger OnAction()
                 begin
                     Rec.SetRange("No.", Rec."No.");
-                    Report.Run(52004, true, false, Rec);
+                    Report.Run(Report::SuratJalanRetur, true, false, Rec);
                 end;
             }
         }

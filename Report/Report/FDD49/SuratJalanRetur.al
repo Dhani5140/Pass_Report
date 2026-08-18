@@ -18,6 +18,13 @@ report 52007 SuratJalanRetur
             column(Nama_Cabang; Nama_Cabang) { }
             column(Location_Code; "Location Code") { }
 
+            dataitem("Location"; "Location")
+            {
+                DataItemLink = Code = field("Location Code");
+
+                column(Address; Address) { }
+            }
+
             dataitem("Warehouse Receipt Line"; "Warehouse Receipt Line")
             {
                 DataItemLinkReference = "Warehouse Receipt Header";
@@ -79,6 +86,18 @@ report 52007 SuratJalanRetur
                     end;
                 end;
             }
+
+            trigger OnAfterGetRecord()
+            var
+                LocationRec: Record Location;
+            begin
+                Clear(Alamat_Gudang);
+                Clear(Nama_Cabang);
+                if LocationRec.Get("Location Code") then begin
+                    Alamat_Gudang := LocationRec.Address;
+                    Nama_Cabang := LocationRec.Name;
+                end;
+            end;
         }
     }
 
