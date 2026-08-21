@@ -48,15 +48,7 @@ report 52005 PrintFaktur
 
                 trigger OnAfterGetRecord()
                 var
-                    item: Record Item;
-                    itemUoM: Record "Item Unit of Measure";
                     salesLine: Record "Sales Line";
-                    qtyPerBesar: Decimal;
-                    qtyPerSedang: Decimal;
-                    sisaQty: Decimal;
-                    jmlBesar: Integer;
-                    jmlSedang: Integer;
-                    jmlKecil: Integer;
                 begin
                     Clear(Kuantitas_Teks);
                     Clear(Unit_Price);
@@ -65,6 +57,8 @@ report 52005 PrintFaktur
                     Clear(Jumlah_Rp_Inc_VAT);
                     Clear(Line_Disc_Inv);
 
+                    Kuantitas_Teks := Format("Qty. to Ship") + ' ' + "Unit of Measure Code";
+
                     if salesLine.Get(salesLine."Document Type"::Order,
                                       "Source No.", "Source Line No.") then begin
                         Unit_Price := salesLine."Unit Price";
@@ -72,53 +66,6 @@ report 52005 PrintFaktur
                         Jumlah_Rp := salesLine.Amount;
                         Jumlah_Rp_Inc_VAT := salesLine."Amount Including VAT";
                         Line_Disc_Inv := salesLine."Inv. Discount Amount";
-                    end;
-
-                    if item.Get("Item No.") then begin
-                        if item."Satuan Besar" <> '' then begin
-                            if itemUoM.Get("Item No.", item."Satuan Besar") then
-                                qtyPerBesar := itemUoM."Qty. per Unit of Measure";
-                        end;
-
-                        if item."Satuan Sedang" <> '' then begin
-                            if itemUoM.Get("Item No.", item."Satuan Sedang") then
-                                qtyPerSedang := itemUoM."Qty. per Unit of Measure";
-                        end;
-
-                        sisaQty := "Qty. Picked (Base)";
-
-                        if qtyPerBesar > 0 then begin
-                            jmlBesar := Round(sisaQty / qtyPerBesar, 1, '<');
-                            sisaQty := sisaQty - (jmlBesar * qtyPerBesar);
-                        end;
-
-                        if qtyPerSedang > 0 then begin
-                            jmlSedang := Round(sisaQty / qtyPerSedang, 1, '<');
-                            sisaQty := sisaQty - (jmlSedang * qtyPerSedang);
-                        end;
-
-                        jmlKecil := Round(sisaQty, 1);
-
-                        if jmlBesar > 0 then
-                            Kuantitas_Teks := Format(jmlBesar) + ' ' + item."Satuan Besar";
-
-                        if jmlSedang > 0 then begin
-                            if Kuantitas_Teks <> '' then
-                                Kuantitas_Teks += ' ';
-                            Kuantitas_Teks += Format(jmlSedang) + ' ' + item."Satuan Sedang";
-                        end;
-
-                        if jmlKecil > 0 then begin
-                            if Kuantitas_Teks <> '' then
-                                Kuantitas_Teks += ' ';
-                            Kuantitas_Teks += Format(jmlKecil) + ' ' + item."Base Unit of Measure";
-                        end;
-
-                        if Kuantitas_Teks = '' then
-                            Kuantitas_Teks := Format("Qty. Picked (Base)") + ' ' + "Unit of Measure Code";
-
-                    end else begin
-                        Kuantitas_Teks := Format("Qty. Picked (Base)") + ' ' + "Unit of Measure Code";
                     end;
                 end;
             }
