@@ -1,4 +1,4 @@
-pageextension 52004 "Warehouse Shipment Print Nota" extends "Warehouse Shipment"
+pageextension 52005 "Warehouse Shipment Print Nota" extends "Warehouse Shipment"
 {
     actions
     {

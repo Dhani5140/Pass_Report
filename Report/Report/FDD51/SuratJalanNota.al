@@ -13,7 +13,6 @@ report 52008 SuratJalanNota
             column(No_; "No.") { }
             column(Location_Code; "Location Code") { }
             column(Posting_Date; "Posting Date") { }
-            column(PrintDateText; PrintDateText) { }
             column(Plat_Nomor; Plat_Nomor) { }
             column(Nama_Driver; Nama_Driver) { }
 
@@ -37,8 +36,8 @@ report 52008 SuratJalanNota
 
                 trigger OnAfterGetRecord()
                 var
-                    salesInvHeader: Record "Sales Invoice Header";
-                    salesInvLine: Record "Sales Invoice Line";
+                    salesHeader: Record "Sales Header";
+                    salesLine: Record "Sales Line";
                 begin
                     Clear(Nomor_Invoice);
                     Clear(Kode_Customer);
@@ -49,21 +48,20 @@ report 52008 SuratJalanNota
 
                     Nomor_Invoice := "Invoice No.";
 
-                    if Nomor_Invoice <> '' then begin
-                        if salesInvHeader.Get(Nomor_Invoice) then begin
-                            Kode_Customer := salesInvHeader."Sell-to Customer No.";
-                            Nama_Customer := salesInvHeader."Sell-to Customer Name";
-                            Alamat := salesInvHeader."Ship-to Address";
-                            if Alamat = '' then
-                                Alamat := salesInvHeader."Bill-to Address";
-                            TOP := salesInvHeader."Payment Terms Code";
+                    if salesHeader.Get(salesHeader."Document Type"::Order, "Source No.") then begin
+                        Kode_Customer := salesHeader."Sell-to Customer No.";
+                        Nama_Customer := salesHeader."Sell-to Customer Name";
+                        Alamat := salesHeader."Ship-to Address";
+                        if Alamat = '' then
+                            Alamat := salesHeader."Bill-to Address";
+                        TOP := salesHeader."Payment Terms Code";
 
-                            salesInvLine.SetRange("Document No.", Nomor_Invoice);
-                            if salesInvLine.FindSet() then begin
-                                repeat
-                                    Nominal_Invoice += salesInvLine."Amount Including VAT";
-                                until salesInvLine.Next() = 0;
-                            end;
+                        salesLine.SetRange("Document Type", salesLine."Document Type"::Order);
+                        salesLine.SetRange("Document No.", "Source No.");
+                        if salesLine.FindSet() then begin
+                            repeat
+                                Nominal_Invoice += salesLine."Amount Including VAT";
+                            until salesLine.Next() = 0;
                         end;
                     end;
                 end;
@@ -73,14 +71,11 @@ report 52008 SuratJalanNota
             var
                 ShippingAgentServ: Record "Shipping Agent Services";
             begin
-                PrintDateText := Format(Today, 0, '<Month Text> <Day,2>, <Year4>');
+                Nama_Driver := "Nama Driver";
 
                 Clear(Plat_Nomor);
-                Clear(Nama_Driver);
-                if ShippingAgentServ.FindFirst() then begin
+                if ShippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then
                     Plat_Nomor := ShippingAgentServ."Plat Nomor";
-                    Nama_Driver := ShippingAgentServ."Driver Name";
-                end;
             end;
         }
     }
@@ -97,7 +92,6 @@ report 52008 SuratJalanNota
     var
         Plat_Nomor: Text[100];
         Nama_Driver: Text[100];
-        PrintDateText: Text[100];
         Nomor_Invoice: Code[20];
         Kode_Customer: Code[20];
         Nama_Customer: Text[100];
