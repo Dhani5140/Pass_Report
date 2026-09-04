@@ -1,1 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?><Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition"><Body><ReportItems></ReportItems><Height>2cm</Height></Body><Width>10cm</Width><Page><PageHeight>29.7cm</PageHeight><PageWidth>21cm</PageWidth></Page></Report>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition">
+  <Body>
+    <ReportItems></ReportItems>
+    <Height>2cm</Height>
+  </Body>
+  <Width>10cm</Width>
+  <Page>
+    <PageHeight>29.7cm</PageHeight>
+    <PageWidth>21cm</PageWidth>
+  </Page>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Date">
+          <DataField>Date</DataField>
+        </Field>
+        <Field Name="TTBTNo">
+          <DataField>TTBTNo</DataField>
+        </Field>
+        <Field Name="InvoiceNo">
+          <DataField>InvoiceNo</DataField>
+        </Field>
+        <Field Name="InvoiceAmount">
+          <DataField>InvoiceAmount</DataField>
+        </Field>
+        <Field Name="InvoiceAmountFormat">
+          <DataField>InvoiceAmountFormat</DataField>
+        </Field>
+        <Field Name="CollectedAmount">
+          <DataField>CollectedAmount</DataField>
+        </Field>
+        <Field Name="CollectedAmountFormat">
+          <DataField>CollectedAmountFormat</DataField>
+        </Field>
+        <Field Name="ReturnDate">
+          <DataField>ReturnDate</DataField>
+        </Field>
+        <Field Name="BranchCode">
+          <DataField>BranchCode</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

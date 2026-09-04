@@ -1002,60 +1002,14 @@
             <ZIndex>2</ZIndex>
             <Style />
           </Tablix>
-          <Textbox Name="Cabang">
+          <Textbox Name="No_FakturLabel">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="CABANG                  : " &amp; First(Fields!Nama_Cabang.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <Top>1.03in</Top>
-            <Left>4.5in</Left>
-            <Height>0.16in</Height>
-            <Width>3.5in</Width>
-            <ZIndex>3</ZIndex>
-            <Style />
-          </Textbox>
-          <Textbox Name="NoPol">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="NO POL                     : " &amp; First(Fields!Plat_Nomor.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <Top>0.71in</Top>
-            <Left>4.5in</Left>
-            <Height>0.16in</Height>
-            <Width>3.5in</Width>
-            <ZIndex>4</ZIndex>
-            <Style />
-          </Textbox>
-          <Textbox Name="NamaDriver">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="NAMA DRIVER       : " &amp; First(Fields!Nama_Supir.Value, "DataSet_Result")</Value>
+                    <Value>NO FAKTUR</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -1065,20 +1019,66 @@
               </Paragraph>
             </Paragraphs>
             <Top>0.55in</Top>
-            <Left>4.5in</Left>
+            <Left>0in</Left>
             <Height>0.16in</Height>
-            <Width>3.5in</Width>
+            <Width>1.5in</Width>
+            <ZIndex>3</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="No_Faktur">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=": " &amp; First(Fields!No_Faktur_Penjualan.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.55in</Top>
+            <Left>1.5in</Left>
+            <Height>0.16in</Height>
+            <Width>2.5in</Width>
+            <ZIndex>4</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="SO_ReturLabel">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>SO RETUR</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.71in</Top>
+            <Left>0in</Left>
+            <Height>0.16in</Height>
+            <Width>1.5in</Width>
             <ZIndex>5</ZIndex>
             <Style />
           </Textbox>
-          <Textbox Name="NamaCustomer">
+          <Textbox Name="SO_Retur">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="NAMA CUSTOMER   : " &amp; First(Fields!Nama_Pelanggan.Value, "DataSet_Result")</Value>
+                    <Value>=": " &amp; First(Fields!Source_No_.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -1087,44 +1087,21 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>1.315in</Top>
-            <Left>0in</Left>
+            <Top>0.71in</Top>
+            <Left>1.5in</Left>
             <Height>0.16in</Height>
-            <Width>3.5in</Width>
+            <Width>2.5in</Width>
             <ZIndex>6</ZIndex>
             <Style />
           </Textbox>
-          <Textbox Name="KodeCustomer">
+          <Textbox Name="AlamatLabel">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="KODE CUSTOMER   : " &amp; First(Fields!No_Pelanggan.Value, "DataSet_Result")</Value>
-                    <Style>
-                      <FontSize>9pt</FontSize>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <Top>1.155in</Top>
-            <Left>0in</Left>
-            <Height>0.16in</Height>
-            <Width>3.5in</Width>
-            <ZIndex>7</ZIndex>
-            <Style />
-          </Textbox>
-          <Textbox Name="Alamat">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>="ALAMAT           : " &amp; First(Fields!Alamat_Pelanggan.Value, "DataSet_Result")</Value>
+                    <Value>ALAMAT</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -1136,18 +1113,18 @@
             <Top>0.87in</Top>
             <Left>0in</Left>
             <Height>0.16in</Height>
-            <Width>4in</Width>
-            <ZIndex>8</ZIndex>
+            <Width>1.5in</Width>
+            <ZIndex>7</ZIndex>
             <Style />
           </Textbox>
-          <Textbox Name="SO_Retur">
+          <Textbox Name="Alamat">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="SO RETUR        : " &amp; First(Fields!Source_No_.Value, "DataSet_Result")</Value>
+                    <Value>=": " &amp; First(Fields!Alamat_Pelanggan.Value, "DataSet_Result")</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -1156,21 +1133,113 @@
                 <Style />
               </Paragraph>
             </Paragraphs>
-            <Top>0.71in</Top>
-            <Left>0in</Left>
+            <Top>0.87in</Top>
+            <Left>1.5in</Left>
             <Height>0.16in</Height>
-            <Width>4in</Width>
-            <ZIndex>9</ZIndex>
+            <Width>2.5in</Width>
+            <ZIndex>8</ZIndex>
             <Style />
           </Textbox>
-          <Textbox Name="No_Faktur">
+          <Textbox Name="KodeCustomerLabel">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="NO FAKTUR      : " &amp; First(Fields!No_Faktur_Penjualan.Value, "DataSet_Result")</Value>
+                    <Value>KODE CUSTOMER</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.155in</Top>
+            <Left>0in</Left>
+            <Height>0.16in</Height>
+            <Width>1.5in</Width>
+            <ZIndex>9</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="KodeCustomer">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=": " &amp; First(Fields!No_Pelanggan.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.155in</Top>
+            <Left>1.5in</Left>
+            <Height>0.16in</Height>
+            <Width>2.5in</Width>
+            <ZIndex>10</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="NamaCustomerLabel">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>NAMA CUSTOMER</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.315in</Top>
+            <Left>0in</Left>
+            <Height>0.16in</Height>
+            <Width>1.5in</Width>
+            <ZIndex>11</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="NamaCustomer">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=": " &amp; First(Fields!Nama_Pelanggan.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.315in</Top>
+            <Left>1.5in</Left>
+            <Height>0.16in</Height>
+            <Width>2.5in</Width>
+            <ZIndex>12</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="NamaDriverLabel">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>NAMA DRIVER</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -1180,10 +1249,125 @@
               </Paragraph>
             </Paragraphs>
             <Top>0.55in</Top>
-            <Left>0in</Left>
+            <Left>4.5in</Left>
             <Height>0.16in</Height>
-            <Width>4in</Width>
-            <ZIndex>10</ZIndex>
+            <Width>1.3in</Width>
+            <ZIndex>13</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="NamaDriver">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=": " &amp; First(Fields!Nama_Supir.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.55in</Top>
+            <Left>5.8in</Left>
+            <Height>0.16in</Height>
+            <Width>2.2in</Width>
+            <ZIndex>14</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="NoPolLabel">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>NO POL</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.71in</Top>
+            <Left>4.5in</Left>
+            <Height>0.16in</Height>
+            <Width>1.3in</Width>
+            <ZIndex>15</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="NoPol">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=": " &amp; First(Fields!Plat_Nomor.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.71in</Top>
+            <Left>5.8in</Left>
+            <Height>0.16in</Height>
+            <Width>2.2in</Width>
+            <ZIndex>16</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="CabangLabel">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>CABANG</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.03in</Top>
+            <Left>4.5in</Left>
+            <Height>0.16in</Height>
+            <Width>1.3in</Width>
+            <ZIndex>17</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="Cabang">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=": " &amp; First(Fields!Nama_Cabang.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.03in</Top>
+            <Left>5.8in</Left>
+            <Height>0.16in</Height>
+            <Width>2.2in</Width>
+            <ZIndex>18</ZIndex>
             <Style />
           </Textbox>
           <Textbox Name="Title">
@@ -1211,14 +1395,14 @@
             <ZIndex>11</ZIndex>
             <Style />
           </Textbox>
-          <Textbox Name="Tanggal">
+          <Textbox Name="TanggalLabel">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>="TANGGAL                 : " &amp; First(Fields!PrintDateText.Value, "DataSet_Result")</Value>
+                    <Value>TANGGAL</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -1230,8 +1414,31 @@
             <Top>0.87in</Top>
             <Left>4.5in</Left>
             <Height>0.16in</Height>
-            <Width>3.5in</Width>
-            <ZIndex>12</ZIndex>
+            <Width>1.3in</Width>
+            <ZIndex>19</ZIndex>
+            <Style />
+          </Textbox>
+          <Textbox Name="Tanggal">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=": " &amp; First(Fields!PrintDateText.Value, "DataSet_Result")</Value>
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.87in</Top>
+            <Left>5.8in</Left>
+            <Height>0.16in</Height>
+            <Width>2.2in</Width>
+            <ZIndex>20</ZIndex>
             <Style />
           </Textbox>
         </ReportItems>

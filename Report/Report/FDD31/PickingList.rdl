@@ -561,60 +561,8 @@
               </Border>
             </Style>
           </Tablix>
-          <Textbox Name="CompanyName7">
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Kubikasi : </Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <Top>1.44695cm</Top>
-            <Left>0.635cm</Left>
-            <Height>0.423cm</Height>
-            <Width>7.5cm</Width>
-            <ZIndex>1</ZIndex>
-            <Style>
-              <Border />
-              <VerticalAlign>Middle</VerticalAlign>
-            </Style>
-          </Textbox>
-          <Textbox Name="CompanyName8">
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Tonase    : </Value>
-                    <Style>
-                      <FontSize>8pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <Top>1.86995cm</Top>
-            <Left>0.635cm</Left>
-            <Height>0.423cm</Height>
-            <Width>7.5cm</Width>
-            <ZIndex>2</ZIndex>
-            <Style>
-              <Border />
-              <VerticalAlign>Middle</VerticalAlign>
-            </Style>
-          </Textbox>
         </ReportItems>
-        <Height>2.40615cm</Height>
+        <Height>1.27056cm</Height>
         <Style />
       </Body>
       <Width>25.16009cm</Width>
@@ -816,10 +764,75 @@
           <Style />
         </PageHeader>
         <PageFooter>
-          <Height>2.67611cm</Height>
+          <Height>3.52211cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
+            <Textbox Name="CompanyName7">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Kubikasi : </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>0</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0cm</Top>
+              <Left>0.635cm</Left>
+              <Height>0.423cm</Height>
+              <Width>7.5cm</Width>
+              <Style>
+                <Border />
+                <VerticalAlign>Middle</VerticalAlign>
+              </Style>
+            </Textbox>
+            <Textbox Name="CompanyName8">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Tonase    : </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>0</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.423cm</Top>
+              <Left>0.635cm</Left>
+              <Height>0.423cm</Height>
+              <Width>7.5cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border />
+                <VerticalAlign>Middle</VerticalAlign>
+              </Style>
+            </Textbox>
             <Rectangle Name="Rectangle1">
               <ReportItems>
                 <Textbox Name="Textbox4">
@@ -1152,7 +1165,7 @@
                 </Textbox>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
-              <Top>0.45833cm</Top>
+              <Top>1.30433cm</Top>
               <Height>1.72389cm</Height>
               <Width>25.16007cm</Width>
               <Style>
@@ -1250,14 +1263,26 @@ End Function
         <Field Name="Qty__to_Handle">
           <DataField>Qty__to_Handle</DataField>
         </Field>
+        <Field Name="Qty__to_HandleFormat">
+          <DataField>Qty__to_HandleFormat</DataField>
+        </Field>
         <Field Name="qtyBesar">
           <DataField>qtyBesar</DataField>
+        </Field>
+        <Field Name="qtyBesarFormat">
+          <DataField>qtyBesarFormat</DataField>
         </Field>
         <Field Name="qtySedang">
           <DataField>qtySedang</DataField>
         </Field>
+        <Field Name="qtySedangFormat">
+          <DataField>qtySedangFormat</DataField>
+        </Field>
         <Field Name="qtykecil">
           <DataField>qtykecil</DataField>
+        </Field>
+        <Field Name="qtykecilFormat">
+          <DataField>qtykecilFormat</DataField>
         </Field>
         <Field Name="Satuan">
           <DataField>Satuan</DataField>
@@ -1273,6 +1298,9 @@ End Function
         </Field>
         <Field Name="Qty__per_Unit_of_Measure">
           <DataField>Qty__per_Unit_of_Measure</DataField>
+        </Field>
+        <Field Name="Qty__per_Unit_of_MeasureFormat">
+          <DataField>Qty__per_Unit_of_MeasureFormat</DataField>
         </Field>
       </Fields>
       <Query>

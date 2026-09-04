@@ -18,8 +18,8 @@ report 52011 "Report Kolektor TTBT"
                 column(InvoiceNo; PostedAdvanceLine."Applies-to Doc. No.") { }
                 column(InvoiceAmount; InvoiceAmountValue) { }
                 column(CollectedAmount; PostedAdvanceHeader."Collected Amount") { }
-                column(TTBTCollector; PostedAdvanceHeader."Salesman Code") { }
-                column(TTBTReturn; PostedAdvanceHeader."TTBT Return Code") { }
+                // column(TTBTCollector; PostedAdvanceHeader."Salesman Code") { }
+                // column(TTBTReturn; PostedAdvanceHeader."TTBT Return Code") { }
                 column(ReturnDate; PostedAdvanceHeader."Return Date") { }
                 column(BranchCode; PostedAdvanceHeader."Shortcut Dimension 1 Code") { }
 
