@@ -29,6 +29,7 @@ report 52003 PickingList
                 column(qtyBesar; qtyBesar) { }
                 column(qtySedang; qtySedang) { }
                 column(qtykecil; qtykecil) { }
+                column(Satuan; Satuan) { }
 
                 dataitem("Item"; "Item")
                 {
@@ -49,12 +50,14 @@ report 52003 PickingList
                 trigger OnAfterGetRecord()
                 var
                     item: Record Item;
+                    itemUOM: Record "Item Unit of Measure";
+                    besarQtyPerUOM: Decimal;
+                    sedangQtyPerUOM: Decimal;
                 begin
                     Clear(qtyBesar);
                     Clear(qtySedang);
                     Clear(qtykecil);
-
-
+                    Clear(Satuan);
 
                     item.SetFilter("No.", '%1', "Warehouse Activity Line"."Item No.");
                     if item.FindFirst() then begin
@@ -65,6 +68,27 @@ report 52003 PickingList
                         end else begin
                             qtykecil := "Warehouse Activity Line"."Qty. to Handle";
                         end;
+
+                        // Bangun string SATUAN gabungan, contoh: CTN100/PACK5/PCS
+                        if item."Satuan Besar" <> '' then begin
+                            besarQtyPerUOM := 0;
+                            if itemUOM.Get(item."No.", item."Satuan Besar") then
+                                besarQtyPerUOM := itemUOM."Qty. per Unit of Measure";
+                            Satuan += item."Satuan Besar" + Format(besarQtyPerUOM, 0, '<Integer>') + '/';
+                        end;
+
+                        if item."Satuan Sedang" <> '' then begin
+                            sedangQtyPerUOM := 0;
+                            if itemUOM.Get(item."No.", item."Satuan Sedang") then
+                                sedangQtyPerUOM := itemUOM."Qty. per Unit of Measure";
+                            Satuan += item."Satuan Sedang" + Format(sedangQtyPerUOM, 0, '<Integer>') + '/';
+                        end;
+
+                        if item."Base Unit of Measure" <> '' then
+                            Satuan += item."Base Unit of Measure";
+
+                        if (Satuan <> '') and (Satuan[StrLen(Satuan)] = '/') then
+                            Satuan := CopyStr(Satuan, 1, StrLen(Satuan) - 1);
                     end;
                 end;
             }
@@ -99,6 +123,7 @@ report 52003 PickingList
         qtyBesar: Decimal;
         qtySedang: Decimal;
         qtykecil: Decimal;
+        Satuan: Text[250];
         PrintDateTxt: Text[50];
         PrintTimeTxt: Text[50];
         Plat_Nomor: Text[100];

@@ -401,7 +401,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Qty__to_Handle.Value</Value>
+                                  <Value>=Fields!Satuan.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -435,7 +435,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!qtyBesar.Value</Value>
+                                  <Value>=IIF(Fields!qtyBesar.Value = 0, "-", CStr(Fields!qtyBesar.Value))</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -469,7 +469,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!qtySedang.Value</Value>
+                                  <Value>=IIF(Fields!qtySedang.Value = 0, "-", CStr(Fields!qtySedang.Value))</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -503,7 +503,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!qtykecil.Value</Value>
+                                  <Value>=IIF(Fields!qtykecil.Value = 0, "-", CStr(Fields!qtykecil.Value))</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -702,10 +702,17 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Fields!Plat_Nomor.Value</Value>
+                      <Value>Plat No: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                         <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Fields!Plat_Nomor.Value</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -727,10 +734,17 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Fields!Driver_Name.Value</Value>
+                      <Value>Driver: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                         <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Fields!Driver_Name.Value</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -1236,26 +1250,17 @@ End Function
         <Field Name="Qty__to_Handle">
           <DataField>Qty__to_Handle</DataField>
         </Field>
-        <Field Name="Qty__to_HandleFormat">
-          <DataField>Qty__to_HandleFormat</DataField>
-        </Field>
         <Field Name="qtyBesar">
           <DataField>qtyBesar</DataField>
-        </Field>
-        <Field Name="qtyBesarFormat">
-          <DataField>qtyBesarFormat</DataField>
         </Field>
         <Field Name="qtySedang">
           <DataField>qtySedang</DataField>
         </Field>
-        <Field Name="qtySedangFormat">
-          <DataField>qtySedangFormat</DataField>
-        </Field>
         <Field Name="qtykecil">
           <DataField>qtykecil</DataField>
         </Field>
-        <Field Name="qtykecilFormat">
-          <DataField>qtykecilFormat</DataField>
+        <Field Name="Satuan">
+          <DataField>Satuan</DataField>
         </Field>
         <Field Name="Satuan_Besar">
           <DataField>Satuan_Besar</DataField>
@@ -1268,9 +1273,6 @@ End Function
         </Field>
         <Field Name="Qty__per_Unit_of_Measure">
           <DataField>Qty__per_Unit_of_Measure</DataField>
-        </Field>
-        <Field Name="Qty__per_Unit_of_MeasureFormat">
-          <DataField>Qty__per_Unit_of_MeasureFormat</DataField>
         </Field>
       </Fields>
       <Query>

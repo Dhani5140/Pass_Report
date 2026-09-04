@@ -205,28 +205,31 @@
                                   <TablixBody>
                                     <TablixColumns>
                                       <TablixColumn>
-                                        <Width>2.09211cm</Width>
+                                        <Width>2cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>3.08197cm</Width>
+                                        <Width>2.6cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>2.38093cm</Width>
+                                        <Width>2.2cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>3.94702cm</Width>
+                                        <Width>3.3cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>3.44931cm</Width>
+                                        <Width>3cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>1.26308cm</Width>
+                                        <Width>1.2cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>1.28071cm</Width>
+                                        <Width>1.2cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>2.79637cm</Width>
+                                        <Width>1.7cm</Width>
+                                      </TablixColumn>
+                                      <TablixColumn>
+                                        <Width>2.2cm</Width>
                                       </TablixColumn>
                                     </TablixColumns>
                                     <TablixRows>
@@ -287,7 +290,9 @@
                                                         </Style>
                                                       </TextRun>
                                                     </TextRuns>
-                                                    <Style />
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <rd:DefaultName>Textbox27</rd:DefaultName>
@@ -331,7 +336,9 @@
                                                         </Style>
                                                       </TextRun>
                                                     </TextRuns>
-                                                    <Style />
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <rd:DefaultName>Textbox29</rd:DefaultName>
@@ -375,7 +382,9 @@
                                                         </Style>
                                                       </TextRun>
                                                     </TextRuns>
-                                                    <Style />
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <rd:DefaultName>Textbox31</rd:DefaultName>
@@ -419,7 +428,9 @@
                                                         </Style>
                                                       </TextRun>
                                                     </TextRuns>
-                                                    <Style />
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <rd:DefaultName>Textbox33</rd:DefaultName>
@@ -464,7 +475,7 @@
                                                       </TextRun>
                                                     </TextRuns>
                                                     <Style>
-                                                      <TextAlign>Left</TextAlign>
+                                                      <TextAlign>Center</TextAlign>
                                                     </Style>
                                                   </Paragraph>
                                                 </Paragraphs>
@@ -510,11 +521,57 @@
                                                       </TextRun>
                                                     </TextRuns>
                                                     <Style>
-                                                      <TextAlign>Left</TextAlign>
+                                                      <TextAlign>Center</TextAlign>
                                                     </Style>
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <rd:DefaultName>Textbox37</rd:DefaultName>
+                                                <Style>
+                                                  <Border>
+                                                    <Color>LightGrey</Color>
+                                                    <Style>Solid</Style>
+                                                  </Border>
+                                                  <TopBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Dashed</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </TopBorder>
+                                                  <BottomBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Dashed</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </BottomBorder>
+                                                  <LeftBorder>
+                                                    <Style>None</Style>
+                                                  </LeftBorder>
+                                                  <RightBorder>
+                                                    <Style>None</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Textbox>
+                                            </CellContents>
+                                          </TablixCell>
+                                          <TablixCell>
+                                            <CellContents>
+                                              <Textbox Name="TextboxAmount">
+                                                <CanGrow>true</CanGrow>
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value>Amount</Value>
+                                                        <Style>
+                                                          <FontSize>9pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>TextboxAmount</rd:DefaultName>
                                                 <Style>
                                                   <Border>
                                                     <Color>LightGrey</Color>
@@ -555,7 +612,9 @@
                                                         </Style>
                                                       </TextRun>
                                                     </TextRuns>
-                                                    <Style />
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <rd:DefaultName>Textbox39</rd:DefaultName>
@@ -789,6 +848,33 @@
                                           </TablixCell>
                                           <TablixCell>
                                             <CellContents>
+                                              <Textbox Name="TextboxAmountData">
+                                                <CanGrow>true</CanGrow>
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value />
+                                                        <Style>
+                                                          <FontSize>9pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>TextboxAmountData</rd:DefaultName>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                </Style>
+                                              </Textbox>
+                                            </CellContents>
+                                          </TablixCell>
+                                          <TablixCell>
+                                            <CellContents>
                                               <Textbox Name="Textbox40">
                                                 <CanGrow>true</CanGrow>
                                                 <KeepTogether>true</KeepTogether>
@@ -828,6 +914,7 @@
                                       <TablixMember />
                                       <TablixMember />
                                       <TablixMember />
+                                      <TablixMember />
                                     </TablixMembers>
                                   </TablixColumnHierarchy>
                                   <TablixRowHierarchy>
@@ -856,7 +943,7 @@
                                   <DataSetName>DataSet_Result</DataSetName>
                                   <Top>3.10584cm</Top>
                                   <Height>1.2cm</Height>
-                                  <Width>20.2915cm</Width>
+                                  <Width>19.4cm</Width>
                                   <ZIndex>6</ZIndex>
                                   <Style>
                                     <Border>
@@ -2490,6 +2577,7 @@
           </Style>
         </PageFooter>
         <LeftMargin>0.2in</LeftMargin>
+        <RightMargin>0.2in</RightMargin>
         <TopMargin>0.2in</TopMargin>
         <BottomMargin>0.2in</BottomMargin>
         <Style />

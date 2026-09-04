@@ -29,7 +29,9 @@ report 52001 SuratJalanWhSp
                 column(CustName; CustName) { }
                 column(CustAddress; CustAddress) { }
                 column(Total_Cubage; "Total Cubage") { }
+                column(Total_CubageFormat; '#,##0') { }
                 column(Total_Tonase; "Total Tonase") { }
+                column(Total_TonaseFormat; '#,##0') { }
                 column(SalespersonCode; SalespersonCode) { }
 
                 trigger OnAfterGetRecord()
