@@ -1,12 +1,12 @@
-pageextension 52000 "Warehouse Shipment" extends "Warehouse Shipment"
+pageextension 52001 "Whse Pick Ext" extends "Warehouse Pick"
 {
     actions
     {
         addlast(Reporting)
         {
-            action(CetakSuratJalan)
+            action(CetakPickingList)
             {
-                Caption = 'Print Surat Jalan';
+                Caption = 'Print Picking List';
                 Image = Print;
                 ApplicationArea = All;
                 Promoted = true;
@@ -16,7 +16,7 @@ pageextension 52000 "Warehouse Shipment" extends "Warehouse Shipment"
                 trigger OnAction()
                 begin
                     Rec.SetRange("No.", Rec."No.");
-                    Report.Run(52001, true, false, Rec);
+                    Report.Run(52003, true, false, Rec);
                 end;
             }
         }

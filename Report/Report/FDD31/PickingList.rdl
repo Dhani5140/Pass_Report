@@ -11,7 +11,7 @@
       <am:Name>MSRB</am:Name>
       <am:Version>15.1.30001.02</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-08-18T08:09:27.8611014Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-09-10T13:02:30.0218730Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -561,8 +561,72 @@
               </Border>
             </Style>
           </Tablix>
+          <Textbox Name="CompanyName7">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Kubikasi  : </Value>
+                    <Style>
+                      <FontSize>8pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>-</Value>
+                    <Style>
+                      <FontSize>8pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.27056cm</Top>
+            <Height>0.423cm</Height>
+            <Width>3.83469cm</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Textbox Name="CompanyName8">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Tonase    : </Value>
+                    <Style>
+                      <FontSize>8pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>-</Value>
+                    <Style>
+                      <FontSize>8pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.69356cm</Top>
+            <Height>0.423cm</Height>
+            <Width>3.83469cm</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border />
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+          </Textbox>
         </ReportItems>
-        <Height>1.27056cm</Height>
+        <Height>2.11656cm</Height>
         <Style />
       </Body>
       <Width>25.16009cm</Width>
@@ -764,75 +828,10 @@
           <Style />
         </PageHeader>
         <PageFooter>
-          <Height>3.52211cm</Height>
+          <Height>2.2cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
-            <Textbox Name="CompanyName7">
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Kubikasi : </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>0</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Normal</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <Top>0cm</Top>
-              <Left>0.635cm</Left>
-              <Height>0.423cm</Height>
-              <Width>7.5cm</Width>
-              <Style>
-                <Border />
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-            </Textbox>
-            <Textbox Name="CompanyName8">
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Tonase    : </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>0</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                        <FontWeight>Normal</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <Top>0.423cm</Top>
-              <Left>0.635cm</Left>
-              <Height>0.423cm</Height>
-              <Width>7.5cm</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border />
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-            </Textbox>
             <Rectangle Name="Rectangle1">
               <ReportItems>
                 <Textbox Name="Textbox4">
@@ -852,7 +851,6 @@
                       </Style>
                     </Paragraph>
                   </Paragraphs>
-                  <Top>0cm</Top>
                   <Left>0.89372cm</Left>
                   <Height>0.6cm</Height>
                   <Width>3.22319cm</Width>
@@ -917,7 +915,6 @@
                       </Style>
                     </Paragraph>
                   </Paragraphs>
-                  <Top>0cm</Top>
                   <Left>5.85316cm</Left>
                   <Height>0.6cm</Height>
                   <Width>3.22319cm</Width>
@@ -983,7 +980,6 @@
                       </Style>
                     </Paragraph>
                   </Paragraphs>
-                  <Top>0cm</Top>
                   <Left>10.96844cm</Left>
                   <Height>0.6cm</Height>
                   <Width>3.22319cm</Width>
@@ -1049,7 +1045,6 @@
                       </Style>
                     </Paragraph>
                   </Paragraphs>
-                  <Top>0cm</Top>
                   <Left>16.04844cm</Left>
                   <Height>0.6cm</Height>
                   <Width>3.22319cm</Width>
@@ -1165,7 +1160,6 @@
                 </Textbox>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
-              <Top>1.30433cm</Top>
               <Height>1.72389cm</Height>
               <Width>25.16007cm</Width>
               <Style>

@@ -69,8 +69,8 @@ report 52001 SuratJalanWhSp
 
                 Driver_Name := "Nama Driver";
 
-                DateTxt := Format(Today, 0, '<Day,2>/<Month,2>/<Year4>');
-                TimeTxt := Format(Time, 0, '<Hours24,2>:<Minutes,2>');
+                DateTxt := Format(Today, 0, '<Day,2>-<Month Text>-<Year4>');
+                TimeTxt := Format(Time, 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>');
 
                 whseShptLine.SetRange("No.", "No.");
                 if whseShptLine.FindSet() then
