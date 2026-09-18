@@ -6,69 +6,187 @@ report 52006 InventoryStockss
 
     dataset
     {
-        dataitem("Warehouse Entry"; "Warehouse Entry")
+        dataitem("Bin Content"; "Bin Content")
         {
-            column(Location_Code; "Location Code") { }
-            column(Bin_Code; "Bin Code") { }
-            column(Item_No_; "Item No.") { }
-            column(Unit_of_Measure_Code; "Unit of Measure Code") { }
+            DataItemTableView = sorting("Location Code", "Bin Code", "Item No.");
 
-            dataitem("Item"; "Item")
+            column(Location_Code; "Location Code")
             {
-                DataItemLink = "No." = field("Item No.");
-
-                column(No_; "No.") { }
-                column(Description; Description) { }
-                column(qtyBesar; qtyBesar) { }
-                column(qtySedang; qtySedang) { }
-                column(qtykecil; qtykecil) { }
-
-                dataitem("Item Unit Of Measure"; "Item Unit of Measure")
-                {
-                    DataItemLink = "Item No." = field("No.");
-
-                    column(Qty__per_Unit_of_Measure; "Qty. per Unit of Measure") { }
-                }
             }
 
-            dataitem("Default Dimension"; "Default Dimension")
+            column(Brand; Brand)
             {
-                column(Dimension_Value_Code; "Dimension Value Code") { }
+            }
+
+            column(Bin_Code; "Bin Code")
+            {
+            }
+
+            column(Item_No_; "Item No.")
+            {
+            }
+
+            column(Item_Name; ItemName)
+            {
+            }
+
+            column(Qty_Besar; QtyBesar)
+            {
+            }
+
+            column(UOM_Besar; UOMBesar)
+            {
+            }
+
+            column(Qty_Sedang; QtySedang)
+            {
+            }
+
+            column(UOM_Sedang; UOMSedang)
+            {
+            }
+
+            column(Qty_Pcs; QtyPcs)
+            {
+            }
+
+            column(UOM_Pcs; UOMPcs)
+            {
+            }
+
+            column(Qty_Base; QtyBase)
+            {
+            }
+
+            column(Amount; Amount)
+            {
             }
 
             trigger OnAfterGetRecord()
             var
-                item: Record Item;
+                ItemRec: Record Item;
+                VendorRec: Record Vendor;
+                ItemUOM: Record "Item Unit of Measure";
+                QtyPerUOM: Decimal;
             begin
-                Clear(qtyBesar);
-                Clear(qtySedang);
-                Clear(qtykecil);
+                Clear(Brand);
+                Clear(ItemName);
 
-                item.SetFilter("No.", '%1', "Warehouse Entry"."Item No.");
-                if item.FindFirst() then begin
-                    if item."Satuan Besar" = "Warehouse Entry"."Unit of Measure Code" then begin
-                        qtyBesar := "Warehouse Entry"."Qty. per Unit of Measure";
-                    end else if item."Satuan Sedang" = "Warehouse Entry"."Unit of Measure Code" then begin
-                        qtySedang := "Warehouse Entry"."Qty. per Unit of Measure";
-                    end else begin
-                        qtykecil := "Warehouse Entry"."Qty. per Unit of Measure";
+                Clear(QtyBesar);
+                Clear(QtySedang);
+                Clear(QtyPcs);
+                Clear(QtyBase);
+
+                Clear(UOMBesar);
+                Clear(UOMSedang);
+                Clear(UOMPcs);
+
+                Clear(Amount);
+
+                // Hitung Quantity dari Bin Content
+                CalcFields(Quantity);
+
+                // =====================================================
+                // ITEM
+                // =====================================================
+
+                if not ItemRec.Get("Item No.") then
+                    CurrReport.Skip();
+
+                ItemName := ItemRec.Description;
+
+                // =====================================================
+                // BRAND = VENDOR / SUPPLIER
+                // =====================================================
+
+                if ItemRec."Vendor No." <> '' then begin
+                    if VendorRec.Get(ItemRec."Vendor No.") then
+                        Brand := VendorRec.Name;
+                end;
+
+                // =====================================================
+                // BASE UOM
+                // =====================================================
+
+                UOMPcs := ItemRec."Base Unit of Measure";
+
+                // =====================================================
+                // UOM BESAR
+                // =====================================================
+
+                UOMBesar := ItemRec."Satuan Besar";
+
+                if UOMBesar <> '' then begin
+                    if ItemUOM.Get("Item No.", UOMBesar) then begin
+
+                        QtyPerUOM := ItemUOM."Qty. per Unit of Measure";
+
+                        if QtyPerUOM <> 0 then
+                            QtyBesar :=
+                                Quantity / QtyPerUOM;
                     end;
                 end;
+
+                // =====================================================
+                // UOM SEDANG
+                // =====================================================
+
+                UOMSedang := ItemRec."Satuan Sedang";
+
+                if UOMSedang <> '' then begin
+                    if ItemUOM.Get("Item No.", UOMSedang) then begin
+
+                        QtyPerUOM := ItemUOM."Qty. per Unit of Measure";
+
+                        if QtyPerUOM <> 0 then
+                            QtySedang :=
+                                Quantity / QtyPerUOM;
+                    end;
+                end;
+
+                // =====================================================
+                // QTY PCS
+                // =====================================================
+
+                QtyPcs := Quantity;
+
+                // =====================================================
+                // QTY BASE
+                // =====================================================
+
+                QtyBase := Quantity;
+
+                // =====================================================
+                // AMOUNT
+                // =====================================================
+
+                Amount := Quantity * ItemRec."Unit Cost";
             end;
-
-
         }
     }
+
     rendering
     {
         layout(inventoryStock)
         {
             Type = RDLC;
-            LayoutFile = './Report/FDD40/PrintOut_Report_Inventory_Stock.rdl';
+            LayoutFile =
+                './Report/FDD40/PrintOut_Report_Inventory_Stock.rdl';
         }
     }
+
     var
-        qtyBesar: Decimal;
-        qtySedang: Decimal;
-        qtykecil: Decimal;
+        QtyBesar: Decimal;
+        QtySedang: Decimal;
+        QtyPcs: Decimal;
+        QtyBase: Decimal;
+
+        UOMBesar: Code[20];
+        UOMSedang: Code[20];
+        UOMPcs: Code[20];
+
+        Brand: Text[100];
+        ItemName: Text[100];
+
+        Amount: Decimal;
 }
