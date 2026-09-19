@@ -11,7 +11,7 @@
       <am:Name>MSRB</am:Name>
       <am:Version>15.1.30001.02</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-09-18T08:22:39.1308837Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-09-19T00:01:35.7600580Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -24,70 +24,6 @@
       <rd:DataSourceID>baae5552-9cce-46b8-84c2-6d8be1ed83b0</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="Location_Code">
-          <DataField>Location_Code</DataField>
-        </Field>
-        <Field Name="Brand">
-          <DataField>Brand</DataField>
-        </Field>
-        <Field Name="Bin_Code">
-          <DataField>Bin_Code</DataField>
-        </Field>
-        <Field Name="Item_No_">
-          <DataField>Item_No_</DataField>
-        </Field>
-        <Field Name="Item_Name">
-          <DataField>Item_Name</DataField>
-        </Field>
-        <Field Name="Qty_Besar">
-          <DataField>Qty_Besar</DataField>
-        </Field>
-        <Field Name="Qty_BesarFormat">
-          <DataField>Qty_BesarFormat</DataField>
-        </Field>
-        <Field Name="UOM_Besar">
-          <DataField>UOM_Besar</DataField>
-        </Field>
-        <Field Name="Qty_Sedang">
-          <DataField>Qty_Sedang</DataField>
-        </Field>
-        <Field Name="Qty_SedangFormat">
-          <DataField>Qty_SedangFormat</DataField>
-        </Field>
-        <Field Name="UOM_Sedang">
-          <DataField>UOM_Sedang</DataField>
-        </Field>
-        <Field Name="Qty_Pcs">
-          <DataField>Qty_Pcs</DataField>
-        </Field>
-        <Field Name="Qty_PcsFormat">
-          <DataField>Qty_PcsFormat</DataField>
-        </Field>
-        <Field Name="UOM_Pcs">
-          <DataField>UOM_Pcs</DataField>
-        </Field>
-        <Field Name="Qty_Base">
-          <DataField>Qty_Base</DataField>
-        </Field>
-        <Field Name="Qty_BaseFormat">
-          <DataField>Qty_BaseFormat</DataField>
-        </Field>
-        <Field Name="Amount">
-          <DataField>Amount</DataField>
-        </Field>
-        <Field Name="AmountFormat">
-          <DataField>AmountFormat</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -300,7 +236,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Qty Besar</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>0.00</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -360,7 +298,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Qty Sedang</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>0.00</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -420,7 +360,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Qty Pcs</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>0.00</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -695,7 +637,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Qty_Besar.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>0.00</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -755,7 +699,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Qty_Sedang.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>0.00</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -815,7 +761,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Qty_Pcs.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>0.00</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -958,7 +906,7 @@
             <DataSetName>DataSet_Result</DataSetName>
             <Top>0.48in</Top>
             <Left>0.11333in</Left>
-            <Height>0.41667in</Height>
+            <Height>0.41666in</Height>
             <Width>9.75in</Width>
             <Style>
               <Border>
@@ -978,12 +926,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -1021,4 +963,68 @@ End Function
 </Code>
   <Language>=User!Language</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Location_Code">
+          <DataField>Location_Code</DataField>
+        </Field>
+        <Field Name="Brand">
+          <DataField>Brand</DataField>
+        </Field>
+        <Field Name="Bin_Code">
+          <DataField>Bin_Code</DataField>
+        </Field>
+        <Field Name="Item_No_">
+          <DataField>Item_No_</DataField>
+        </Field>
+        <Field Name="Item_Name">
+          <DataField>Item_Name</DataField>
+        </Field>
+        <Field Name="Qty_Besar">
+          <DataField>Qty_Besar</DataField>
+        </Field>
+        <Field Name="Qty_BesarFormat">
+          <DataField>Qty_BesarFormat</DataField>
+        </Field>
+        <Field Name="UOM_Besar">
+          <DataField>UOM_Besar</DataField>
+        </Field>
+        <Field Name="Qty_Sedang">
+          <DataField>Qty_Sedang</DataField>
+        </Field>
+        <Field Name="Qty_SedangFormat">
+          <DataField>Qty_SedangFormat</DataField>
+        </Field>
+        <Field Name="UOM_Sedang">
+          <DataField>UOM_Sedang</DataField>
+        </Field>
+        <Field Name="Qty_Pcs">
+          <DataField>Qty_Pcs</DataField>
+        </Field>
+        <Field Name="Qty_PcsFormat">
+          <DataField>Qty_PcsFormat</DataField>
+        </Field>
+        <Field Name="UOM_Pcs">
+          <DataField>UOM_Pcs</DataField>
+        </Field>
+        <Field Name="Qty_Base">
+          <DataField>Qty_Base</DataField>
+        </Field>
+        <Field Name="Qty_BaseFormat">
+          <DataField>Qty_BaseFormat</DataField>
+        </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+        </Field>
+        <Field Name="AmountFormat">
+          <DataField>AmountFormat</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

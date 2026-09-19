@@ -9,6 +9,7 @@ report 52006 InventoryStockss
         dataitem("Bin Content"; "Bin Content")
         {
             DataItemTableView = sorting("Location Code", "Bin Code", "Item No.");
+            RequestFilterFields = "Location Code", "Bin Code", "Item No.";
 
             column(Location_Code; "Location Code")
             {
