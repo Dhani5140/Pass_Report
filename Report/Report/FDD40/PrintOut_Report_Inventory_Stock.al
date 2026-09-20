@@ -6,16 +6,22 @@ report 52006 InventoryStockss
 
     dataset
     {
-        dataitem("Bin Content"; "Bin Content")
+        dataitem("Warehouse Entry"; "Warehouse Entry")
         {
-            DataItemTableView = sorting("Location Code", "Bin Code", "Item No.");
-            RequestFilterFields = "Location Code", "Bin Code", "Item No.";
+            DataItemTableView = sorting(
+                "Location Code",
+                "Bin Code",
+                "Item No.",
+                "Registering Date"
+            );
+
+            RequestFilterFields =
+                "Location Code",
+                "Bin Code",
+                "Item No.",
+                "Registering Date";
 
             column(Location_Code; "Location Code")
-            {
-            }
-
-            column(Brand; Brand)
             {
             }
 
@@ -28,6 +34,14 @@ report 52006 InventoryStockss
             }
 
             column(Item_Name; ItemName)
+            {
+            }
+
+            column(Brand; Brand)
+            {
+            }
+
+            column(Qty_Base; QtyBase)
             {
             }
 
@@ -55,10 +69,6 @@ report 52006 InventoryStockss
             {
             }
 
-            column(Qty_Base; QtyBase)
-            {
-            }
-
             column(Amount; Amount)
             {
             }
@@ -67,101 +77,144 @@ report 52006 InventoryStockss
             var
                 ItemRec: Record Item;
                 VendorRec: Record Vendor;
-                ItemUOM: Record "Item Unit of Measure";
-                QtyPerUOM: Decimal;
+                ItemLE: Record "Item Ledger Entry";
+                WarehouseEntrySum: Record "Warehouse Entry";
+                CurrentKey: Text;
             begin
-                Clear(Brand);
                 Clear(ItemName);
-
+                Clear(Brand);
+                Clear(QtyBase);
                 Clear(QtyBesar);
                 Clear(QtySedang);
                 Clear(QtyPcs);
-                Clear(QtyBase);
-
+                Clear(Amount);
                 Clear(UOMBesar);
                 Clear(UOMSedang);
                 Clear(UOMPcs);
 
-                Clear(Amount);
+                // ==========================================
+                // GROUP KEY
+                // Location + Bin + Item
+                // ==========================================
 
-                // Hitung Quantity dari Bin Content
-                CalcFields(Quantity);
+                CurrentKey :=
+                    "Location Code" + '|' +
+                    "Bin Code" + '|' +
+                    "Item No.";
 
-                // =====================================================
-                // ITEM
-                // =====================================================
-
-                if not ItemRec.Get("Item No.") then
+                if CurrentKey = LastKey then begin
                     CurrReport.Skip();
-
-                ItemName := ItemRec.Description;
-
-                // =====================================================
-                // BRAND = VENDOR / SUPPLIER
-                // =====================================================
-
-                if ItemRec."Vendor No." <> '' then begin
-                    if VendorRec.Get(ItemRec."Vendor No.") then
-                        Brand := VendorRec.Name;
+                    exit;
                 end;
 
-                // =====================================================
-                // BASE UOM
-                // =====================================================
+                LastKey := CurrentKey;
 
-                UOMPcs := ItemRec."Base Unit of Measure";
+                // ==========================================
+                // ITEM
+                // ==========================================
 
-                // =====================================================
-                // UOM BESAR
-                // =====================================================
+                if ItemRec.Get("Item No.") then begin
 
-                UOMBesar := ItemRec."Satuan Besar";
+                    ItemName := ItemRec.Description;
 
-                if UOMBesar <> '' then begin
-                    if ItemUOM.Get("Item No.", UOMBesar) then begin
+                    // Sementara Brand masih menggunakan Vendor
+                    // Nanti kita ubah ke Default Dimension
 
-                        QtyPerUOM := ItemUOM."Qty. per Unit of Measure";
-
-                        if QtyPerUOM <> 0 then
-                            QtyBesar :=
-                                Quantity / QtyPerUOM;
+                    if ItemRec."Vendor No." <> '' then begin
+                        if VendorRec.Get(ItemRec."Vendor No.") then
+                            Brand := VendorRec.Name;
                     end;
+
+                    // ==========================================
+                    // UOM ITEM
+                    // ==========================================
+
+                    UOMBesar := ItemRec."Satuan Besar";
+                    UOMSedang := ItemRec."Satuan Sedang";
+                    UOMPcs := ItemRec."Base Unit of Measure";
+
                 end;
 
-                // =====================================================
-                // UOM SEDANG
-                // =====================================================
+                // ==========================================
+                // TOTAL QTY BASE
+                // Location + Bin + Item
+                // ==========================================
 
-                UOMSedang := ItemRec."Satuan Sedang";
+                WarehouseEntrySum.Reset();
 
-                if UOMSedang <> '' then begin
-                    if ItemUOM.Get("Item No.", UOMSedang) then begin
+                WarehouseEntrySum.CopyFilters("Warehouse Entry");
 
-                        QtyPerUOM := ItemUOM."Qty. per Unit of Measure";
+                WarehouseEntrySum.SetRange(
+                    "Location Code",
+                    "Location Code"
+                );
 
-                        if QtyPerUOM <> 0 then
-                            QtySedang :=
-                                Quantity / QtyPerUOM;
-                    end;
-                end;
+                WarehouseEntrySum.SetRange(
+                    "Bin Code",
+                    "Bin Code"
+                );
 
-                // =====================================================
-                // QTY PCS
-                // =====================================================
+                WarehouseEntrySum.SetRange(
+                    "Item No.",
+                    "Item No."
+                );
 
-                QtyPcs := Quantity;
+                if WarehouseEntrySum.FindSet() then
+                    repeat
+                        QtyBase += WarehouseEntrySum."Qty. (Base)";
+                    until WarehouseEntrySum.Next() = 0;
 
-                // =====================================================
-                // QTY BASE
-                // =====================================================
+                // ==========================================
+                // HITUNG QTY BERDASARKAN UOM
+                // ==========================================
 
-                QtyBase := Quantity;
+                QtyBesar := GetQtyInUOM(
+                    "Item No.",
+                    UOMBesar,
+                    QtyBase
+                );
 
-                // =====================================================
+                QtySedang := GetQtyInUOM(
+                    "Item No.",
+                    UOMSedang,
+                    QtyBase
+                );
+
+                QtyPcs := GetQtyInUOM(
+                    "Item No.",
+                    UOMPcs,
+                    QtyBase
+                );
+
+                // ==========================================
                 // AMOUNT
-                // =====================================================
+                // Sementara tetap menggunakan
+                // Item Ledger Entry
+                // ==========================================
 
-                Amount := Quantity * ItemRec."Unit Cost";
+                ItemLE.Reset();
+
+                ItemLE.SetRange(
+                    "Item No.",
+                    "Item No."
+                );
+
+                ItemLE.SetRange(
+                    "Location Code",
+                    "Location Code"
+                );
+
+                ItemLE.SetRange(
+                    "Posting Date",
+                    0D,
+                    "Registering Date"
+                );
+
+                if ItemLE.FindSet() then
+                    repeat
+                        ItemLE.CalcFields("Cost Amount (Actual)");
+                        Amount += ItemLE."Cost Amount (Actual)";
+                    until ItemLE.Next() = 0;
             end;
         }
     }
@@ -177,17 +230,41 @@ report 52006 InventoryStockss
     }
 
     var
+        QtyBase: Decimal;
         QtyBesar: Decimal;
         QtySedang: Decimal;
         QtyPcs: Decimal;
-        QtyBase: Decimal;
+
+        Amount: Decimal;
 
         UOMBesar: Code[20];
         UOMSedang: Code[20];
-        UOMPcs: Code[20];
+        UOMPcs: Code[10];
 
         Brand: Text[100];
         ItemName: Text[100];
 
-        Amount: Decimal;
+        LastKey: Text;
+
+    local procedure GetQtyInUOM(
+        ItemNo: Code[20];
+        UOMCode: Code[20];
+        BaseQty: Decimal
+    ): Decimal
+    var
+        ItemUOM: Record "Item Unit of Measure";
+    begin
+        if UOMCode = '' then
+            exit(0);
+
+        if ItemUOM.Get(ItemNo, UOMCode) then begin
+            if ItemUOM."Qty. per Unit of Measure" <> 0 then
+                exit(
+                    BaseQty /
+                    ItemUOM."Qty. per Unit of Measure"
+                );
+        end;
+
+        exit(0);
+    end;
 }
