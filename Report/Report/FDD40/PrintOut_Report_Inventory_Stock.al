@@ -76,7 +76,6 @@ report 52006 InventoryStockss
             trigger OnAfterGetRecord()
             var
                 ItemRec: Record Item;
-                VendorRec: Record Vendor;
                 ItemLE: Record "Item Ledger Entry";
                 WarehouseEntrySum: Record "Warehouse Entry";
                 CurrentKey: Text;
@@ -117,12 +116,32 @@ report 52006 InventoryStockss
 
                     ItemName := ItemRec.Description;
 
-                    // Sementara Brand masih menggunakan Vendor
-                    // Nanti kita ubah ke Default Dimension
+                    // ==========================================
+                    // BRAND
+                    // Cari Default Dimension dengan
+                    // Dimension Code yang diawali BRAND-
+                    // ==========================================
 
-                    if ItemRec."Vendor No." <> '' then begin
-                        if VendorRec.Get(ItemRec."Vendor No.") then
-                            Brand := VendorRec.Name;
+                    DefaultDim.Reset();
+
+                    DefaultDim.SetRange(
+                        "Table ID",
+                        Database::Item
+                    );
+
+                    DefaultDim.SetRange(
+                        "No.",
+                        ItemRec."No."
+                    );
+
+                    DefaultDim.SetRange(
+                        "Dimension Code",
+                        'BRAND'
+                    );
+
+                    if DefaultDim.FindFirst() then begin
+                        DefaultDim.CalcFields("Dimension Value Name");
+                        Brand := DefaultDim."Dimension Value Name";
                     end;
 
                     // ==========================================
@@ -215,6 +234,7 @@ report 52006 InventoryStockss
                         ItemLE.CalcFields("Cost Amount (Actual)");
                         Amount += ItemLE."Cost Amount (Actual)";
                     until ItemLE.Next() = 0;
+
             end;
         }
     }
@@ -246,11 +266,14 @@ report 52006 InventoryStockss
 
         LastKey: Text;
 
+        DefaultDim: Record "Default Dimension";
+
+
     local procedure GetQtyInUOM(
-    ItemNo: Code[20];
-    UOMCode: Code[20];
-    BaseQty: Decimal
-): Decimal
+        ItemNo: Code[20];
+        UOMCode: Code[20];
+        BaseQty: Decimal
+    ): Decimal
     var
         ItemUOM: Record "Item Unit of Measure";
         QtyResult: Decimal;
