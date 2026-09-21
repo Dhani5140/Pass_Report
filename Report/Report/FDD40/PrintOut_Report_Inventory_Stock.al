@@ -247,22 +247,29 @@ report 52006 InventoryStockss
         LastKey: Text;
 
     local procedure GetQtyInUOM(
-        ItemNo: Code[20];
-        UOMCode: Code[20];
-        BaseQty: Decimal
-    ): Decimal
+    ItemNo: Code[20];
+    UOMCode: Code[20];
+    BaseQty: Decimal
+): Decimal
     var
         ItemUOM: Record "Item Unit of Measure";
+        QtyResult: Decimal;
     begin
         if UOMCode = '' then
             exit(0);
 
         if ItemUOM.Get(ItemNo, UOMCode) then begin
-            if ItemUOM."Qty. per Unit of Measure" <> 0 then
-                exit(
+            if ItemUOM."Qty. per Unit of Measure" <> 0 then begin
+
+                QtyResult :=
                     BaseQty /
-                    ItemUOM."Qty. per Unit of Measure"
-                );
+                    ItemUOM."Qty. per Unit of Measure";
+
+                // Bulatkan menjadi bilangan bulat
+                QtyResult := Round(QtyResult, 1, '=');
+
+                exit(QtyResult);
+            end;
         end;
 
         exit(0);
