@@ -6,121 +6,175 @@ report 52006 InventoryStockss
 
     dataset
     {
-        dataitem("Warehouse Entry"; "Warehouse Entry")
+        // ==========================================================
+        // ITEM
+        // ==========================================================
+
+        dataitem(Item; Item)
         {
-            DataItemTableView = sorting(
-                "Location Code",
-                "Bin Code",
-                "Item No.",
-                "Registering Date"
-            );
+            DataItemTableView = sorting("No.");
+
+            RequestFilterHeading = 'Filter: Item';
 
             RequestFilterFields =
-                "Location Code",
-                "Bin Code",
-                "Item No.",
-                "Registering Date";
+                "No.",
+                "Search Description",
+                "Assembly BOM",
+                "Inventory Posting Group",
+                "Statistics Group",
+                "Vendor No.";
 
-            column(Location_Code; "Location Code")
+            PrintOnlyIfDetail = true;
+
+            // ======================================================
+            // WAREHOUSE ENTRY
+            // ======================================================
+
+            dataitem("Warehouse Entry"; "Warehouse Entry")
             {
-            }
+                DataItemLinkReference = Item;
 
-            column(Bin_Code; "Bin Code")
-            {
-            }
+                DataItemLink =
+                    "Item No." = field("No.");
 
-            column(Item_No_; "Item No.")
-            {
-            }
+                DataItemTableView = sorting(
+                    "Location Code",
+                    "Bin Code",
+                    "Item No.",
+                    "Registering Date"
+                );
 
-            column(Item_Name; ItemName)
-            {
-            }
+                // ==================================================
+                // COLUMNS
+                // ==================================================
 
-            column(Brand; Brand)
-            {
-            }
+                column(Location_Code; "Location Code")
+                {
+                }
 
-            column(Qty_Base; QtyBase)
-            {
-            }
+                column(Bin_Code; "Bin Code")
+                {
+                }
 
-            column(Qty_Besar; QtyBesar)
-            {
-            }
+                column(Item_No_; "Item No.")
+                {
+                }
 
-            column(UOM_Besar; UOMBesar)
-            {
-            }
+                column(Item_Name; ItemName)
+                {
+                }
 
-            column(Qty_Sedang; QtySedang)
-            {
-            }
+                column(Brand; Brand)
+                {
+                }
 
-            column(UOM_Sedang; UOMSedang)
-            {
-            }
+                column(Qty_Base; QtyBase)
+                {
+                }
 
-            column(Qty_Pcs; QtyPcs)
-            {
-            }
+                column(Qty_Besar; QtyBesar)
+                {
+                }
 
-            column(UOM_Pcs; UOMPcs)
-            {
-            }
+                column(UOM_Besar; UOMBesar)
+                {
+                }
 
-            column(Amount; Amount)
-            {
-            }
+                column(Qty_Sedang; QtySedang)
+                {
+                }
 
-            trigger OnAfterGetRecord()
-            var
-                ItemRec: Record Item;
-                ItemLE: Record "Item Ledger Entry";
-                WarehouseEntrySum: Record "Warehouse Entry";
-                CurrentKey: Text;
-            begin
-                Clear(ItemName);
-                Clear(Brand);
-                Clear(QtyBase);
-                Clear(QtyBesar);
-                Clear(QtySedang);
-                Clear(QtyPcs);
-                Clear(Amount);
-                Clear(UOMBesar);
-                Clear(UOMSedang);
-                Clear(UOMPcs);
+                column(UOM_Sedang; UOMSedang)
+                {
+                }
 
-                // ==========================================
-                // GROUP KEY
-                // Location + Bin + Item
-                // ==========================================
+                column(Qty_Pcs; QtyPcs)
+                {
+                }
 
-                CurrentKey :=
-                    "Location Code" + '|' +
-                    "Bin Code" + '|' +
-                    "Item No.";
+                column(UOM_Pcs; UOMPcs)
+                {
+                }
 
-                if CurrentKey = LastKey then begin
-                    CurrReport.Skip();
-                    exit;
+                column(Amount; Amount)
+                {
+                }
+
+                // ==================================================
+                // FILTER TANGGAL
+                // ==================================================
+
+                trigger OnPreDataItem()
+                begin
+                    // Starting Date dan Ending Date wajib diisi
+                    if StartingDate = 0D then
+                        Error('Starting Date wajib diisi.');
+
+                    if EndingDate = 0D then
+                        Error('Ending Date wajib diisi.');
+
+                    if EndingDate < StartingDate then
+                        Error(
+                            'Ending Date tidak boleh lebih kecil dari Starting Date.'
+                        );
+
+                    SetRange(
+                        "Registering Date",
+                        StartingDate,
+                        EndingDate
+                    );
                 end;
 
-                LastKey := CurrentKey;
+                // ==================================================
+                // AFTER GET RECORD
+                // ==================================================
 
-                // ==========================================
-                // ITEM
-                // ==========================================
+                trigger OnAfterGetRecord()
+                var
+                    ItemLE: Record "Item Ledger Entry";
+                    WarehouseEntrySum: Record "Warehouse Entry";
+                    CurrentKey: Text;
+                begin
+                    Clear(ItemName);
+                    Clear(Brand);
+                    Clear(QtyBase);
+                    Clear(QtyBesar);
+                    Clear(QtySedang);
+                    Clear(QtyPcs);
+                    Clear(Amount);
+                    Clear(UOMBesar);
+                    Clear(UOMSedang);
+                    Clear(UOMPcs);
 
-                if ItemRec.Get("Item No.") then begin
+                    // ============================================
+                    // GROUP KEY
+                    // Location + Bin + Item
+                    // ============================================
 
-                    ItemName := ItemRec.Description;
+                    CurrentKey :=
+                        "Location Code" + '|' +
+                        "Bin Code" + '|' +
+                        "Item No.";
 
-                    // ==========================================
+                    if CurrentKey = LastKey then begin
+                        CurrReport.Skip();
+                        exit;
+                    end;
+
+                    LastKey := CurrentKey;
+
+                    // ============================================
+                    // ITEM INFORMATION
+                    // Menggunakan parent Item
+                    // ============================================
+
+                    ItemName := Item.Description;
+
+                    // ============================================
                     // BRAND
-                    // Cari Default Dimension dengan
-                    // Dimension Code yang diawali BRAND-
-                    // ==========================================
+                    // Default Dimension
+                    // Dimension Code = BRAND
+                    // ============================================
 
                     DefaultDim.Reset();
 
@@ -131,7 +185,7 @@ report 52006 InventoryStockss
 
                     DefaultDim.SetRange(
                         "No.",
-                        ItemRec."No."
+                        Item."No."
                     );
 
                     DefaultDim.SetRange(
@@ -140,114 +194,174 @@ report 52006 InventoryStockss
                     );
 
                     if DefaultDim.FindFirst() then begin
-                        DefaultDim.CalcFields("Dimension Value Name");
-                        Brand := DefaultDim."Dimension Value Name";
+                        DefaultDim.CalcFields(
+                            "Dimension Value Name"
+                        );
+
+                        Brand :=
+                            DefaultDim."Dimension Value Name";
                     end;
 
-                    // ==========================================
+                    // ============================================
                     // UOM ITEM
-                    // ==========================================
+                    // ============================================
 
-                    UOMBesar := ItemRec."Satuan Besar";
-                    UOMSedang := ItemRec."Satuan Sedang";
-                    UOMPcs := ItemRec."Base Unit of Measure";
+                    UOMBesar := Item."Satuan Besar";
+                    UOMSedang := Item."Satuan Sedang";
+                    UOMPcs := Item."Base Unit of Measure";
 
+                    // ============================================
+                    // TOTAL QTY BASE
+                    // Location + Bin + Item
+                    // ============================================
+
+                    WarehouseEntrySum.Reset();
+
+                    WarehouseEntrySum.CopyFilters(
+                        "Warehouse Entry"
+                    );
+
+                    WarehouseEntrySum.SetRange(
+                        "Location Code",
+                        "Location Code"
+                    );
+
+                    WarehouseEntrySum.SetRange(
+                        "Bin Code",
+                        "Bin Code"
+                    );
+
+                    WarehouseEntrySum.SetRange(
+                        "Item No.",
+                        "Item No."
+                    );
+
+                    if WarehouseEntrySum.FindSet() then
+                        repeat
+                            QtyBase +=
+                                WarehouseEntrySum."Qty. (Base)";
+                        until WarehouseEntrySum.Next() = 0;
+
+                    // ============================================
+                    // QTY BESAR
+                    // ============================================
+
+                    QtyBesar :=
+                        GetQtyInUOM(
+                            "Item No.",
+                            UOMBesar,
+                            QtyBase
+                        );
+
+                    // ============================================
+                    // QTY SEDANG
+                    // ============================================
+
+                    QtySedang :=
+                        GetQtyInUOM(
+                            "Item No.",
+                            UOMSedang,
+                            QtyBase
+                        );
+
+                    // ============================================
+                    // QTY PCS
+                    // ============================================
+
+                    QtyPcs :=
+                        GetQtyInUOM(
+                            "Item No.",
+                            UOMPcs,
+                            QtyBase
+                        );
+
+                    // ============================================
+                    // AMOUNT
+                    // Sementara menggunakan Item Ledger Entry
+                    // ============================================
+
+                    ItemLE.Reset();
+
+                    ItemLE.SetRange(
+                        "Item No.",
+                        "Item No."
+                    );
+
+                    ItemLE.SetRange(
+                        "Location Code",
+                        "Location Code"
+                    );
+
+                    ItemLE.SetRange(
+                        "Posting Date",
+                        StartingDate,
+                        EndingDate
+                    );
+
+                    if ItemLE.FindSet() then
+                        repeat
+                            ItemLE.CalcFields(
+                                "Cost Amount (Actual)"
+                            );
+
+                            Amount +=
+                                ItemLE."Cost Amount (Actual)";
+                        until ItemLE.Next() = 0;
                 end;
-
-                // ==========================================
-                // TOTAL QTY BASE
-                // Location + Bin + Item
-                // ==========================================
-
-                WarehouseEntrySum.Reset();
-
-                WarehouseEntrySum.CopyFilters("Warehouse Entry");
-
-                WarehouseEntrySum.SetRange(
-                    "Location Code",
-                    "Location Code"
-                );
-
-                WarehouseEntrySum.SetRange(
-                    "Bin Code",
-                    "Bin Code"
-                );
-
-                WarehouseEntrySum.SetRange(
-                    "Item No.",
-                    "Item No."
-                );
-
-                if WarehouseEntrySum.FindSet() then
-                    repeat
-                        QtyBase += WarehouseEntrySum."Qty. (Base)";
-                    until WarehouseEntrySum.Next() = 0;
-
-                // ==========================================
-                // HITUNG QTY BERDASARKAN UOM
-                // ==========================================
-
-                QtyBesar := GetQtyInUOM(
-                    "Item No.",
-                    UOMBesar,
-                    QtyBase
-                );
-
-                QtySedang := GetQtyInUOM(
-                    "Item No.",
-                    UOMSedang,
-                    QtyBase
-                );
-
-                QtyPcs := GetQtyInUOM(
-                    "Item No.",
-                    UOMPcs,
-                    QtyBase
-                );
-
-                // ==========================================
-                // AMOUNT
-                // Sementara tetap menggunakan
-                // Item Ledger Entry
-                // ==========================================
-
-                ItemLE.Reset();
-
-                ItemLE.SetRange(
-                    "Item No.",
-                    "Item No."
-                );
-
-                ItemLE.SetRange(
-                    "Location Code",
-                    "Location Code"
-                );
-
-                ItemLE.SetRange(
-                    "Posting Date",
-                    0D,
-                    "Registering Date"
-                );
-
-                if ItemLE.FindSet() then
-                    repeat
-                        ItemLE.CalcFields("Cost Amount (Actual)");
-                        Amount += ItemLE."Cost Amount (Actual)";
-                    until ItemLE.Next() = 0;
-
-            end;
+            }
         }
     }
+
+    // ============================================================
+    // REQUEST PAGE
+    // ============================================================
+
+    requestpage
+    {
+        SaveValues = true;
+
+        layout
+        {
+            area(content)
+            {
+                group(DateFilter)
+                {
+                    Caption = 'Date';
+
+                    field(StartingDateField; StartingDate)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Starting Date';
+                    }
+
+                    field(EndingDateField; EndingDate)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Ending Date';
+                    }
+                }
+            }
+        }
+    }
+
+    // ============================================================
+    // RENDERING
+    // ============================================================
 
     rendering
     {
         layout(inventoryStock)
         {
             Type = RDLC;
+
             LayoutFile =
                 './Report/FDD40/PrintOut_Report_Inventory_Stock.rdl';
         }
     }
+
+    // ============================================================
+    // VARIABLES
+    // ============================================================
 
     var
         QtyBase: Decimal;
@@ -268,6 +382,12 @@ report 52006 InventoryStockss
 
         DefaultDim: Record "Default Dimension";
 
+        StartingDate: Date;
+        EndingDate: Date;
+
+    // ============================================================
+    // GET QTY UOM
+    // ============================================================
 
     local procedure GetQtyInUOM(
         ItemNo: Code[20];
@@ -281,7 +401,11 @@ report 52006 InventoryStockss
         if UOMCode = '' then
             exit(0);
 
-        if ItemUOM.Get(ItemNo, UOMCode) then begin
+        if ItemUOM.Get(
+            ItemNo,
+            UOMCode
+        ) then begin
+
             if ItemUOM."Qty. per Unit of Measure" <> 0 then begin
 
                 QtyResult :=
@@ -289,7 +413,12 @@ report 52006 InventoryStockss
                     ItemUOM."Qty. per Unit of Measure";
 
                 // Bulatkan menjadi bilangan bulat
-                QtyResult := Round(QtyResult, 1, '=');
+                QtyResult :=
+                    Round(
+                        QtyResult,
+                        1,
+                        '='
+                    );
 
                 exit(QtyResult);
             end;
