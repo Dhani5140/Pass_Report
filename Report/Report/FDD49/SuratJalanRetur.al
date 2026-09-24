@@ -50,6 +50,9 @@ report 52007 SuratJalanRetur
                     valueEntry: Record "Value Entry";
                     salesInvHeader: Record "Sales Invoice Header";
                     salesInvLine: Record "Sales Invoice Line";
+                    salesShptHeader: Record "Sales Shipment Header";
+                    salesShptLine: Record "Sales Shipment Line";
+                    ShptDocNo: Code[20];
                 begin
                     Clear(No_Faktur_Penjualan);
                     Clear(Tanggal_Dokumen);
@@ -81,6 +84,30 @@ report 52007 SuratJalanRetur
                                 repeat
                                     Total_Nominal_Faktur += salesInvLine."Amount Including VAT";
                                 until salesInvLine.Next() = 0;
+                            end;
+                        end;
+                    end else if salesReturLine."Appl.-from Item Entry" <> 0 then begin
+                        // Shipment asal belum di-invoice: belum ada No Faktur, jadi No Shipment dipakai sbg pengganti sementara (prefix "S:" agar terlihat beda dari No Faktur asli).
+                        valueEntry.Reset();
+                        valueEntry.SetRange("Item Ledger Entry No.", salesReturLine."Appl.-from Item Entry");
+                        valueEntry.SetRange("Document Type", valueEntry."Document Type"::"Sales Shipment");
+                        if valueEntry.FindFirst() then begin
+                            ShptDocNo := valueEntry."Document No.";
+                            No_Faktur_Penjualan := CopyStr('S:' + ShptDocNo, 1, MaxStrLen(No_Faktur_Penjualan));
+                            if salesShptHeader.Get(ShptDocNo) then begin
+                                Tanggal_Dokumen := salesShptHeader."Document Date";
+                                No_Pelanggan := salesShptHeader."Sell-to Customer No.";
+                                Nama_Pelanggan := salesShptHeader."Sell-to Customer Name";
+                                Alamat_Pelanggan := salesShptHeader."Ship-to Address";
+                                if Alamat_Pelanggan = '' then
+                                    Alamat_Pelanggan := salesShptHeader."Bill-to Address";
+
+                                salesShptLine.SetRange("Document No.", ShptDocNo);
+                                if salesShptLine.FindSet() then begin
+                                    repeat
+                                        Total_Nominal_Faktur += salesShptLine."VAT Base Amount" * (1 + salesShptLine."VAT %" / 100);
+                                    until salesShptLine.Next() = 0;
+                                end;
                             end;
                         end;
                     end;

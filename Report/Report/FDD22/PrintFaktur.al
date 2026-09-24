@@ -17,6 +17,8 @@ report 52005 PrintFaktur
             column(Company_Phone; Company_Phone) { }
             column(Company_NPWP; Company_NPWP) { }
             column(Salesperson_Info; Salesperson_Info) { }
+            column(Driver_Info; Driver_Info) { }
+            column(External_Doc_No; External_Doc_No) { }
             column(Customer_No_Name; Customer_No_Name) { }
             column(Customer_Address; Customer_Address) { }
             column(Posting_Date; Posting_Date) { }
@@ -63,7 +65,7 @@ report 52005 PrintFaktur
                                       "Source No.", "Source Line No.") then begin
                         Unit_Price := salesLine."Unit Price";
                         Potongan := salesLine."Line Discount Amount";
-                        Jumlah_Rp := salesLine.Amount;
+                        Jumlah_Rp := salesLine."Line Amount" - salesLine."Line Discount Amount";
                         Jumlah_Rp_Inc_VAT := salesLine."Amount Including VAT";
                         Line_Disc_Inv := salesLine."Inv. Discount Amount";
                     end;
@@ -84,6 +86,8 @@ report 52005 PrintFaktur
                 Clear(Company_Phone);
                 Clear(Company_NPWP);
                 Clear(Salesperson_Info);
+                Clear(Driver_Info);
+                Clear(External_Doc_No);
                 Clear(Customer_No_Name);
                 Clear(Customer_Address);
                 Clear(Posting_Date);
@@ -110,6 +114,8 @@ report 52005 PrintFaktur
 
                 No_Printed := 1;
 
+                Driver_Info := "Shipping Agent Service Code" + ' - ' + "Nama Driver";
+
                 whseShptLine.SetRange("No.", "No.");
                 whseShptLine.SetFilter("Source No.", '<>%1', '');
                 if whseShptLine.FindFirst() then begin
@@ -121,6 +127,8 @@ report 52005 PrintFaktur
                         Customer_Address := salesHeader."Bill-to Address";
                         if Customer_Address = '' then
                             Customer_Address := salesHeader."Sell-to Address";
+
+                        External_Doc_No := salesHeader."External Document No.";
 
                         Salesperson_Info := salesHeader."Salesperson Code";
                         if salesPerson.Get(salesHeader."Salesperson Code") then
@@ -170,6 +178,8 @@ report 52005 PrintFaktur
         Company_Phone: Text[30];
         Company_NPWP: Text[20];
         Salesperson_Info: Text[100];
+        Driver_Info: Text[150];
+        External_Doc_No: Code[35];
         Customer_No_Name: Text[100];
         Customer_Address: Text[100];
         Posting_Date: Date;

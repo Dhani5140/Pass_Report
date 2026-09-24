@@ -11,7 +11,7 @@
       <am:Name>MSRB</am:Name>
       <am:Version>15.1.30001.02</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-09-10T12:56:20.5840991Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-09-17T10:34:49.2761933Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -32,7 +32,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>20.47875cm</Width>
+                  <Width>20.81929cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -557,7 +557,7 @@
                                     </TablixMembers>
                                   </TablixRowHierarchy>
                                   <DataSetName>DataSet_Result</DataSetName>
-                                  <Top>3.44939cm</Top>
+                                  <Top>3.76689cm</Top>
                                   <Height>1.09389cm</Height>
                                   <Width>20.00499cm</Width>
                                   <Style>
@@ -975,7 +975,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value>=Sum(Fields!AmountLine.Value)</Value>
+                                                        <Value>=Fields!Subtotal.Value</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
                                                           <Format>n2</Format>
@@ -1039,9 +1039,9 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value>=IIF(Sum(Fields!Inv_Discount_Amount.Value) = 0,
+                                                        <Value>=IIF(Fields!Disc_Inv.Value = 0,
     "-",
-    Sum(Fields!Inv_Discount_Amount.Value))</Value>
+    Fields!Disc_Inv.Value)</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
                                                           <Format>n2</Format>
@@ -1105,7 +1105,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value>=Sum(Fields!AmountLine.Value)</Value>
+                                                        <Value>=Fields!DPP.Value</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
                                                           <Format>n2</Format>
@@ -1170,9 +1170,9 @@
                                                     <TextRuns>
                                                       <TextRun>
                                                         <Value>=IIF(
-    Sum(Fields!LineAmount_Including_VAT.Value) - Sum(Fields!AmountLine.Value) = 0,
+    Fields!PPN_Amt.Value = 0,
     "-",
-    Sum(Fields!LineAmount_Including_VAT.Value) - Sum(Fields!AmountLine.Value)
+    Fields!PPN_Amt.Value
 )</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
@@ -1237,7 +1237,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value>=Sum(Fields!LineAmount_Including_VAT.Value)</Value>
+                                                        <Value>=Fields!Total.Value</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
                                                           <Format>n2</Format>
@@ -1966,10 +1966,222 @@
                                     </Border>
                                   </Style>
                                 </Textbox>
+                                <Textbox Name="Textbox58">
+                                  <rd:DefaultName>Textbox1</rd:DefaultName>
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>No. DO</Value>
+                                          <Style>
+                                            <FontSize>9pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style />
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>3.13189cm</Top>
+                                  <Left>13.08161cm</Left>
+                                  <Height>0.37069cm</Height>
+                                  <Width>3.4007cm</Width>
+                                  <ZIndex>23</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <PaddingLeft>2pt</PaddingLeft>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Textbox59">
+                                  <rd:DefaultName>Textbox1</rd:DefaultName>
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>: </Value>
+                                          <Style>
+                                            <FontStyle>Normal</FontStyle>
+                                            <FontSize>9pt</FontSize>
+                                            <FontWeight>Normal</FontWeight>
+                                            <TextDecoration>None</TextDecoration>
+                                            <Color>#000000</Color>
+                                          </Style>
+                                        </TextRun>
+                                        <TextRun>
+                                          <Value>=Fields!No_.Value</Value>
+                                          <Style>
+                                            <FontStyle>Normal</FontStyle>
+                                            <FontSize>9pt</FontSize>
+                                            <FontWeight>Normal</FontWeight>
+                                            <TextDecoration>None</TextDecoration>
+                                            <Color>#000000</Color>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style />
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>3.13189cm</Top>
+                                  <Left>16.48231cm</Left>
+                                  <Height>0.37069cm</Height>
+                                  <Width>3.65659cm</Width>
+                                  <ZIndex>24</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Textbox60">
+                                  <rd:DefaultName>Textbox1</rd:DefaultName>
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>Driver</Value>
+                                          <Style>
+                                            <FontSize>9pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style />
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.36091cm</Top>
+                                  <Left>13.08161cm</Left>
+                                  <Height>0.37069cm</Height>
+                                  <Width>3.4007cm</Width>
+                                  <ZIndex>25</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <PaddingLeft>2pt</PaddingLeft>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Textbox61">
+                                  <rd:DefaultName>Textbox1</rd:DefaultName>
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>: </Value>
+                                          <Style>
+                                            <FontStyle>Normal</FontStyle>
+                                            <FontSize>9pt</FontSize>
+                                            <FontWeight>Normal</FontWeight>
+                                            <TextDecoration>None</TextDecoration>
+                                            <Color>#000000</Color>
+                                          </Style>
+                                        </TextRun>
+                                        <TextRun>
+                                          <Value>=Fields!Driver_Info.Value</Value>
+                                          <Style>
+                                            <FontStyle>Normal</FontStyle>
+                                            <FontSize>9pt</FontSize>
+                                            <FontWeight>Normal</FontWeight>
+                                            <TextDecoration>None</TextDecoration>
+                                            <Color>#000000</Color>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style />
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.36091cm</Top>
+                                  <Left>15.37799cm</Left>
+                                  <Height>0.37069cm</Height>
+                                  <Width>3.65659cm</Width>
+                                  <ZIndex>26</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Textbox62">
+                                  <rd:DefaultName>Textbox1</rd:DefaultName>
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>External Document No.</Value>
+                                          <Style>
+                                            <FontSize>9pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style />
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>3.34356cm</Top>
+                                  <Height>0.37069cm</Height>
+                                  <Width>3.4007cm</Width>
+                                  <ZIndex>27</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <PaddingLeft>2pt</PaddingLeft>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Textbox63">
+                                  <rd:DefaultName>Textbox1</rd:DefaultName>
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>: </Value>
+                                          <Style>
+                                            <FontStyle>Normal</FontStyle>
+                                            <FontSize>9pt</FontSize>
+                                            <FontWeight>Normal</FontWeight>
+                                            <TextDecoration>None</TextDecoration>
+                                            <Color>#000000</Color>
+                                          </Style>
+                                        </TextRun>
+                                        <TextRun>
+                                          <Value>=Fields!External_Doc_No.Value</Value>
+                                          <Style>
+                                            <FontStyle>Normal</FontStyle>
+                                            <FontSize>9pt</FontSize>
+                                            <FontWeight>Normal</FontWeight>
+                                            <TextDecoration>None</TextDecoration>
+                                            <Color>#000000</Color>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style />
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>3.37884cm</Top>
+                                  <Left>3.4007cm</Left>
+                                  <Height>0.37069cm</Height>
+                                  <Width>3.65659cm</Width>
+                                  <ZIndex>28</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                  </Style>
+                                </Textbox>
                               </ReportItems>
                               <KeepTogether>true</KeepTogether>
                               <Height>7.23163cm</Height>
-                              <Width>20.47875cm</Width>
+                              <Width>20.81929cm</Width>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -2020,7 +2232,7 @@
             <DataSetName>DataSet_Result</DataSetName>
             <Top>0.01934cm</Top>
             <Height>7.23163cm</Height>
-            <Width>20.47875cm</Width>
+            <Width>20.81929cm</Width>
             <DataElementOutput>NoOutput</DataElementOutput>
             <Style />
           </Tablix>
@@ -2028,7 +2240,7 @@
         <Height>2.85471in</Height>
         <Style />
       </Body>
-      <Width>8.0625in</Width>
+      <Width>8.19657in</Width>
       <Page>
         <PageHeader>
           <Height>0.16678in</Height>
@@ -2093,7 +2305,7 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>0.44967cm</Top>
+              <Top>0.44966cm</Top>
               <Height>0.44125cm</Height>
               <Width>2.5cm</Width>
               <Style>
@@ -2120,7 +2332,7 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>0.44967cm</Top>
+              <Top>0.44966cm</Top>
               <Left>3.76386cm</Left>
               <Height>0.44125cm</Height>
               <Width>2.60583cm</Width>
@@ -2148,7 +2360,7 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>0.44967cm</Top>
+              <Top>0.44966cm</Top>
               <Left>7.75906cm</Left>
               <Height>0.44125cm</Height>
               <Width>2.5cm</Width>
@@ -2176,7 +2388,7 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>0.44967cm</Top>
+              <Top>0.44966cm</Top>
               <Left>11.56906cm</Left>
               <Height>0.44125cm</Height>
               <Width>2.5cm</Width>
@@ -2204,7 +2416,7 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>0.44967cm</Top>
+              <Top>0.44966cm</Top>
               <Left>15.65288cm</Left>
               <Height>0.44125cm</Height>
               <Width>4.54128cm</Width>
@@ -2232,7 +2444,7 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>0.89092cm</Top>
+              <Top>0.89091cm</Top>
               <Left>15.65288cm</Left>
               <Height>0.44125cm</Height>
               <Width>4.54128cm</Width>
@@ -2260,7 +2472,7 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>0.89092cm</Top>
+              <Top>0.89091cm</Top>
               <Left>2.28219cm</Left>
               <Height>0.44125cm</Height>
               <Width>7.97687cm</Width>
@@ -2366,6 +2578,12 @@ End Function</Code>
         </Field>
         <Field Name="Salesperson_Info">
           <DataField>Salesperson_Info</DataField>
+        </Field>
+        <Field Name="Driver_Info">
+          <DataField>Driver_Info</DataField>
+        </Field>
+        <Field Name="External_Doc_No">
+          <DataField>External_Doc_No</DataField>
         </Field>
         <Field Name="Customer_No_Name">
           <DataField>Customer_No_Name</DataField>
