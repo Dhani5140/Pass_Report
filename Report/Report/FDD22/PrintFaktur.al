@@ -80,6 +80,8 @@ report 52005 PrintFaktur
                 regWhseAct: Record "Registered Whse. Activity Line";
                 salesLine: Record "Sales Line";
                 vatSetup: Record "VAT Posting Setup";
+                shippingAgentServ: Record "Shipping Agent Services";
+                driverName: Text[100];
             begin
                 Clear(Company_Name);
                 Clear(Company_Address);
@@ -114,7 +116,12 @@ report 52005 PrintFaktur
 
                 No_Printed := 1;
 
-                Driver_Info := "Shipping Agent Service Code" + ' - ' + "Nama Driver";
+                driverName := "Nama Driver";
+                if shippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then
+                    if shippingAgentServ."Driver Name" <> '' then
+                        driverName := shippingAgentServ."Driver Name";
+
+                Driver_Info := "Shipping Agent Service Code" + ' - ' + driverName;
 
                 whseShptLine.SetRange("No.", "No.");
                 whseShptLine.SetFilter("Source No.", '<>%1', '');

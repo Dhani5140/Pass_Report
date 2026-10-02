@@ -11,7 +11,7 @@ report 52003 PickingList
             RequestFilterFields = "No.";
 
             column(Location_Code; "Location Code") { }
-            column(Warehouse_Shipment_No_; "Warehouse Shipment No.") { }
+            column(Warehouse_Shipment_No_; WhseShipmentNo) { }
             column(No_; "No.") { }
             column(PrintDateTxt; PrintDateTxt) { }
             column(PrintTimeTxt; PrintTimeTxt) { }
@@ -46,6 +46,12 @@ report 52003 PickingList
                         column(Qty__per_Unit_of_Measure; "Qty. per Unit of Measure") { }
                     }
                 }
+
+                trigger OnPreDataItem()
+                begin
+                    // Hanya baris Place (bin tujuan STAGING OUT), baris Take tidak dicetak
+                    SetFilter("Action Type", '<>%1', "Action Type"::Take);
+                end;
 
                 trigger OnAfterGetRecord()
                 var
@@ -96,16 +102,31 @@ report 52003 PickingList
             trigger OnAfterGetRecord()
             var
                 ShippingAgentServ: Record "Shipping Agent Services";
+                WhseShptHeader: Record "Warehouse Shipment Header";
+                WhseActLine: Record "Warehouse Activity Line";
             begin
                 PrintDateTxt := Format(Today, 0, '<Month Text> <Day,2>, <Year4>');
                 PrintTimeTxt := Format(Time, 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>');
 
                 Clear(Plat_Nomor);
                 Clear(Driver_Name);
-                if ShippingAgentServ.FindFirst() then begin
-                    Plat_Nomor := ShippingAgentServ."Plat Nomor";
-                    Driver_Name := ShippingAgentServ."Driver Name";
+                Clear(WhseShipmentNo);
+
+                WhseShipmentNo := "Warehouse Shipment No.";
+                if WhseShipmentNo = '' then begin
+                    WhseActLine.SetRange("Activity Type", Type);
+                    WhseActLine.SetRange("No.", "No.");
+                    WhseActLine.SetRange("Whse. Document Type", WhseActLine."Whse. Document Type"::Shipment);
+                    WhseActLine.SetFilter("Whse. Document No.", '<>%1', '');
+                    if WhseActLine.FindFirst() then
+                        WhseShipmentNo := WhseActLine."Whse. Document No.";
                 end;
+
+                if WhseShptHeader.Get(WhseShipmentNo) then
+                    if ShippingAgentServ.Get(WhseShptHeader."Shipping Agent Code", WhseShptHeader."Shipping Agent Service Code") then begin
+                        Plat_Nomor := ShippingAgentServ."Plat Nomor";
+                        Driver_Name := ShippingAgentServ."Driver Name";
+                    end;
             end;
         }
     }
@@ -128,4 +149,5 @@ report 52003 PickingList
         PrintTimeTxt: Text[50];
         Plat_Nomor: Text[100];
         Driver_Name: Text[100];
+        WhseShipmentNo: Code[20];
 }

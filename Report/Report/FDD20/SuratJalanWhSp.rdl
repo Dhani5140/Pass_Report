@@ -240,10 +240,10 @@
                                         <Width>1.2cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>1.7cm</Width>
+                                        <Width>2.3cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>2.2cm</Width>
+                                        <Width>1.6cm</Width>
                                       </TablixColumn>
                                     </TablixColumns>
                                     <TablixRows>
@@ -870,13 +870,16 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value />
+                                                        <Value>=First(Fields!InvoiceAmount.Value)</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
+                                                          <Format>n2</Format>
                                                         </Style>
                                                       </TextRun>
                                                     </TextRuns>
-                                                    <Style />
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
                                                   </Paragraph>
                                                 </Paragraphs>
                                                 <Style>
@@ -977,6 +980,9 @@
                                       <TablixColumn>
                                         <Width>1.25381cm</Width>
                                       </TablixColumn>
+                                      <TablixColumn>
+                                        <Width>2.3cm</Width>
+                                      </TablixColumn>
                                     </TablixColumns>
                                     <TablixRows>
                                       <TablixRow>
@@ -1071,12 +1077,42 @@
                                               </Textbox>
                                             </CellContents>
                                           </TablixCell>
+                                          <TablixCell>
+                                            <CellContents>
+                                              <Textbox Name="TextboxTotalAmount">
+                                                <CanGrow>true</CanGrow>
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value>=First(Fields!TotalAmount.Value)</Value>
+                                                        <Style>
+                                                          <FontSize>9pt</FontSize>
+                                                          <Format>n2</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                </Style>
+                                              </Textbox>
+                                            </CellContents>
+                                          </TablixCell>
                                         </TablixCells>
                                       </TablixRow>
                                     </TablixRows>
                                   </TablixBody>
                                   <TablixColumnHierarchy>
                                     <TablixMembers>
+                                      <TablixMember />
                                       <TablixMember />
                                       <TablixMember />
                                       <TablixMember />
@@ -1091,7 +1127,7 @@
                                   <Top>4.34112cm</Top>
                                   <Left>11.3268cm</Left>
                                   <Height>0.6cm</Height>
-                                  <Width>4.1732cm</Width>
+                                  <Width>6.4732cm</Width>
                                   <ZIndex>7</ZIndex>
                                   <Style>
                                     <Border>
@@ -1309,7 +1345,7 @@
                                   <Top>0.635cm</Top>
                                   <Left>2.5cm</Left>
                                   <Height>0.6cm</Height>
-                                  <Width>4.42771cm</Width>
+                                  <Width>6cm</Width>
                                   <ZIndex>13</ZIndex>
                                   <Style>
                                     <Border>
@@ -2697,6 +2733,18 @@ End Function
         </Field>
         <Field Name="SalespersonCode">
           <DataField>SalespersonCode</DataField>
+        </Field>
+        <Field Name="InvoiceAmount">
+          <DataField>InvoiceAmount</DataField>
+        </Field>
+        <Field Name="InvoiceAmountFormat">
+          <DataField>InvoiceAmountFormat</DataField>
+        </Field>
+        <Field Name="TotalAmount">
+          <DataField>TotalAmount</DataField>
+        </Field>
+        <Field Name="TotalAmountFormat">
+          <DataField>TotalAmountFormat</DataField>
         </Field>
       </Fields>
       <Query>

@@ -2,7 +2,7 @@ pageextension 52005 "Warehouse Shipment Print Nota" extends "Warehouse Shipment"
 {
     actions
     {
-        addlast(Reporting)
+        addafter("&Print")
         {
             action(CetakSuratJalanNota)
             {
@@ -16,6 +16,10 @@ pageextension 52005 "Warehouse Shipment Print Nota" extends "Warehouse Shipment"
                     Report.Run(Report::SuratJalanNota, true, false, Rec);
                 end;
             }
+        }
+        addafter("&Print_Promoted")
+        {
+            actionref(CetakSuratJalanNota_Promoted; CetakSuratJalanNota) { }
         }
     }
 }
