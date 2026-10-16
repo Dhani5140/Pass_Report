@@ -2704,6 +2704,12 @@ End Function
         <Field Name="TimeTxt">
           <DataField>TimeTxt</DataField>
         </Field>
+        <Field Name="TotalAmount">
+          <DataField>TotalAmount</DataField>
+        </Field>
+        <Field Name="TotalAmountFormat">
+          <DataField>TotalAmountFormat</DataField>
+        </Field>
         <Field Name="No_Faktur">
           <DataField>No_Faktur</DataField>
         </Field>
@@ -2739,12 +2745,6 @@ End Function
         </Field>
         <Field Name="InvoiceAmountFormat">
           <DataField>InvoiceAmountFormat</DataField>
-        </Field>
-        <Field Name="TotalAmount">
-          <DataField>TotalAmount</DataField>
-        </Field>
-        <Field Name="TotalAmountFormat">
-          <DataField>TotalAmountFormat</DataField>
         </Field>
       </Fields>
       <Query>

@@ -74,7 +74,7 @@ report 52001 SuratJalanWhSp
 
                 if shippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then begin
                     Plat_Nomor := shippingAgentServ."Plat Nomor";
-                    Driver_Name := shippingAgentServ."Driver Name";
+                    Driver_Name := shippingAgentServ."Nama Driver";
                 end;
 
                 if Driver_Name = '' then

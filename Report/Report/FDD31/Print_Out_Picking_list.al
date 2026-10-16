@@ -125,7 +125,7 @@ report 52003 PickingList
                 if WhseShptHeader.Get(WhseShipmentNo) then
                     if ShippingAgentServ.Get(WhseShptHeader."Shipping Agent Code", WhseShptHeader."Shipping Agent Service Code") then begin
                         Plat_Nomor := ShippingAgentServ."Plat Nomor";
-                        Driver_Name := ShippingAgentServ."Driver Name";
+                        Driver_Name := ShippingAgentServ."Nama Driver";
                     end;
             end;
         }

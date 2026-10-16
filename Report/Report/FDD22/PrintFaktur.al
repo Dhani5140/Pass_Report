@@ -118,8 +118,8 @@ report 52005 PrintFaktur
 
                 driverName := "Nama Driver";
                 if shippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then
-                    if shippingAgentServ."Driver Name" <> '' then
-                        driverName := shippingAgentServ."Driver Name";
+                    if shippingAgentServ."Nama Driver" <> '' then
+                        driverName := shippingAgentServ."Nama Driver";
 
                 Driver_Info := "Shipping Agent Service Code" + ' - ' + driverName;
 

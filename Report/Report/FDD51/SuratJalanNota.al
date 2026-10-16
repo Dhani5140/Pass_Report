@@ -78,7 +78,7 @@ report 52008 SuratJalanNota
 
                 if ShippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then begin
                     Plat_Nomor := ShippingAgentServ."Plat Nomor";
-                    Nama_Driver := ShippingAgentServ."Driver Name";
+                    Nama_Driver := ShippingAgentServ."Nama Driver";
                 end;
 
                 if Nama_Driver = '' then
