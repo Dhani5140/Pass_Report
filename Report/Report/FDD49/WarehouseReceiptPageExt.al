@@ -28,11 +28,15 @@ pageextension 52002 "Warehouse Receipt Page Ext" extends "Warehouse Receipt"
                 Caption = 'Print Surat Jalan Retur';
                 Image = Print;
                 ApplicationArea = All;
+                Promoted = true;
+                PromotedOnly = true;
+                PromotedCategory = Report;
+                PromotedIsBig = true;
 
                 trigger OnAction()
                 begin
                     Rec.SetRange("No.", Rec."No.");
-                    Report.Run(52004, true, false, Rec);
+                    Report.Run(Report::SuratJalanRetur, true, false, Rec);
                 end;
             }
         }

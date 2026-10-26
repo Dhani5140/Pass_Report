@@ -4,16 +4,21 @@ pageextension 52000 "Warehouse Shipment" extends "Warehouse Shipment"
     {
         addlast(Reporting)
         {
-            action(Print)
+            action(CetakSuratJalan)
             {
-                Caption = 'Print Surat jalan';
+                Caption = 'Print Surat Jalan';
+                Image = Print;
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedOnly = true;
+                PromotedCategory = Report;
+                PromotedIsBig = true;
                 trigger OnAction()
                 begin
-                    rec.SetRange("No.", Rec."No.");
-                    Report.Run(52001, true, false, rec);
+                    Rec.SetRange("No.", Rec."No.");
+                    Report.Run(52001, true, false, Rec);
                 end;
             }
         }
     }
-
 }

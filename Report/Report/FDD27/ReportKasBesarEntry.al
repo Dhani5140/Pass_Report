@@ -4,13 +4,14 @@ report 52004 "Kas Besar Entry"
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     DefaultRenderingLayout = KasBesarEntryRDLC;
+    UsageCategory = ReportsAndAnalysis;
 
     dataset
     {
         dataitem(GenJournalLine; "Gen. Journal Line")
         {
             DataItemTableView = sorting("Journal Template Name", "Journal Batch Name", "Line No.");
-            RequestFilterFields = "Posting Date", "Payment Method Code", "Account No.", "Shortcut Dimension 1 Code";
+            RequestFilterFields = "Journal Template Name", "Journal Batch Name", "Posting Date", "Payment Method Code", "Account No.", "Shortcut Dimension 1 Code";
 
             column(CompanyNameValue; CompanyName())
             {

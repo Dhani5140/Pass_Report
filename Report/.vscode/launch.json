@@ -11,10 +11,10 @@
             "launchBrowser": true,
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true,
-            "tenant": "134cbe21-430b-448c-b0ae-c7f8555c8d1e",
+            "tenant": "bc228ea2-387f-4965-b2f4-8fc0c2ff5149",
             "startupObjectId": 22,
-            "startupObjectType": "Page"
+            "startupObjectType": "Page",
+            "schemaUpdateMode": "ForceSync"
         }
     ]
 }
-
