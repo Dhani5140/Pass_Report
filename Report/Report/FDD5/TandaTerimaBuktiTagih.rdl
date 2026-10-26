@@ -11,7 +11,7 @@
       <am:Name>MSRB</am:Name>
       <am:Version>15.1.30001.02</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-09-21T09:57:11.1266151Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-10-08T11:51:15.4710707Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -68,7 +68,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Kode/Nama DA(Penagih)</Value>
+                    <Value>Kode/Nama DA(Penagih) :</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -101,7 +101,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Kode/Nama Employee(Penagih)</Value>
+                    <Value>Kode/Nama Employee(Penagih):</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -134,7 +134,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>No Dokumen                                :</Value>
+                    <Value>No Dokumen      :</Value>
                     <Style>
                       <FontSize>9pt</FontSize>
                     </Style>
@@ -167,7 +167,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Document_No_</Value>
+                    <Value>=Fields!No_.Value</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -196,7 +196,7 @@
                   <Width>2.03333in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.25833in</Width>
+                  <Width>1.54167in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.575in</Width>
@@ -205,7 +205,7 @@
                   <Width>1.63333in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.37167in</Width>
+                  <Width>2.08834in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -283,7 +283,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -324,13 +324,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>No. Dokumen</Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value xml:space="preserve"> </Value>
+                                  <Value>No. Dokumen </Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                   </Style>
@@ -432,7 +426,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -486,9 +482,13 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Dashed</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -508,17 +508,25 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Posting_Date.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>d</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Dashed</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -529,15 +537,15 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="No_">
-                          <rd:DefaultName>No_</rd:DefaultName>
+                        <Textbox Name="Document_No_1">
+                          <rd:DefaultName>Document_No_1</rd:DefaultName>
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!No_.Value</Value>
+                                  <Value>=Fields!Document_No_.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -546,9 +554,13 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Dashed</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -568,17 +580,25 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Posting_Date.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>d</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Dashed</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -601,14 +621,20 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
+                              <Style>None</Style>
                             </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Dashed</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -643,7 +669,7 @@
             <DataSetName>DataSet_Result</DataSetName>
             <Top>1.11833in</Top>
             <Height>0.39834in</Height>
-            <Width>8.87166in</Width>
+            <Width>8.87167in</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -651,6 +677,66 @@
               </Border>
             </Style>
           </Tablix>
+          <Textbox Name="Document_No_2">
+            <rd:DefaultName>Document_No_</rd:DefaultName>
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Fields!Employee_Name.Value</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.59033in</Top>
+            <Left>1.88009in</Left>
+            <Height>0.23622in</Height>
+            <Width>1.69491in</Width>
+            <ZIndex>6</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Document_No_3">
+            <rd:DefaultName>Document_No_</rd:DefaultName>
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=Fields!Sales_Name.Value</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.35411in</Top>
+            <Left>1.8662in</Left>
+            <Height>0.23622in</Height>
+            <Width>1.69491in</Width>
+            <ZIndex>7</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
         <Height>3.85234cm</Height>
         <Style />
@@ -710,6 +796,18 @@ End Function
       <Fields>
         <Field Name="No_">
           <DataField>No_</DataField>
+        </Field>
+        <Field Name="Employee_Name">
+          <DataField>Employee_Name</DataField>
+        </Field>
+        <Field Name="Employee_No_">
+          <DataField>Employee_No_</DataField>
+        </Field>
+        <Field Name="Salesman">
+          <DataField>Salesman</DataField>
+        </Field>
+        <Field Name="Sales_Name">
+          <DataField>Sales_Name</DataField>
         </Field>
         <Field Name="Account_No_">
           <DataField>Account_No_</DataField>

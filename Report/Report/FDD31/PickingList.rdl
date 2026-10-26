@@ -585,6 +585,7 @@
               </Paragraph>
             </Paragraphs>
             <Top>1.27056cm</Top>
+            <Left>9.78605cm</Left>
             <Height>0.423cm</Height>
             <Width>3.83469cm</Width>
             <ZIndex>1</ZIndex>
@@ -617,6 +618,7 @@
               </Paragraph>
             </Paragraphs>
             <Top>1.69356cm</Top>
+            <Left>9.78605cm</Left>
             <Height>0.423cm</Height>
             <Width>3.83469cm</Width>
             <ZIndex>2</ZIndex>
@@ -688,6 +690,13 @@
               <Paragraphs>
                 <Paragraph>
                   <TextRuns>
+                    <TextRun>
+                      <Value>Whse. Shipment No: </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
                     <TextRun>
                       <Value>=Fields!Warehouse_Shipment_No_.Value</Value>
                       <Style>

@@ -15,13 +15,7 @@ report 52008 SuratJalanNota
             column(Posting_Date; "Posting Date") { }
             column(Plat_Nomor; Plat_Nomor) { }
             column(Nama_Driver; Nama_Driver) { }
-
-            dataitem("Location"; "Location")
-            {
-                DataItemLink = Code = field("Location Code");
-
-                column(Nama_Cabang; Name) { }
-            }
+            column(Nama_Cabang; Nama_Cabang) { }
 
             dataitem("Warehouse Shipment Line"; "Warehouse Shipment Line")
             {
@@ -45,6 +39,11 @@ report 52008 SuratJalanNota
                     Clear(Alamat);
                     Clear(Nominal_Invoice);
                     Clear(TOP);
+
+                    // Satu baris per order/invoice, agar Nominal Invoice & Total Setoran tidak dobel
+                    if orderDict.ContainsKey("Source No.") then
+                        CurrReport.Skip();
+                    orderDict.Add("Source No.", true);
 
                     Nomor_Invoice := "Invoice No.";
 
@@ -70,12 +69,23 @@ report 52008 SuratJalanNota
             trigger OnAfterGetRecord()
             var
                 ShippingAgentServ: Record "Shipping Agent Services";
+                Location: Record Location;
             begin
-                Nama_Driver := "Nama Driver";
-
                 Clear(Plat_Nomor);
-                if ShippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then
+                Clear(Nama_Driver);
+                Clear(Nama_Cabang);
+                Clear(orderDict);
+
+                if ShippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then begin
                     Plat_Nomor := ShippingAgentServ."Plat Nomor";
+                    Nama_Driver := ShippingAgentServ."Nama Driver";
+                end;
+
+                if Nama_Driver = '' then
+                    Nama_Driver := "Nama Driver";
+
+                if Location.Get("Location Code") then
+                    Nama_Cabang := Location.Name;
             end;
         }
     }
@@ -92,10 +102,12 @@ report 52008 SuratJalanNota
     var
         Plat_Nomor: Text[100];
         Nama_Driver: Text[100];
+        Nama_Cabang: Text[100];
         Nomor_Invoice: Code[20];
         Kode_Customer: Code[20];
         Nama_Customer: Text[100];
         Alamat: Text[100];
         Nominal_Invoice: Decimal;
         TOP: Code[10];
+        orderDict: Dictionary of [Code[20], Boolean];
 }

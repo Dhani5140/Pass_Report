@@ -1,4 +1,4 @@
-pageextension 52006 "Posted Gen Cash Rcpt Page Ext" extends "Posted Gen. Cash Receipt List"
+pageextension 52006 "Report Settlement Harian" extends "Posted Gen. Cash Receipt List"
 {
     actions
     {

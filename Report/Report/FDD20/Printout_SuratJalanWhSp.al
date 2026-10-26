@@ -18,6 +18,7 @@ report 52001 SuratJalanWhSp
             column(TotalOutlet; TotalOutlet) { }
             column(DateTxt; DateTxt) { }
             column(TimeTxt; TimeTxt) { }
+            column(TotalAmount; TotalAmount) { }
 
             dataitem("Warehouse Shipment Line"; "Warehouse Shipment Line")
             {
@@ -31,6 +32,7 @@ report 52001 SuratJalanWhSp
                 column(Total_Cubage; "Total Cubage") { }
                 column(Total_Tonase; "Total Tonase") { }
                 column(SalespersonCode; SalespersonCode) { }
+                column(InvoiceAmount; InvoiceAmount) { }
 
                 trigger OnAfterGetRecord()
                 begin
@@ -38,6 +40,7 @@ report 52001 SuratJalanWhSp
                     Clear(CustName);
                     Clear(CustAddress);
                     Clear(SalespersonCode);
+                    Clear(InvoiceAmount);
 
                     if salesHeader.Get(salesHeader."Document Type"::Order, "Source No.") then begin
                         SODate := salesHeader."Document Date";
@@ -45,6 +48,8 @@ report 52001 SuratJalanWhSp
                         CustAddress := salesHeader."Ship-to Address";
                         SalespersonCode := salesHeader."Salesperson Code";
                     end;
+
+                    InvoiceAmount := CalcInvoiceAmount("No.", "Invoice No.", "Source No.");
                 end;
             }
 
@@ -54,6 +59,7 @@ report 52001 SuratJalanWhSp
                 fakturDict: Dictionary of [Code[20], Boolean];
                 outletDict: Dictionary of [Code[20], Boolean];
                 spDict: Dictionary of [Code[20], Boolean];
+                orderDict: Dictionary of [Code[20], Boolean];
             begin
                 Clear(Plat_Nomor);
                 Clear(Driver_Name);
@@ -63,11 +69,16 @@ report 52001 SuratJalanWhSp
                 Clear(fakturDict);
                 Clear(outletDict);
                 Clear(spDict);
+                Clear(orderDict);
+                Clear(TotalAmount);
 
-                if shippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then
+                if shippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then begin
                     Plat_Nomor := shippingAgentServ."Plat Nomor";
+                    Driver_Name := shippingAgentServ."Nama Driver";
+                end;
 
-                Driver_Name := "Nama Driver";
+                if Driver_Name = '' then
+                    Driver_Name := "Nama Driver";
 
                 DateTxt := Format(Today, 0, '<Day,2>-<Month Text>-<Year4>');
                 TimeTxt := Format(Time, 0, '<Hours24,2>:<Minutes,2>:<Seconds,2>');
@@ -93,6 +104,12 @@ report 52001 SuratJalanWhSp
                                     spDict.Add(salesHeader."Salesperson Code", true);
                                     TotalSalesperson += 1;
                                 end;
+
+                        if whseShptLine."Source No." <> '' then
+                            if not orderDict.ContainsKey(whseShptLine."Source No.") then begin
+                                orderDict.Add(whseShptLine."Source No.", true);
+                                TotalAmount += CalcOrderAmount(whseShptLine."Source No.");
+                            end;
                     until whseShptLine.Next() = 0;
             end;
         }
@@ -126,6 +143,60 @@ report 52001 SuratJalanWhSp
         }
     }
 
+    // Mengikuti perhitungan Total pada Print Faktur (report 52005): DPP + PPN
+    local procedure CalcOrderAmount(OrderNo: Code[20]): Decimal
+    var
+        salesLine: Record "Sales Line";
+        vatSetup: Record "VAT Posting Setup";
+        Subtotal: Decimal;
+        DiscInv: Decimal;
+        DPP: Decimal;
+        PPNAmt: Decimal;
+    begin
+        salesLine.SetRange("Document Type", salesLine."Document Type"::Order);
+        salesLine.SetRange("Document No.", OrderNo);
+        salesLine.SetFilter(Amount, '<>%1', 0);
+        if not salesLine.FindSet() then
+            exit(0);
+
+        repeat
+            Subtotal += salesLine."Line Amount";
+            DiscInv += salesLine."Inv. Discount Amount";
+        until salesLine.Next() = 0;
+
+        DPP := Subtotal - DiscInv;
+
+        if salesLine.FindFirst() then
+            if vatSetup.Get(salesLine."VAT Bus. Posting Group", salesLine."VAT Prod. Posting Group") then
+                PPNAmt := DPP * vatSetup."VAT %" / 100;
+
+        exit(DPP + PPNAmt);
+    end;
+
+    // Total amount per faktur = jumlah total order (distinct) yang memiliki Invoice No. yang sama di shipment ini
+    local procedure CalcInvoiceAmount(ShipmentNo: Code[20]; InvoiceNo: Code[20]; SourceNo: Code[20]): Decimal
+    var
+        whseShptLine: Record "Warehouse Shipment Line";
+        orderDict: Dictionary of [Code[20], Boolean];
+        Result: Decimal;
+    begin
+        if InvoiceNo = '' then
+            exit(CalcOrderAmount(SourceNo));
+
+        whseShptLine.SetRange("No.", ShipmentNo);
+        whseShptLine.SetRange("Invoice No.", InvoiceNo);
+        whseShptLine.SetFilter("Source No.", '<>%1', '');
+        if whseShptLine.FindSet() then
+            repeat
+                if not orderDict.ContainsKey(whseShptLine."Source No.") then begin
+                    orderDict.Add(whseShptLine."Source No.", true);
+                    Result += CalcOrderAmount(whseShptLine."Source No.");
+                end;
+            until whseShptLine.Next() = 0;
+
+        exit(Result);
+    end;
+
     var
         Plat_Nomor: Code[20];
         Driver_Name: Text[100];
@@ -138,6 +209,8 @@ report 52001 SuratJalanWhSp
         CustName: Text[100];
         CustAddress: Text[100];
         SalespersonCode: Code[20];
+        InvoiceAmount: Decimal;
+        TotalAmount: Decimal;
         shippingAgentServ: Record "Shipping Agent Services";
         salesHeader: Record "Sales Header";
 }

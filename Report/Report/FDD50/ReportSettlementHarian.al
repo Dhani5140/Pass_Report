@@ -77,12 +77,12 @@ report 52009 "Report Settlement Harian"
                 QtyBesarOmset := QtyBesarPeng - QtyBesarRetur - QtyBesarTolak;
                 ValueOmset := ValuePeng - ValueRetur - ValueTolak;
 
-                JmlFakturTotal := JmlFakturOmset;
-                QtyBesarTotal := QtyBesarOmset;
-                ValueTotal := ValueOmset;
+                JmlFakturTotal := JmlFakturCash + JmlFakturTRF + JmlFakturRetur2 + JmlFakturTOP;
+                QtyBesarTotal := QtyBesarCash + QtyBesarTRF + QtyBesarRetur2 + QtyBesarTOP;
+                ValueTotal := ValueCash + ValueTRF + ValueRetur2 + ValueTOP;
 
-                JmlTbtTotal := JmlTbtTTBT;
-                ValueTbtTotal := ValueTbtTTBT;
+                JmlTbtTotal := JmlTbtCash + JmlTbtTRF + JmlTbtBalik;
+                ValueTbtTotal := ValueTbtCash + ValueTbtTRF + ValueTbtBalik;
             end;
         }
     }
@@ -177,8 +177,10 @@ report 52009 "Report Settlement Harian"
         postedShptLine: Record "Posted Whse. Shipment Line";
         salesHeader: Record "Sales Header";
         salesLine: Record "Sales Line";
+        salesInvLine: Record "Sales Invoice Line";
         invNo: Code[20];
         unitValue: Decimal;
+        invLineFound: Boolean;
     begin
         postedShptLine.SetRange("Posting Date", PostingDate);
         if postedShptLine.FindSet() then
@@ -189,6 +191,15 @@ report 52009 "Report Settlement Harian"
                     if invNo = '' then
                         invNo := salesHeader."VAT Invoice No.";
                 end;
+
+                // SO yang sudah fully invoiced terhapus, ambil dari Sales Invoice Line
+                salesInvLine.Reset();
+                salesInvLine.SetRange("Shipment No.", postedShptLine."Posted Source No.");
+                salesInvLine.SetRange("Order No.", postedShptLine."Source No.");
+                salesInvLine.SetRange("Order Line No.", postedShptLine."Source Line No.");
+                invLineFound := salesInvLine.FindFirst();
+                if (invNo = '') and invLineFound then
+                    invNo := salesInvLine."Document No.";
 
                 if postedShptLine.Quantity > 0 then begin
                     if invNo <> '' then begin
@@ -201,9 +212,12 @@ report 52009 "Report Settlement Harian"
                     QtyBesarPeng += QtyBesarBase(postedShptLine."Qty. (Base)", postedShptLine."Item No.");
 
                     unitValue := 0;
-                    if salesLine.Get(salesLine."Document Type"::Order, postedShptLine."Source No.", postedShptLine."Source Line No.") then
+                    if salesLine.Get(salesLine."Document Type"::Order, postedShptLine."Source No.", postedShptLine."Source Line No.") then begin
                         if salesLine.Quantity <> 0 then
                             unitValue := salesLine."Line Amount" / salesLine.Quantity;
+                    end else
+                        if invLineFound and (salesInvLine.Quantity <> 0) then
+                            unitValue := salesInvLine."Line Amount" / salesInvLine.Quantity;
 
                     ValuePeng += unitValue * postedShptLine.Quantity;
                 end;
@@ -214,6 +228,7 @@ report 52009 "Report Settlement Harian"
     var
         returnRcptHeader: Record "Return Receipt Header";
         returnRcptLine: Record "Return Receipt Line";
+        crMemoLine: Record "Sales Cr.Memo Line";
     begin
         returnRcptHeader.SetRange("Posting Date", PostingDate);
         if returnRcptHeader.FindSet() then
@@ -221,10 +236,16 @@ report 52009 "Report Settlement Harian"
                 JmlFakturRetur += 1;
 
                 returnRcptLine.SetRange("Document No.", returnRcptHeader."No.");
+                returnRcptLine.SetRange(Type, returnRcptLine.Type::Item);
                 if returnRcptLine.FindSet() then
                     repeat
                         QtyBesarRetur += QtyBesarBase(returnRcptLine."Quantity (Base)", returnRcptLine."No.");
-                        ValueRetur += returnRcptLine.Quantity * returnRcptLine."Unit Price";
+
+                        // Nilai per line diambil dari credit memo (Amount) yang terbentuk
+                        crMemoLine.SetRange("Return Receipt No.", returnRcptLine."Document No.");
+                        crMemoLine.SetRange("Return Receipt Line No.", returnRcptLine."Line No.");
+                        crMemoLine.CalcSums(Amount);
+                        ValueRetur += crMemoLine.Amount;
                     until returnRcptLine.Next() = 0;
             until returnRcptHeader.Next() = 0;
 
@@ -271,47 +292,77 @@ report 52009 "Report Settlement Harian"
     var
         custLedgerEntry: Record "Cust. Ledger Entry";
     begin
+        custLedgerEntry.SetAutoCalcFields(Amount);
         custLedgerEntry.SetRange("Posting Date", PostingDate);
         custLedgerEntry.SetRange("Document Type", custLedgerEntry."Document Type"::Payment);
         custLedgerEntry.SetFilter("Payment Method Code", 'CASH');
         custLedgerEntry.SetFilter("Document No.", '<>GCR*');
         if custLedgerEntry.FindSet() then
             repeat
-                ValueCash += custLedgerEntry.Amount;
-                if custLedgerEntry."Applies-to Doc. No." <> '' then begin
-                    if not cashInvDict.ContainsKey(custLedgerEntry."Applies-to Doc. No.") then begin
-                        cashInvDict.Add(custLedgerEntry."Applies-to Doc. No.", true);
-                        JmlFakturCash += 1;
-                        QtyBesarCash += QtyBesarInvoice(custLedgerEntry."Applies-to Doc. No.");
-                    end;
-                end;
+                // Amount payment bernilai negatif, dikali -1
+                ValueCash += -custLedgerEntry.Amount;
+                HitungFakturApplied(custLedgerEntry."Entry No.", cashInvDict, JmlFakturCash, QtyBesarCash);
             until custLedgerEntry.Next() = 0;
 
-        custLedgerEntry.SetRange("Posting Date", PostingDate);
-        custLedgerEntry.SetRange("Document Type", custLedgerEntry."Document Type"::Payment);
         custLedgerEntry.SetFilter("Payment Method Code", 'TRF');
-        custLedgerEntry.SetFilter("Document No.", '<>GCR*');
         if custLedgerEntry.FindSet() then
             repeat
-                ValueTRF += custLedgerEntry.Amount;
-                if custLedgerEntry."Applies-to Doc. No." <> '' then begin
-                    if not trfInvDict.ContainsKey(custLedgerEntry."Applies-to Doc. No.") then begin
-                        trfInvDict.Add(custLedgerEntry."Applies-to Doc. No.", true);
-                        JmlFakturTRF += 1;
-                        QtyBesarTRF += QtyBesarInvoice(custLedgerEntry."Applies-to Doc. No.");
-                    end;
-                end;
+                ValueTRF += -custLedgerEntry.Amount;
+                HitungFakturApplied(custLedgerEntry."Entry No.", trfInvDict, JmlFakturTRF, QtyBesarTRF);
             until custLedgerEntry.Next() = 0;
+    end;
+
+    // Cari invoice yang di-apply oleh payment (Detailed Cust. Ledg. Entry type Application)
+    local procedure HitungFakturApplied(PaymentEntryNo: Integer; var InvDict: Dictionary of [Code[20], Boolean]; var JmlFaktur: Integer; var QtyBesar: Decimal)
+    var
+        dtldCustLedgEntry: Record "Detailed Cust. Ledg. Entry";
+        dtldCustLedgEntry2: Record "Detailed Cust. Ledg. Entry";
+    begin
+        dtldCustLedgEntry.SetRange("Cust. Ledger Entry No.", PaymentEntryNo);
+        dtldCustLedgEntry.SetRange("Entry Type", dtldCustLedgEntry."Entry Type"::Application);
+        dtldCustLedgEntry.SetRange(Unapplied, false);
+        if dtldCustLedgEntry.FindSet() then
+            repeat
+                if dtldCustLedgEntry."Cust. Ledger Entry No." = dtldCustLedgEntry."Applied Cust. Ledger Entry No." then begin
+                    // Payment sebagai applying entry: cari entry lain dalam application yang sama
+                    dtldCustLedgEntry2.SetRange("Applied Cust. Ledger Entry No.", dtldCustLedgEntry."Applied Cust. Ledger Entry No.");
+                    dtldCustLedgEntry2.SetRange("Entry Type", dtldCustLedgEntry2."Entry Type"::Application);
+                    dtldCustLedgEntry2.SetRange(Unapplied, false);
+                    if dtldCustLedgEntry2.FindSet() then
+                        repeat
+                            if dtldCustLedgEntry2."Cust. Ledger Entry No." <> dtldCustLedgEntry2."Applied Cust. Ledger Entry No." then
+                                TambahFakturApplied(dtldCustLedgEntry2."Cust. Ledger Entry No.", InvDict, JmlFaktur, QtyBesar);
+                        until dtldCustLedgEntry2.Next() = 0;
+                end else
+                    TambahFakturApplied(dtldCustLedgEntry."Applied Cust. Ledger Entry No.", InvDict, JmlFaktur, QtyBesar);
+            until dtldCustLedgEntry.Next() = 0;
+    end;
+
+    local procedure TambahFakturApplied(InvEntryNo: Integer; var InvDict: Dictionary of [Code[20], Boolean]; var JmlFaktur: Integer; var QtyBesar: Decimal)
+    var
+        invCustLedgEntry: Record "Cust. Ledger Entry";
+    begin
+        if not invCustLedgEntry.Get(InvEntryNo) then
+            exit;
+        if invCustLedgEntry."Document Type" <> invCustLedgEntry."Document Type"::Invoice then
+            exit;
+        if InvDict.ContainsKey(invCustLedgEntry."Document No.") then
+            exit;
+
+        InvDict.Add(invCustLedgEntry."Document No.", true);
+        JmlFaktur += 1;
+        QtyBesar += QtyBesarInvoice(invCustLedgEntry."Document No.");
     end;
 
     local procedure HitungTOP()
     var
         custLedgerEntry: Record "Cust. Ledger Entry";
     begin
+        custLedgerEntry.SetAutoCalcFields("Remaining Amount");
+        custLedgerEntry.SetRange("Posting Date", PostingDate);
         custLedgerEntry.SetRange("Document Type", custLedgerEntry."Document Type"::Invoice);
         if custLedgerEntry.FindSet() then
             repeat
-                custLedgerEntry.CalcFields("Remaining Amount");
                 if custLedgerEntry."Remaining Amount" > 0 then begin
                     JmlFakturTOP += 1;
                     ValueTOP += custLedgerEntry."Remaining Amount";
@@ -327,6 +378,7 @@ report 52009 "Report Settlement Harian"
         custLedgerEntry: Record "Cust. Ledger Entry";
         docNo: Code[20];
     begin
+        postedAdvHeader.SetRange("Document Type", postedAdvHeader."Document Type"::"General Cash Receipt");
         postedAdvHeader.SetRange("Posting Date", PostingDate);
         if postedAdvHeader.FindSet() then
             repeat
@@ -360,24 +412,23 @@ report 52009 "Report Settlement Harian"
 
         JmlTbtTTBT := JmlTbtCash + JmlTbtTRF + JmlTbtBalik;
 
+        // Amount payment bernilai negatif, dikali -1 sebelum dicek > 0
+        custLedgerEntry.SetAutoCalcFields(Amount);
         custLedgerEntry.SetRange("Posting Date", PostingDate);
         custLedgerEntry.SetRange("Document Type", custLedgerEntry."Document Type"::Payment);
         custLedgerEntry.SetFilter("Payment Method Code", 'CASH');
         custLedgerEntry.SetFilter("Document No.", 'GCR*');
         if custLedgerEntry.FindSet() then
             repeat
-                if custLedgerEntry.Amount > 0 then
-                    ValueTbtCash += custLedgerEntry.Amount;
+                if -custLedgerEntry.Amount > 0 then
+                    ValueTbtCash += -custLedgerEntry.Amount;
             until custLedgerEntry.Next() = 0;
 
-        custLedgerEntry.SetRange("Posting Date", PostingDate);
-        custLedgerEntry.SetRange("Document Type", custLedgerEntry."Document Type"::Payment);
         custLedgerEntry.SetFilter("Payment Method Code", '<>CASH');
-        custLedgerEntry.SetFilter("Document No.", 'GCR*');
         if custLedgerEntry.FindSet() then
             repeat
-                if custLedgerEntry.Amount > 0 then
-                    ValueTbtTRF += custLedgerEntry.Amount;
+                if -custLedgerEntry.Amount > 0 then
+                    ValueTbtTRF += -custLedgerEntry.Amount;
             until custLedgerEntry.Next() = 0;
     end;
 

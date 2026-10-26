@@ -1,7 +1,6 @@
 report 52004 "Kas Besar Entry"
 {
     Caption = 'Kas Besar Entry';
-    UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     DefaultRenderingLayout = KasBesarEntryRDLC;
     UsageCategory = ReportsAndAnalysis;
@@ -40,7 +39,7 @@ report 52004 "Kas Besar Entry"
             column(CustomerName; CustomerNameValue)
             {
             }
-            column(BranchCode; GenJournalLine."Shortcut Dimension 1 Code")
+            column(BranchCode; GenJournalLine."Shortcut Dimension 2 Code")
             {
             }
             column(AccountDestination; AccountDestinationValue)

@@ -9,23 +9,31 @@ report 52011 "Report Kolektor TTBT"
     {
         dataitem(PostedAdvanceHeader; "Posted Advance Header")
         {
+            RequestFilterFields = "No.";
+
             dataitem(PostedAdvanceLine; "Posted Advance Line")
             {
                 DataItemLink = "Document No." = field("No.");
 
-                column(Date; PostedAdvanceHeader."Posting Date") { }
+                // Format tanggal agar hanya menampilkan hari/bulan/tahun tanpa jam
+                column(Date; Format(PostedAdvanceHeader."Posting Date", 0, '<Day,2>/<Month,2>/<Year4>')) { }
                 column(TTBTNo; PostedAdvanceHeader."No.") { }
                 column(InvoiceNo; PostedAdvanceLine."Applies-to Doc. No.") { }
                 column(InvoiceAmount; InvoiceAmountValue) { }
-                column(CollectedAmount; PostedAdvanceHeader."Collected Amount") { }
-                // column(TTBTCollector; PostedAdvanceHeader."Salesman Code") { }
-                // column(TTBTReturn; PostedAdvanceHeader."TTBT Return Code") { }
-                column(ReturnDate; PostedAdvanceHeader."Return Date") { }
+                column(CollectedAmount; PostedAdvanceLine."Amount (LCY)") { }
+
+                // Gunakan "Salesman" sesuai dokumen FDD
+                column(TTBTCollector; PostedAdvanceHeader."Salesman") { }
+
+                // Jika field TTBT Return dan Return Date belum ada di tabel, gunakan string/date kosong:
+                column(TTBTReturn; TTBTReturnValue) { }
+                column(ReturnDate; Format(ReturnDateValue, 0, '<Day,2>/<Month,2>/<Year4>')) { }
+
                 column(BranchCode; PostedAdvanceHeader."Shortcut Dimension 1 Code") { }
 
                 trigger OnAfterGetRecord()
                 begin
-                    InvoiceAmountValue := GetInvoiceAmount(PostedAdvanceLine."Applies-to Doc. No.");
+                    InvoiceAmountValue := GetInvoiceRemainingAmount(PostedAdvanceLine."Applies-to Doc. No.");
                 end;
             }
 
@@ -48,9 +56,9 @@ report 52011 "Report Kolektor TTBT"
         {
             area(Content)
             {
-                group(Filter)
+                group(Options)
                 {
-                    Caption = 'Filter';
+                    Caption = 'Options';
                     field(StartingDate; StartingDate)
                     {
                         ApplicationArea = All;
@@ -87,18 +95,20 @@ report 52011 "Report Kolektor TTBT"
         StartingDate: Date;
         EndingDate: Date;
         InvoiceAmountValue: Decimal;
-        CustomerLedgerEntry: Record "Cust. Ledger Entry";
+        TTBTReturnValue: Code[20];
+        ReturnDateValue: Date;
 
-    local procedure GetInvoiceAmount(DocNo: Code[20]): Decimal
+    local procedure GetInvoiceRemainingAmount(DocNo: Code[20]): Decimal
+    var
+        SalesInvoiceHeader: Record "Sales Invoice Header";
     begin
         if DocNo = '' then
             exit(0);
 
-        CustomerLedgerEntry.Reset();
-        CustomerLedgerEntry.SetRange("Document No.", DocNo);
-        CustomerLedgerEntry.SetRange("Document Type", CustomerLedgerEntry."Document Type"::Invoice);
-        if CustomerLedgerEntry.FindFirst() then
-            exit(Abs(CustomerLedgerEntry.Amount));
+        if SalesInvoiceHeader.Get(DocNo) then begin
+            SalesInvoiceHeader.CalcFields("Remaining Amount");
+            exit(SalesInvoiceHeader."Remaining Amount");
+        end;
 
         exit(0);
     end;
