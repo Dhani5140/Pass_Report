@@ -15,27 +15,35 @@ report 52011 "Report Kolektor TTBT"
             {
                 DataItemLink = "Document No." = field("No.");
 
-                // Format tanggal agar hanya menampilkan hari/bulan/tahun tanpa jam
                 column(Date; Format(PostedAdvanceHeader."Posting Date", 0, '<Day,2>/<Month,2>/<Year4>')) { }
                 column(TTBTNo; PostedAdvanceHeader."No.") { }
                 column(InvoiceNo; PostedAdvanceLine."Applies-to Doc. No.") { }
                 column(InvoiceAmount; InvoiceAmountValue) { }
-                column(CollectedAmount; PostedAdvanceLine."Amount (LCY)") { }
-
-                // Gunakan "Salesman" sesuai dokumen FDD
+                column(CollectedAmount; Abs(PostedAdvanceLine."Amount (LCY)")) { }
                 column(TTBTCollector; PostedAdvanceHeader."Salesman") { }
-
-                // Jika field TTBT Return dan Return Date belum ada di tabel, gunakan string/date kosong:
                 column(TTBTReturn; TTBTReturnValue) { }
-                column(ReturnDate; Format(ReturnDateValue, 0, '<Day,2>/<Month,2>/<Year4>')) { }
-
-                column(BranchCode; PostedAdvanceHeader."Shortcut Dimension 1 Code") { }
+                column(ReturnDate; ReturnDateText) { }
+                column(BranchCode; BranchCodeValue) { }
 
                 trigger OnAfterGetRecord()
                 begin
-                    InvoiceAmountValue := GetInvoiceRemainingAmount(PostedAdvanceLine."Applies-to Doc. No.");
+                    Clear(InvoiceAmountValue);
+
+                    // 1. Ambil Invoice Amount (Amount Including VAT) dari Posted Sales Invoice
+                    InvoiceAmountValue := GetPostedSalesInvoiceAmount(PostedAdvanceLine."Applies-to Doc. No.");
                 end;
             }
+
+            trigger OnAfterGetRecord()
+            begin
+                Clear(TTBTReturnValue);
+                Clear(ReturnDateValue);
+                Clear(ReturnDateText);
+                Clear(BranchCodeValue);
+
+                // 3. Ambil TTBT Return, Return Date, dan Branch Code dari Posted Gen. Cash Receipt Header
+                GetPostedGCRInfo();
+            end;
 
             trigger OnPreDataItem()
             begin
@@ -95,10 +103,12 @@ report 52011 "Report Kolektor TTBT"
         StartingDate: Date;
         EndingDate: Date;
         InvoiceAmountValue: Decimal;
-        TTBTReturnValue: Code[20];
+        TTBTReturnValue: Text[50];
         ReturnDateValue: Date;
+        ReturnDateText: Text[20];
+        BranchCodeValue: Code[20];
 
-    local procedure GetInvoiceRemainingAmount(DocNo: Code[20]): Decimal
+    local procedure GetPostedSalesInvoiceAmount(DocNo: Code[20]): Decimal
     var
         SalesInvoiceHeader: Record "Sales Invoice Header";
     begin
@@ -106,10 +116,24 @@ report 52011 "Report Kolektor TTBT"
             exit(0);
 
         if SalesInvoiceHeader.Get(DocNo) then begin
-            SalesInvoiceHeader.CalcFields("Remaining Amount");
-            exit(SalesInvoiceHeader."Remaining Amount");
+            SalesInvoiceHeader.CalcFields("Amount Including VAT");
+            exit(SalesInvoiceHeader."Amount Including VAT");
         end;
 
         exit(0);
+    end;
+
+    local procedure GetPostedGCRInfo()
+    begin
+        // Jika "Posted Advance Header" adalah tabel Posted Gen. Cash Receipt Header itu sendiri:
+        // Sesuaikan nama field dengan struktur tabel "Posted Advance Header" (misal via Inspect Page Ctrl+Alt+F1)
+        TTBTReturnValue := Format(PostedAdvanceHeader."TTBT Return"); // atau field Return status/no di header
+        ReturnDateValue := PostedAdvanceHeader."Return Date";
+        BranchCodeValue := PostedAdvanceHeader."Shortcut Dimension 1 Code"; // cek apakah Cabang ada di Dim 1 atau Dim 2
+
+        if ReturnDateValue <> 0D then
+            ReturnDateText := Format(ReturnDateValue, 0, '<Day,2>/<Month,2>/<Year4>')
+        else
+            ReturnDateText := '';
     end;
 }

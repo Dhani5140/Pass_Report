@@ -1,15 +1,12 @@
 report 52006 InventoryStockss
 {
+    Caption = 'Inventory Stocks';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     DefaultRenderingLayout = inventoryStockExcel;
 
-    // 1. DATASET
     dataset
     {
-        // ==========================================================
-        // ITEM
-        // ==========================================================
         dataitem(Item; Item)
         {
             DataItemTableView = sorting("No.");
@@ -17,18 +14,13 @@ report 52006 InventoryStockss
             RequestFilterFields = "No.", "Search Description", "Assembly BOM", "Inventory Posting Group", "Statistics Group", "Vendor No.";
             PrintOnlyIfDetail = true;
 
-            // ======================================================
-            // WAREHOUSE ENTRY
-            // ======================================================
-            dataitem("Warehouse Entry"; "Warehouse Entry")
+            dataitem(BinContent; "Bin Content")
             {
                 DataItemLinkReference = Item;
                 DataItemLink = "Item No." = field("No.");
-                DataItemTableView = sorting("Location Code", "Bin Code", "Item No.", "Registering Date");
+                DataItemTableView = sorting("Location Code", "Bin Code", "Item No.", "Variant Code", "Unit of Measure Code");
+                RequestFilterFields = "Location Code", "Bin Code";
 
-                // ==================================================
-                // COLUMNS (Sesuai urutan header layout Excel)
-                // ==================================================
                 column(Location_Code; "Location Code")
                 {
                 }
@@ -74,33 +66,15 @@ report 52006 InventoryStockss
                     AutoFormatType = 1;
                 }
 
-                // ==================================================
-                // FILTER TANGGAL
-                // ==================================================
-                trigger OnPreDataItem()
-                begin
-                    if EndingDate = 0D then
-                        Error('Ending Date wajib diisi.');
-
-                    if (StartingDate <> 0D) and (EndingDate < StartingDate) then
-                        Error('Ending Date tidak boleh lebih kecil dari Starting Date.');
-
-                    SetRange("Registering Date", 0D, EndingDate);
-                end;
-
-                // ==================================================
-                // AFTER GET RECORD WAREHOUSE ENTRY
-                // ==================================================
                 trigger OnAfterGetRecord()
                 var
-                    WarehouseEntrySum: Record "Warehouse Entry";
-                    WarehouseEntryLocTotal: Record "Warehouse Entry";
+                    BinContentLocTotal: Record "Bin Content";
                     ValueEntry: Record "Value Entry";
                     CurrentKey: Text;
                     TotalLocQtyBase: Decimal;
                     TotalLocAmount: Decimal;
                 begin
-                    // Group Key: Location + Bin + Item
+                    // Group per kombinasi Location + Bin + Item agar tidak duplikat jika ada beberapa UOM di Bin yang sama
                     CurrentKey := "Location Code" + '|' + "Bin Code" + '|' + "Item No.";
                     if CurrentKey = LastKey then begin
                         CurrReport.Skip();
@@ -108,26 +82,23 @@ report 52006 InventoryStockss
                     end;
                     LastKey := CurrentKey;
 
-                    // Hitung Total Qty Base (Saldo per Bin sampai Ending Date)
-                    WarehouseEntrySum.Reset();
-                    WarehouseEntrySum.SetRange("Location Code", "Location Code");
-                    WarehouseEntrySum.SetRange("Bin Code", "Bin Code");
-                    WarehouseEntrySum.SetRange("Item No.", "Item No.");
-                    WarehouseEntrySum.SetRange("Registering Date", 0D, EndingDate);
-                    WarehouseEntrySum.CalcSums("Qty. (Base)");
-                    QtyBase := WarehouseEntrySum."Qty. (Base)";
-
-                    // Jika stok di Bin ini 0, lewati baris ini
-                    if QtyBase = 0 then begin
-                        CurrReport.Skip();
-                        exit;
-                    end;
-
-                    // Mengambil Item Info & Satuan UOM
+                    // Ambil Item Info & Satuan UOM
                     ItemName := Item.Description;
                     UOMBesar := Item."Satuan Besar";
                     UOMSedang := Item."Satuan Sedang";
                     UOMPcs := Item."Base Unit of Measure";
+
+                    // Lookup langsung Quantity & Quantity (Base) dari tabel Bin Content
+                    QtyBesar := GetBinContentQty("Location Code", "Bin Code", "Item No.", UOMBesar);
+                    QtySedang := GetBinContentQty("Location Code", "Bin Code", "Item No.", UOMSedang);
+                    QtyPcs := GetBinContentQty("Location Code", "Bin Code", "Item No.", UOMPcs);
+                    QtyBase := GetTotalBinContentBaseQty("Location Code", "Bin Code", "Item No.");
+
+                    // Lewati baris jika seluruh kuantitas di Bin ini 0
+                    if (QtyBesar = 0) and (QtySedang = 0) and (QtyPcs = 0) and (QtyBase = 0) then begin
+                        CurrReport.Skip();
+                        exit;
+                    end;
 
                     // Mengambil Dimensi Brand
                     Brand := '';
@@ -140,35 +111,28 @@ report 52006 InventoryStockss
                         Brand := DefaultDim."Dimension Value Name";
                     end;
 
-                    // Konversi Qty per UOM
-                    QtyBesar := GetQtyInUOM("Item No.", UOMBesar, QtyBase);
-                    QtySedang := GetQtyInUOM("Item No.", UOMSedang, QtyBase);
-                    QtyPcs := GetQtyInUOM("Item No.", UOMPcs, QtyBase);
-
-                    // ==================================================
-                    // Hitung Amount (Proporsional per Bin terhadap Lokasi)
-                    // ==================================================
+                    // Hitung Amount (Proporsional QtyBase Bin terhadap Total QtyBase di Lokasi dari Bin Content)
                     Amount := 0;
                     TotalLocQtyBase := 0;
                     TotalLocAmount := 0;
 
-                    // 1. Total Stok Base seluruh Bin di Lokasi tersebut
-                    WarehouseEntryLocTotal.Reset();
-                    WarehouseEntryLocTotal.SetRange("Item No.", "Item No.");
-                    WarehouseEntryLocTotal.SetRange("Location Code", "Location Code");
-                    WarehouseEntryLocTotal.SetRange("Registering Date", 0D, EndingDate);
-                    WarehouseEntryLocTotal.CalcSums("Qty. (Base)");
-                    TotalLocQtyBase := WarehouseEntryLocTotal."Qty. (Base)";
+                    BinContentLocTotal.Reset();
+                    BinContentLocTotal.SetRange("Location Code", "Location Code");
+                    BinContentLocTotal.SetRange("Item No.", "Item No.");
+                    if BinContentLocTotal.FindSet() then
+                        repeat
+                            BinContentLocTotal.CalcFields("Quantity (Base)");
+                            TotalLocQtyBase += BinContentLocTotal."Quantity (Base)";
+                        until BinContentLocTotal.Next() = 0;
 
-                    // 2. Total Cost seluruh Lokasi dari Value Entry
                     ValueEntry.Reset();
                     ValueEntry.SetRange("Item No.", "Item No.");
                     ValueEntry.SetRange("Location Code", "Location Code");
-                    ValueEntry.SetRange("Posting Date", 0D, EndingDate);
+                    if EndingDate <> 0D then
+                        ValueEntry.SetRange("Posting Date", 0D, EndingDate);
                     ValueEntry.CalcSums("Cost Amount (Actual)");
                     TotalLocAmount := ValueEntry."Cost Amount (Actual)";
 
-                    // 3. Alokasikan cost ke Bin secara proporsional
                     if TotalLocQtyBase <> 0 then
                         Amount := Round((QtyBase / TotalLocQtyBase) * TotalLocAmount, 0.01)
                     else
@@ -183,7 +147,6 @@ report 52006 InventoryStockss
         }
     }
 
-    // 2. REQUESTPAGE
     requestpage
     {
         SaveValues = true;
@@ -221,7 +184,6 @@ report 52006 InventoryStockss
         }
     }
 
-    // 3. RENDERING
     rendering
     {
         layout(inventoryStockExcel)
@@ -231,7 +193,6 @@ report 52006 InventoryStockss
         }
     }
 
-    // 4. GLOBAL VARIABLES
     var
         QtyBase: Decimal;
         QtyBesar: Decimal;
@@ -249,26 +210,45 @@ report 52006 InventoryStockss
         EndingDate: Date;
         UseStockkeepingUnit: Boolean;
 
-    // 5. LOCAL PROCEDURES
-    local procedure GetQtyInUOM(
-        ItemNo: Code[20];
-        UOMCode: Code[20];
-        BaseQty: Decimal
-    ): Decimal
+    // Lookup field Quantity dari Bin Content per UOM
+    local procedure GetBinContentQty(LocCode: Code[10]; BinCode: Code[20]; ItemNo: Code[20]; UOMCode: Code[20]): Decimal
     var
-        ItemUOM: Record "Item Unit of Measure";
-        QtyResult: Decimal;
+        BinContentRec: Record "Bin Content";
+        TotalQty: Decimal;
     begin
-        if (UOMCode = '') or (BaseQty = 0) then
+        if UOMCode = '' then
             exit(0);
 
-        if ItemUOM.Get(ItemNo, UOMCode) then begin
-            if ItemUOM."Qty. per Unit of Measure" <> 0 then begin
-                QtyResult := BaseQty / ItemUOM."Qty. per Unit of Measure";
-                exit(Round(QtyResult, 1, '='));
-            end;
-        end;
+        BinContentRec.Reset();
+        BinContentRec.SetRange("Location Code", LocCode);
+        BinContentRec.SetRange("Bin Code", BinCode);
+        BinContentRec.SetRange("Item No.", ItemNo);
+        BinContentRec.SetRange("Unit of Measure Code", UOMCode);
+        if BinContentRec.FindSet() then
+            repeat
+                BinContentRec.CalcFields(Quantity);
+                TotalQty += BinContentRec.Quantity;
+            until BinContentRec.Next() = 0;
 
-        exit(0);
+        exit(TotalQty);
+    end;
+
+    // Lookup total Quantity (Base) dari Bin Content untuk Bin & Item tersebut
+    local procedure GetTotalBinContentBaseQty(LocCode: Code[10]; BinCode: Code[20]; ItemNo: Code[20]): Decimal
+    var
+        BinContentRec: Record "Bin Content";
+        TotalBaseQty: Decimal;
+    begin
+        BinContentRec.Reset();
+        BinContentRec.SetRange("Location Code", LocCode);
+        BinContentRec.SetRange("Bin Code", BinCode);
+        BinContentRec.SetRange("Item No.", ItemNo);
+        if BinContentRec.FindSet() then
+            repeat
+                BinContentRec.CalcFields("Quantity (Base)");
+                TotalBaseQty += BinContentRec."Quantity (Base)";
+            until BinContentRec.Next() = 0;
+
+        exit(TotalBaseQty);
     end;
 }

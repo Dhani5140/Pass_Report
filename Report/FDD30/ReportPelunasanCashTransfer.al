@@ -16,53 +16,28 @@ report 52010 "Pelunasan Cash Transfer"
                 DataItemLink = "Document No." = field("No.");
                 DataItemTableView = sorting("Journal Template Name", "Journal Batch Name", "Line No.");
 
-                // 1. Posting Date (Advance Header)
                 column(PostingDate; AdvanceHeader."Posting Date") { }
-
-                // 2. Invoice No (Gen. Journal Line)
                 column(InvoiceNo; InvoiceNoValue) { }
-
-                // 3. Invoice Date (Cust. Ledger Entry)
                 column(InvoiceDate; InvoiceDateValue) { }
-
-                // 4. Invoice Amount (Cust. Ledger Entry - Original Amount)
                 column(InvoiceAmount; InvoiceAmountValue) { }
-
-                // 5. Customer No. (Cust. Ledger Entry / Advance Header)
                 column(CustomerNo; CustomerNoValue) { }
-
-                // 6. Customer Name (Master Customer)
                 column(CustomerName; CustomerNameValue) { }
-
-                // 7. Document Source (Order No. dari Sales Invoice Header)
                 column(DocumentSource; DocumentSourceValue) { }
-
-                // 8. Payment Terms (Master Customer)
                 column(PaymentTerms; PaymentTermsValue) { }
-
-                // 9. Shipment Date (Posted Sales Invoice)
                 column(ShipmentDate; ShipmentDateValue) { }
-
-                // 10. Payment Date (Advance Header)
                 column(PaymentDate; AdvanceHeader."Posting Date") { }
-
-                // 11. Payment Source (Advance Header - Payment Method)
                 column(PaymentSource; PaymentSourceValue) { }
-
-                // 12. Payment Document (Gen. Journal Line - Bal. Account No.)
                 column(PaymentDocument; GenJournalLine."Bal. Account No.") { }
-
-                // 13. Payment Amount (Advance Header - Amount)
                 column(PaymentAmount; PaymentAmountValue) { }
-
-                // 14. Payment Type (full amount / partial amount)
                 column(PaymentType; PaymentTypeValue) { }
-
-                // 15. Outstanding Balance (Invoice Amount - Payment Amount)
                 column(OutstandingBalance; OutstandingBalanceValue) { }
 
                 trigger OnAfterGetRecord()
                 begin
+                    // Skip baris kosong jika ada
+                    if (GenJournalLine."Account No." = '') and (GenJournalLine.Amount = 0) then
+                        CurrReport.Skip();
+
                     ClearValues();
 
                     // No. 2: Invoice No
@@ -74,21 +49,27 @@ report 52010 "Pelunasan Cash Transfer"
                     // No. 7 & 9: Document Source (Order No.) & Shipment Date langsung dari Posted Sales Invoice
                     GetShipmentAndOrderInfo(InvoiceNoValue);
 
-                    // No. 11, 13: Info Payment dari Header
+                    // No. 11: Payment Source dari Header
                     PaymentSourceValue := Format(AdvanceHeader."Payment Method");
-                    PaymentAmountValue := AdvanceHeader.Amount;
 
-                    // No. 14: Payment Type (full amount / partial amount)
-                    if InvoiceAmountValue <> 0 then begin
-                        if PaymentAmountValue >= InvoiceAmountValue then
-                            PaymentTypeValue := 'full amount'
-                        else
-                            PaymentTypeValue := 'partial amount';
-                    end else
-                        PaymentTypeValue := 'partial amount';
+                    // No. 13: Payment Amount ambil dari Line (GCR Lines), bukan Header!
+                    // Gunakan Abs() karena pelunasan Customer di Gen. Journal Line bernilai negatif (Kredit)
+                    PaymentAmountValue := Abs(GenJournalLine.Amount);
 
-                    // No. 15: Outstanding Balance
+                    // Jika InvoiceAmount dari Ledger Entry 0, coba ambil dari Original Amount di Line GCR (jika field custom tersedia)
+                    // if InvoiceAmountValue = 0 then
+                    //     InvoiceAmountValue := Abs(GenJournalLine."Original Amount");
+
+                    // No. 14: Payment Type (Full Amount / Partial Amount)
+                    if (InvoiceAmountValue > 0) and (Round(PaymentAmountValue, 0.01) >= Round(InvoiceAmountValue, 0.01)) then
+                        PaymentTypeValue := 'Full Amount'
+                    else
+                        PaymentTypeValue := 'Partial Amount';
+
+                    // No. 15: Outstanding Balance = Invoice Amount - Payment Amount
                     OutstandingBalanceValue := InvoiceAmountValue - PaymentAmountValue;
+                    if OutstandingBalanceValue < 0 then
+                        OutstandingBalanceValue := 0;
                 end;
             }
         }
@@ -142,7 +123,6 @@ report 52010 "Pelunasan Cash Transfer"
         if DocNo = '' then
             exit;
 
-        // Ambil No. Customer, Tanggal Faktur, dan Nominal dari Cust. Ledger Entry
         CustomerLedgerEntry.Reset();
         CustomerLedgerEntry.SetRange("Document No.", DocNo);
         CustomerLedgerEntry.SetRange("Document Type", CustomerLedgerEntry."Document Type"::Invoice);
@@ -152,13 +132,11 @@ report 52010 "Pelunasan Cash Transfer"
             InvoiceAmountValue := Abs(CustomerLedgerEntry."Original Amount");
             CustomerNoValue := CustomerLedgerEntry."Customer No.";
 
-            // Panggil Nama dan Payment Terms dari Master Customer (Tabel 18)
             if CustRecord.Get(CustomerNoValue) then begin
                 CustomerNameValue := CustRecord.Name;
                 PaymentTermsValue := CustRecord."Payment Terms Code";
             end;
         end else begin
-            // Fallback jika tidak ada di Ledger Entry
             if SalesInvHeader.Get(DocNo) then begin
                 SalesInvHeader.CalcFields("Amount Including VAT");
                 InvoiceDateValue := SalesInvHeader."Posting Date";
@@ -178,7 +156,6 @@ report 52010 "Pelunasan Cash Transfer"
         if DocNo = '' then
             exit;
 
-        // Ambil Order No. dan Shipment Date langsung dari Sales Invoice Header
         if SalesInvHeader.Get(DocNo) then begin
             DocumentSourceValue := SalesInvHeader."Order No.";
             ShipmentDateValue := SalesInvHeader."Shipment Date";

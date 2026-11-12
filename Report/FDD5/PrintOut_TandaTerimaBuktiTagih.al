@@ -10,11 +10,10 @@ report 52000 TandaTerimaBuktiTagih
         {
             RequestFilterFields = "No.";
             column(No_; "No.") { }
-
             column(Employee_Name; "Employee Name") { }
             column(Employee_No_; "Employee No.") { }
-
             column(Salesman; Salesman) { }
+
             dataitem("Salesperson/Purchaser"; "Salesperson/Purchaser")
             {
                 DataItemLink = "Code" = field(Salesman);
@@ -24,42 +23,45 @@ report 52000 TandaTerimaBuktiTagih
             dataitem("Gen. Journal Line"; "Gen. Journal Line")
             {
                 DataItemLink = "Document No." = field("No.");
+                // 1. Filter hanya baris Customer agar baris balancing/kosong tidak ikut tercetak
+                DataItemTableView = where("Account Type" = const(Customer));
 
-                // Ganti Account No. menjadi CustomerFullName agar nama toko ikut muncul
                 column(Account_No_; CustomerFullName) { }
-
-                // Ganti Posting Date menjadi format teks tanpa jam
                 column(Posting_Date; PostingDateText) { }
-
-
-                // Pakai Abs() agar nominal tidak minus
                 column(Amount; SisaFaktur) { }
+                column(Document_No_; InvoiceDocNo) { }
 
-                dataitem("Cust. Ledger Entry"; "Cust. Ledger Entry")
-                {
-                    DataItemLink = "Document No." = field("Applies-to Doc. No.");
-
-                    // Beri alias agar tidak bentrok dengan No_ milik header
-                    column(Document_No_; "Document No.") { }
-                }
-
-                // Tambahkan trigger ini di dalam Gen. Journal Line
                 trigger OnAfterGetRecord()
                 var
                     Cust: Record Customer;
+                    CustLedgEntry: Record "Cust. Ledger Entry";
                 begin
-                    // Ambil nama customer
+                    // 2. Skip jika baris tidak memiliki nomor faktur (mencegah row kosong)
+                    if "Applies-to Doc. No." = '' then
+                        CurrReport.Skip();
+
+                    // 3. Ambil data Posted Sales Invoice dari Cust. Ledger Entries (Document Type = Invoice saja)
+                    CustLedgEntry.Reset();
+                    CustLedgEntry.SetRange("Document Type", CustLedgEntry."Document Type"::Invoice);
+                    CustLedgEntry.SetRange("Document No.", "Applies-to Doc. No.");
+                    CustLedgEntry.SetRange("Customer No.", "Account No.");
+                    if CustLedgEntry.FindFirst() then begin
+                        InvoiceDocNo := CustLedgEntry."Document No.";P
+                        if CustLedgEntry."Posting Date" <> 0D then
+                            PostingDateText := Format(CustLedgEntry."Posting Date", 0, '<Day,2>/<Month,2>/<Year4>')
+                        else
+                            PostingDateText := '';
+                    end else
+                        // Skip jika dokumen yang di-apply bukan tipe Invoice
+                        CurrReport.Skip();
+
+                    // 4. Ambil nama customer
                     CustomerFullName := "Account No.";
                     if Cust.Get("Account No.") then
                         CustomerFullName := StrSubstNo('%1 - %2', "Account No.", Cust.Name);
 
-                    // Hilangkan jam dari tanggal
-                    if "Posting Date" <> 0D then
-                        PostingDateText := Format("Posting Date", 0, '<Day,2>/<Month,2>/<Year4>')
-                    else
-                        PostingDateText := '';
-
-                    // Buat nilai amount selalu positif
+                    // 5. Pastikan nilai sisa faktur selalu positif
+                    // Catatan: Pastikan field ini sesuai dengan kolom Sisa Faktur di General Cash Rcpt. Subform
                     SisaFaktur := Abs(Amount);
                 end;
             }
@@ -72,7 +74,6 @@ report 52000 TandaTerimaBuktiTagih
         {
             area(Content) { }
         }
-
         actions
         {
             area(processing) { }
@@ -88,39 +89,9 @@ report 52000 TandaTerimaBuktiTagih
         }
     }
 
-    // Tambahkan 3 variabel penampung ini di bawah
     var
         CustomerFullName: Text;
         PostingDateText: Text[30];
+        InvoiceDocNo: Code[20];
         SisaFaktur: Decimal;
-        SalesName: Text;
-}
-
-pageextension 52010 GeneralCashReceiptExt extends "General Cash Receipt"
-{
-    actions
-    {
-        addafter(Release)
-        {
-            action(PrintTandaTerima)
-            {
-                Caption = 'Print Tanda Terima';
-                ApplicationArea = All;
-                Image = Print;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-
-                trigger OnAction()
-                var
-                    AdvanceHdr: Record "Advance Header";
-                begin
-                    AdvanceHdr.Reset();
-                    AdvanceHdr.SetRange("No.", Rec."No.");
-                    Report.Run(Report::TandaTerimaBuktiTagih, true, false, AdvanceHdr);
-                end;
-            }
-        }
-    }
 }
