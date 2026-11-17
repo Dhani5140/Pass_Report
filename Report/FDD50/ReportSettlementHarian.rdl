@@ -51,7 +51,7 @@
             <Top>0.15in</Top>
             <Left>0.3in</Left>
             <Height>0.35in</Height>
-            <Width>11.09in</Width>
+            <Width>10.79in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1724,7 +1724,7 @@
             <Top>0.55in</Top>
             <Left>9.2in</Left>
             <Height>0.25in</Height>
-            <Width>2in</Width>
+            <Width>1.89in</Width>
             <ZIndex>46</ZIndex>
             <Style>
               <Border>
@@ -2583,7 +2583,7 @@
         <Height>5.52in</Height>
         <Style />
       </Body>
-      <Width>11.69in</Width>
+      <Width>11.09in</Width>
       <Page>
         <PageHeader>
           <Height>0.3in</Height>

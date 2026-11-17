@@ -2212,7 +2212,7 @@
                 <TablixMember>
                   <Group Name="Details2">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!No_Invoice.Value</GroupExpression>
+                      <GroupExpression>=Fields!Invoice_Key.Value</GroupExpression>
                     </GroupExpressions>
                     <PageBreak>
                       <BreakLocation>Between</BreakLocation>
@@ -2576,11 +2576,26 @@ End Function</Code>
         <Field Name="Company_NPWP">
           <DataField>Company_NPWP</DataField>
         </Field>
-        <Field Name="Salesperson_Info">
-          <DataField>Salesperson_Info</DataField>
-        </Field>
         <Field Name="Driver_Info">
           <DataField>Driver_Info</DataField>
+        </Field>
+        <Field Name="No_Printed">
+          <DataField>No_Printed</DataField>
+        </Field>
+        <Field Name="UserFullName">
+          <DataField>UserFullName</DataField>
+        </Field>
+        <Field Name="DateTxt">
+          <DataField>DateTxt</DataField>
+        </Field>
+        <Field Name="No_Invoice">
+          <DataField>No_Invoice</DataField>
+        </Field>
+        <Field Name="Invoice_Key">
+          <DataField>Invoice_Key</DataField>
+        </Field>
+        <Field Name="Salesperson_Info">
+          <DataField>Salesperson_Info</DataField>
         </Field>
         <Field Name="External_Doc_No">
           <DataField>External_Doc_No</DataField>
@@ -2600,20 +2615,8 @@ End Function</Code>
         <Field Name="Payment_Terms_Code">
           <DataField>Payment_Terms_Code</DataField>
         </Field>
-        <Field Name="No_Invoice">
-          <DataField>No_Invoice</DataField>
-        </Field>
         <Field Name="PicklistNo">
           <DataField>PicklistNo</DataField>
-        </Field>
-        <Field Name="No_Printed">
-          <DataField>No_Printed</DataField>
-        </Field>
-        <Field Name="UserFullName">
-          <DataField>UserFullName</DataField>
-        </Field>
-        <Field Name="DateTxt">
-          <DataField>DateTxt</DataField>
         </Field>
         <Field Name="Subtotal">
           <DataField>Subtotal</DataField>

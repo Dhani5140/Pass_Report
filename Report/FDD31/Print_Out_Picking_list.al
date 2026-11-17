@@ -17,6 +17,8 @@ report 52003 PickingList
             column(PrintTimeTxt; PrintTimeTxt) { }
             column(Plat_Nomor; Plat_Nomor) { }
             column(Driver_Name; Driver_Name) { }
+            column(Total_Cubage; TotalCubage) { }
+            column(Total_Tonase; TotalTonase) { }
 
             dataitem("Warehouse Activity Line"; "Warehouse Activity Line")
             {
@@ -31,26 +33,9 @@ report 52003 PickingList
                 column(qtykecil; qtykecil) { }
                 column(Satuan; Satuan) { }
 
-                dataitem("Item"; "Item")
-                {
-                    DataItemLink = "No." = field("Item No.");
-
-                    column(Satuan_Besar; "Satuan Besar") { }
-                    column(Satuan_Sedang; "Satuan Sedang") { }
-                    column(Base_Unit_of_Measure; "Base Unit of Measure") { }
-
-                    dataitem("Item Unit Of Measure"; "Item Unit of Measure")
-                    {
-                        DataItemLink = "Item No." = field("No.");
-
-                        column(Qty__per_Unit_of_Measure; "Qty. per Unit of Measure") { }
-                    }
-                }
-
                 trigger OnPreDataItem()
                 begin
-                    // Hanya baris Place (bin tujuan STAGING OUT), baris Take tidak dicetak
-                    SetFilter("Action Type", '<>%1', "Action Type"::Take);
+                    SetRange("Bin Code", 'STAGING OUT');
                 end;
 
                 trigger OnAfterGetRecord()
@@ -75,7 +60,6 @@ report 52003 PickingList
                             qtykecil := "Warehouse Activity Line"."Qty. to Handle";
                         end;
 
-                        // Bangun string SATUAN gabungan, contoh: CTN100/PACK5/PCS
                         if item."Satuan Besar" <> '' then begin
                             besarQtyPerUOM := 0;
                             if itemUOM.Get(item."No.", item."Satuan Besar") then
@@ -111,6 +95,8 @@ report 52003 PickingList
                 Clear(Plat_Nomor);
                 Clear(Driver_Name);
                 Clear(WhseShipmentNo);
+                Clear(TotalCubage);
+                Clear(TotalTonase);
 
                 WhseShipmentNo := "Warehouse Shipment No.";
                 if WhseShipmentNo = '' then begin
@@ -122,11 +108,15 @@ report 52003 PickingList
                         WhseShipmentNo := WhseActLine."Whse. Document No.";
                 end;
 
-                if WhseShptHeader.Get(WhseShipmentNo) then
+                if WhseShptHeader.Get(WhseShipmentNo) then begin
+                    WhseShptHeader.CalcFields("Total Cubage", "Total Tonase");
+                    TotalCubage := WhseShptHeader."Total Cubage";
+                    TotalTonase := WhseShptHeader."Total Tonase";
                     if ShippingAgentServ.Get(WhseShptHeader."Shipping Agent Code", WhseShptHeader."Shipping Agent Service Code") then begin
                         Plat_Nomor := ShippingAgentServ."Plat Nomor";
                         Driver_Name := ShippingAgentServ."Nama Driver";
                     end;
+                end;
             end;
         }
     }
@@ -150,4 +140,6 @@ report 52003 PickingList
         Plat_Nomor: Text[100];
         Driver_Name: Text[100];
         WhseShipmentNo: Code[20];
+        TotalCubage: Decimal;
+        TotalTonase: Decimal;
 }

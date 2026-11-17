@@ -65,31 +65,31 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.98333in</Width>
+                  <Width>0.9in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.91167in</Width>
+                  <Width>1.35in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.18333in</Width>
+                  <Width>1.6in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.1in</Width>
+                  <Width>1.15in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.31333in</Width>
+                  <Width>1.2in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.08333in</Width>
+                  <Width>1.3in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>0.95in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.04167in</Width>
+                  <Width>1.0in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.85833in</Width>
+                  <Width>1.0in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -472,10 +472,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!InvoiceAmount.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>#,##0</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -502,10 +506,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!CollectedAmount.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>#,##0</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>

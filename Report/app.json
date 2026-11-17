@@ -1,0 +1,39 @@
+{
+  "id": "70b949a1-4afa-428f-898a-06223cc17370",
+  "name": "Report",
+  "publisher": "Developer",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+    {
+  "id": "6046c0bd-7447-4d4f-a36a-da5fcf8ffc46",
+  "name": "Pass",
+  "publisher": "MII",
+  "version": "1.0.0.9"
+    }
+  ],
+  "screenshots": [],
+  "platform": "28.0.0.0",
+  "application": "28.0.0.0",
+  "idRanges": [
+    {
+      "from": 52000,
+      "to": 52100
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false
+  },
+  "runtime": "16.0",
+  "features": [
+    "NoImplicitWith"
+  ]
+}

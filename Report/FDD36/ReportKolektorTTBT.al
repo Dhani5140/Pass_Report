@@ -29,7 +29,6 @@ report 52011 "Report Kolektor TTBT"
                 begin
                     Clear(InvoiceAmountValue);
 
-                    // 1. Ambil Invoice Amount (Amount Including VAT) dari Posted Sales Invoice
                     InvoiceAmountValue := GetPostedSalesInvoiceAmount(PostedAdvanceLine."Applies-to Doc. No.");
                 end;
             }
@@ -41,7 +40,6 @@ report 52011 "Report Kolektor TTBT"
                 Clear(ReturnDateText);
                 Clear(BranchCodeValue);
 
-                // 3. Ambil TTBT Return, Return Date, dan Branch Code dari Posted Gen. Cash Receipt Header
                 GetPostedGCRInfo();
             end;
 
@@ -124,12 +122,18 @@ report 52011 "Report Kolektor TTBT"
     end;
 
     local procedure GetPostedGCRInfo()
+    var
+        PostedAdvLine: Record "Posted Advance Line";
     begin
-        // Jika "Posted Advance Header" adalah tabel Posted Gen. Cash Receipt Header itu sendiri:
-        // Sesuaikan nama field dengan struktur tabel "Posted Advance Header" (misal via Inspect Page Ctrl+Alt+F1)
-        TTBTReturnValue := Format(PostedAdvanceHeader."TTBT Return"); // atau field Return status/no di header
+        TTBTReturnValue := Format(PostedAdvanceHeader."TTBT Return");
         ReturnDateValue := PostedAdvanceHeader."Return Date";
-        BranchCodeValue := PostedAdvanceHeader."Shortcut Dimension 1 Code"; // cek apakah Cabang ada di Dim 1 atau Dim 2
+        BranchCodeValue := PostedAdvanceHeader."Shortcut Dimension 2 Code";
+        if BranchCodeValue = '' then begin
+            PostedAdvLine.SetRange("Document No.", PostedAdvanceHeader."No.");
+            PostedAdvLine.SetFilter("Shortcut Dimension 2 Code", '<>%1', '');
+            if PostedAdvLine.FindFirst() then
+                BranchCodeValue := PostedAdvLine."Shortcut Dimension 2 Code";
+        end;
 
         if ReturnDateValue <> 0D then
             ReturnDateText := Format(ReturnDateValue, 0, '<Day,2>/<Month,2>/<Year4>')

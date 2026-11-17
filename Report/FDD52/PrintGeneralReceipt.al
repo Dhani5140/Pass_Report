@@ -99,19 +99,15 @@ report 52012 "General Receipt"
             if InStream.Read(Header[i], 1) <> 1 then
                 exit('image/png');
 
-        // PNG: 89 50 4E 47
         if (Header[1] = 137) and (Header[2] = 80) and (Header[3] = 78) and (Header[4] = 71) then
             exit('image/png');
 
-        // JPEG: FF D8 FF
         if (Header[1] = 255) and (Header[2] = 216) and (Header[3] = 255) then
             exit('image/jpeg');
 
-        // BMP: 42 4D ('BM')
         if (Header[1] = 66) and (Header[2] = 77) then
             exit('image/bmp');
 
-        // GIF: 47 49 46 38
         if (Header[1] = 71) and (Header[2] = 73) and (Header[3] = 70) then
             exit('image/gif');
 

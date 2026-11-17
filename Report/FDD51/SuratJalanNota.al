@@ -31,7 +31,8 @@ report 52008 SuratJalanNota
                 trigger OnAfterGetRecord()
                 var
                     salesHeader: Record "Sales Header";
-                    salesLine: Record "Sales Line";
+                    whseShptLine: Record "Warehouse Shipment Line";
+                    invKey: Text;
                 begin
                     Clear(Nomor_Invoice);
                     Clear(Kode_Customer);
@@ -40,10 +41,12 @@ report 52008 SuratJalanNota
                     Clear(Nominal_Invoice);
                     Clear(TOP);
 
-                    // Satu baris per order/invoice, agar Nominal Invoice & Total Setoran tidak dobel
-                    if orderDict.ContainsKey("Source No.") then
+                    invKey := "Invoice No.";
+                    if invKey = '' then
+                        invKey := 'SO:' + "Source No.";
+                    if orderDict.ContainsKey(invKey) then
                         CurrReport.Skip();
-                    orderDict.Add("Source No.", true);
+                    orderDict.Add(invKey, true);
 
                     Nomor_Invoice := "Invoice No.";
 
@@ -54,15 +57,16 @@ report 52008 SuratJalanNota
                         if Alamat = '' then
                             Alamat := salesHeader."Bill-to Address";
                         TOP := salesHeader."Payment Terms Code";
-
-                        salesLine.SetRange("Document Type", salesLine."Document Type"::Order);
-                        salesLine.SetRange("Document No.", "Source No.");
-                        if salesLine.FindSet() then begin
-                            repeat
-                                Nominal_Invoice += salesLine."Amount Including VAT";
-                            until salesLine.Next() = 0;
-                        end;
                     end;
+
+                    whseShptLine.SetRange("No.", "No.");
+                    whseShptLine.SetRange("Invoice No.", "Invoice No.");
+                    if "Invoice No." = '' then
+                        whseShptLine.SetRange("Source No.", "Source No.");
+                    if whseShptLine.FindSet() then
+                        repeat
+                            Nominal_Invoice += LineAmountCalc.AmountInclVAT(whseShptLine, whseShptLine.Quantity);
+                        until whseShptLine.Next() = 0;
                 end;
             }
 
@@ -103,11 +107,12 @@ report 52008 SuratJalanNota
         Plat_Nomor: Text[100];
         Nama_Driver: Text[100];
         Nama_Cabang: Text[100];
-        Nomor_Invoice: Code[20];
+        Nomor_Invoice: Code[35];
         Kode_Customer: Code[20];
         Nama_Customer: Text[100];
         Alamat: Text[100];
         Nominal_Invoice: Decimal;
         TOP: Code[10];
-        orderDict: Dictionary of [Code[20], Boolean];
+        orderDict: Dictionary of [Text, Boolean];
+        LineAmountCalc: Codeunit "Whse. Shpt. Line Amount";
 }

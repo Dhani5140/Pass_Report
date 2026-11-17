@@ -439,7 +439,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -473,7 +475,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -507,7 +511,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <Style>
@@ -574,7 +580,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>-</Value>
+                    <Value>=Format(First(Fields!Total_Cubage.Value, "DataSet_Result"), "#,##0.##")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Normal</FontWeight>
@@ -585,7 +591,7 @@
               </Paragraph>
             </Paragraphs>
             <Top>1.27056cm</Top>
-            <Left>9.78605cm</Left>
+            <Left>0.07056cm</Left>
             <Height>0.423cm</Height>
             <Width>3.83469cm</Width>
             <ZIndex>1</ZIndex>
@@ -607,7 +613,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>-</Value>
+                    <Value>=Format(First(Fields!Total_Tonase.Value, "DataSet_Result"), "#,##0.##")</Value>
                     <Style>
                       <FontSize>8pt</FontSize>
                       <FontWeight>Normal</FontWeight>
@@ -618,7 +624,7 @@
               </Paragraph>
             </Paragraphs>
             <Top>1.69356cm</Top>
-            <Left>9.78605cm</Left>
+            <Left>0.07056cm</Left>
             <Height>0.423cm</Height>
             <Width>3.83469cm</Width>
             <ZIndex>2</ZIndex>
@@ -1257,6 +1263,18 @@ End Function
         <Field Name="Driver_Name">
           <DataField>Driver_Name</DataField>
         </Field>
+        <Field Name="Total_Cubage">
+          <DataField>Total_Cubage</DataField>
+        </Field>
+        <Field Name="Total_CubageFormat">
+          <DataField>Total_CubageFormat</DataField>
+        </Field>
+        <Field Name="Total_Tonase">
+          <DataField>Total_Tonase</DataField>
+        </Field>
+        <Field Name="Total_TonaseFormat">
+          <DataField>Total_TonaseFormat</DataField>
+        </Field>
         <Field Name="Item_No_">
           <DataField>Item_No_</DataField>
         </Field>
@@ -1289,21 +1307,6 @@ End Function
         </Field>
         <Field Name="Satuan">
           <DataField>Satuan</DataField>
-        </Field>
-        <Field Name="Satuan_Besar">
-          <DataField>Satuan_Besar</DataField>
-        </Field>
-        <Field Name="Satuan_Sedang">
-          <DataField>Satuan_Sedang</DataField>
-        </Field>
-        <Field Name="Base_Unit_of_Measure">
-          <DataField>Base_Unit_of_Measure</DataField>
-        </Field>
-        <Field Name="Qty__per_Unit_of_Measure">
-          <DataField>Qty__per_Unit_of_Measure</DataField>
-        </Field>
-        <Field Name="Qty__per_Unit_of_MeasureFormat">
-          <DataField>Qty__per_Unit_of_MeasureFormat</DataField>
         </Field>
       </Fields>
       <Query>

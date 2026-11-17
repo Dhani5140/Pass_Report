@@ -21,17 +21,13 @@ pageextension 52002 "Warehouse Receipt Page Ext" extends "Warehouse Receipt"
 
     actions
     {
-        addlast(Reporting)
+        addafter("&Print")
         {
             action(CetakSuratJalanRetur)
             {
                 Caption = 'Print Surat Jalan Retur';
                 Image = Print;
                 ApplicationArea = All;
-                Promoted = true;
-                PromotedOnly = true;
-                PromotedCategory = Report;
-                PromotedIsBig = true;
 
                 trigger OnAction()
                 begin
@@ -39,6 +35,10 @@ pageextension 52002 "Warehouse Receipt Page Ext" extends "Warehouse Receipt"
                     Report.Run(Report::SuratJalanRetur, true, false, Rec);
                 end;
             }
+        }
+        addafter("&Print_Promoted")
+        {
+            actionref(CetakSuratJalanRetur_Promoted; CetakSuratJalanRetur) { }
         }
     }
 }

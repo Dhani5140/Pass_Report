@@ -74,7 +74,6 @@ report 52006 InventoryStockss
                     TotalLocQtyBase: Decimal;
                     TotalLocAmount: Decimal;
                 begin
-                    // Group per kombinasi Location + Bin + Item agar tidak duplikat jika ada beberapa UOM di Bin yang sama
                     CurrentKey := "Location Code" + '|' + "Bin Code" + '|' + "Item No.";
                     if CurrentKey = LastKey then begin
                         CurrReport.Skip();
@@ -82,25 +81,21 @@ report 52006 InventoryStockss
                     end;
                     LastKey := CurrentKey;
 
-                    // Ambil Item Info & Satuan UOM
                     ItemName := Item.Description;
                     UOMBesar := Item."Satuan Besar";
                     UOMSedang := Item."Satuan Sedang";
                     UOMPcs := Item."Base Unit of Measure";
 
-                    // Lookup langsung Quantity & Quantity (Base) dari tabel Bin Content
                     QtyBesar := GetBinContentQty("Location Code", "Bin Code", "Item No.", UOMBesar);
                     QtySedang := GetBinContentQty("Location Code", "Bin Code", "Item No.", UOMSedang);
                     QtyPcs := GetBinContentQty("Location Code", "Bin Code", "Item No.", UOMPcs);
                     QtyBase := GetTotalBinContentBaseQty("Location Code", "Bin Code", "Item No.");
 
-                    // Lewati baris jika seluruh kuantitas di Bin ini 0
                     if (QtyBesar = 0) and (QtySedang = 0) and (QtyPcs = 0) and (QtyBase = 0) then begin
                         CurrReport.Skip();
                         exit;
                     end;
 
-                    // Mengambil Dimensi Brand
                     Brand := '';
                     DefaultDim.Reset();
                     DefaultDim.SetRange("Table ID", Database::Item);
@@ -111,7 +106,6 @@ report 52006 InventoryStockss
                         Brand := DefaultDim."Dimension Value Name";
                     end;
 
-                    // Hitung Amount (Proporsional QtyBase Bin terhadap Total QtyBase di Lokasi dari Bin Content)
                     Amount := 0;
                     TotalLocQtyBase := 0;
                     TotalLocAmount := 0;
@@ -210,7 +204,6 @@ report 52006 InventoryStockss
         EndingDate: Date;
         UseStockkeepingUnit: Boolean;
 
-    // Lookup field Quantity dari Bin Content per UOM
     local procedure GetBinContentQty(LocCode: Code[10]; BinCode: Code[20]; ItemNo: Code[20]; UOMCode: Code[20]): Decimal
     var
         BinContentRec: Record "Bin Content";
@@ -233,7 +226,6 @@ report 52006 InventoryStockss
         exit(TotalQty);
     end;
 
-    // Lookup total Quantity (Base) dari Bin Content untuk Bin & Item tersebut
     local procedure GetTotalBinContentBaseQty(LocCode: Code[10]; BinCode: Code[20]; ItemNo: Code[20]): Decimal
     var
         BinContentRec: Record "Bin Content";

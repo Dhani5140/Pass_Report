@@ -23,7 +23,6 @@ report 52000 TandaTerimaBuktiTagih
             dataitem("Gen. Journal Line"; "Gen. Journal Line")
             {
                 DataItemLink = "Document No." = field("No.");
-                // 1. Filter hanya baris Customer agar baris balancing/kosong tidak ikut tercetak
                 DataItemTableView = where("Account Type" = const(Customer));
 
                 column(Account_No_; CustomerFullName) { }
@@ -36,32 +35,26 @@ report 52000 TandaTerimaBuktiTagih
                     Cust: Record Customer;
                     CustLedgEntry: Record "Cust. Ledger Entry";
                 begin
-                    // 2. Skip jika baris tidak memiliki nomor faktur (mencegah row kosong)
                     if "Applies-to Doc. No." = '' then
                         CurrReport.Skip();
 
-                    // 3. Ambil data Posted Sales Invoice dari Cust. Ledger Entries (Document Type = Invoice saja)
                     CustLedgEntry.Reset();
                     CustLedgEntry.SetRange("Document Type", CustLedgEntry."Document Type"::Invoice);
                     CustLedgEntry.SetRange("Document No.", "Applies-to Doc. No.");
                     CustLedgEntry.SetRange("Customer No.", "Account No.");
                     if CustLedgEntry.FindFirst() then begin
-                        InvoiceDocNo := CustLedgEntry."Document No.";P
+                        InvoiceDocNo := CustLedgEntry."Document No.";
                         if CustLedgEntry."Posting Date" <> 0D then
                             PostingDateText := Format(CustLedgEntry."Posting Date", 0, '<Day,2>/<Month,2>/<Year4>')
                         else
                             PostingDateText := '';
                     end else
-                        // Skip jika dokumen yang di-apply bukan tipe Invoice
                         CurrReport.Skip();
 
-                    // 4. Ambil nama customer
                     CustomerFullName := "Account No.";
                     if Cust.Get("Account No.") then
                         CustomerFullName := StrSubstNo('%1 - %2', "Account No.", Cust.Name);
 
-                    // 5. Pastikan nilai sisa faktur selalu positif
-                    // Catatan: Pastikan field ini sesuai dengan kolom Sisa Faktur di General Cash Rcpt. Subform
                     SisaFaktur := Abs(Amount);
                 end;
             }

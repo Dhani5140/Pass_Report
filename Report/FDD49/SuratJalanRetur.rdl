@@ -1290,6 +1290,15 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
+            <Filters>
+              <Filter>
+                <FilterExpression>=Fields!Item_No_.Value</FilterExpression>
+                <Operator>NotEqual</Operator>
+                <FilterValues>
+                  <FilterValue>=""</FilterValue>
+                </FilterValues>
+              </Filter>
+            </Filters>
             <Top>1.5in</Top>
             <Left>0in</Left>
             <Height>0.88in</Height>
@@ -2362,8 +2371,17 @@ End Function
         <Field Name="Location_Code">
           <DataField>Location_Code</DataField>
         </Field>
-        <Field Name="Address">
-          <DataField>Address</DataField>
+        <Field Name="No_Faktur_Penjualan">
+          <DataField>No_Faktur_Penjualan</DataField>
+        </Field>
+        <Field Name="No_Pelanggan">
+          <DataField>No_Pelanggan</DataField>
+        </Field>
+        <Field Name="Nama_Pelanggan">
+          <DataField>Nama_Pelanggan</DataField>
+        </Field>
+        <Field Name="Alamat_Pelanggan">
+          <DataField>Alamat_Pelanggan</DataField>
         </Field>
         <Field Name="Source_No_">
           <DataField>Source_No_</DataField>
@@ -2391,27 +2409,6 @@ End Function
         </Field>
         <Field Name="Bin_Code">
           <DataField>Bin_Code</DataField>
-        </Field>
-        <Field Name="No_Faktur_Penjualan">
-          <DataField>No_Faktur_Penjualan</DataField>
-        </Field>
-        <Field Name="Tanggal_Dokumen">
-          <DataField>Tanggal_Dokumen</DataField>
-        </Field>
-        <Field Name="No_Pelanggan">
-          <DataField>No_Pelanggan</DataField>
-        </Field>
-        <Field Name="Nama_Pelanggan">
-          <DataField>Nama_Pelanggan</DataField>
-        </Field>
-        <Field Name="Alamat_Pelanggan">
-          <DataField>Alamat_Pelanggan</DataField>
-        </Field>
-        <Field Name="Total_Nominal_Faktur">
-          <DataField>Total_Nominal_Faktur</DataField>
-        </Field>
-        <Field Name="Total_Nominal_FakturFormat">
-          <DataField>Total_Nominal_FakturFormat</DataField>
         </Field>
       </Fields>
       <Query>

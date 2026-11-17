@@ -17,13 +17,10 @@ report 52007 SuratJalanRetur
             column(Alamat_Gudang; Alamat_Gudang) { }
             column(Nama_Cabang; Nama_Cabang) { }
             column(Location_Code; "Location Code") { }
-
-            dataitem("Location"; "Location")
-            {
-                DataItemLink = Code = field("Location Code");
-
-                column(Address; Address) { }
-            }
+            column(No_Faktur_Penjualan; No_Faktur_Penjualan) { }
+            column(No_Pelanggan; No_Pelanggan) { }
+            column(Nama_Pelanggan; Nama_Pelanggan) { }
+            column(Alamat_Pelanggan; Alamat_Pelanggan) { }
 
             dataitem("Warehouse Receipt Line"; "Warehouse Receipt Line")
             {
@@ -33,97 +30,78 @@ report 52007 SuratJalanRetur
                 column(Source_No_; "Source No.") { }
                 column(Item_No_; "Item No.") { }
                 column(Description; Description) { }
-                column(Unit_of_Measure_Code; "Unit of Measure Code") { }
-                column(Qty; Quantity) { }
-                column(QtyToReceive; "Qty. to Receive") { }
-                column(Bin_Code; "Bin Code") { }
-                column(No_Faktur_Penjualan; No_Faktur_Penjualan) { }
-                column(Tanggal_Dokumen; Tanggal_Dokumen) { }
-                column(No_Pelanggan; No_Pelanggan) { }
-                column(Nama_Pelanggan; Nama_Pelanggan) { }
-                column(Alamat_Pelanggan; Alamat_Pelanggan) { }
-                column(Total_Nominal_Faktur; Total_Nominal_Faktur) { }
 
-                trigger OnAfterGetRecord()
-                var
-                    salesReturLine: Record "Sales Line";
-                    valueEntry: Record "Value Entry";
-                    salesInvHeader: Record "Sales Invoice Header";
-                    salesInvLine: Record "Sales Invoice Line";
-                    salesShptHeader: Record "Sales Shipment Header";
-                    salesShptLine: Record "Sales Shipment Line";
-                    ShptDocNo: Code[20];
-                begin
-                    Clear(No_Faktur_Penjualan);
-                    Clear(Tanggal_Dokumen);
-                    Clear(No_Pelanggan);
-                    Clear(Nama_Pelanggan);
-                    Clear(Alamat_Pelanggan);
-                    Clear(Total_Nominal_Faktur);
+                dataitem(PutAwayLine; Integer)
+                {
+                    DataItemTableView = sorting(Number);
 
-                    if salesReturLine.Get(salesReturLine."Document Type"::"Return Order", "Source No.", "Source Line No.") then begin
-                        if salesReturLine."Appl.-from Item Entry" <> 0 then begin
-                            valueEntry.SetRange("Item Ledger Entry No.", salesReturLine."Appl.-from Item Entry");
-                            valueEntry.SetRange("Document Type", valueEntry."Document Type"::"Sales Invoice");
-                            if valueEntry.FindFirst() then
-                                No_Faktur_Penjualan := valueEntry."Document No.";
-                        end;
+                    column(Unit_of_Measure_Code; PutAwayUOM) { }
+                    column(Qty; RequestQty) { }
+                    column(QtyToReceive; PutAwayQty) { }
+                    column(Bin_Code; PutAwayBin) { }
+
+                    trigger OnPreDataItem()
+                    begin
+                        PutAwayStaging.Reset();
+                        PutAwayStaging.SetCurrentKey("Document No.", "Whse. Recpt. Line No.");
+                        PutAwayStaging.SetRange("Document No.", "Warehouse Receipt Line"."No.");
+                        PutAwayStaging.SetRange("Whse. Recpt. Line No.", "Warehouse Receipt Line"."Line No.");
+                        PutAwayStaging.SetFilter("Qty. to Receive", '<>0');
+                        PutAwayCount := PutAwayStaging.Count();
+                        if PutAwayCount = 0 then
+                            SetRange(Number, 1)
+                        else
+                            SetRange(Number, 1, PutAwayCount);
                     end;
 
-                    if No_Faktur_Penjualan <> '' then begin
-                        if salesInvHeader.Get(No_Faktur_Penjualan) then begin
-                            Tanggal_Dokumen := salesInvHeader."Document Date";
-                            No_Pelanggan := salesInvHeader."Sell-to Customer No.";
-                            Nama_Pelanggan := salesInvHeader."Sell-to Customer Name";
-                            Alamat_Pelanggan := salesInvHeader."Ship-to Address";
-                            if Alamat_Pelanggan = '' then
-                                Alamat_Pelanggan := salesInvHeader."Bill-to Address";
+                    trigger OnAfterGetRecord()
+                    begin
+                        RequestQty := 0;
+                        if Number = 1 then
+                            RequestQty := "Warehouse Receipt Line".Quantity;
 
-                            salesInvLine.SetRange("Document No.", No_Faktur_Penjualan);
-                            if salesInvLine.FindSet() then begin
-                                repeat
-                                    Total_Nominal_Faktur += salesInvLine."Amount Including VAT";
-                                until salesInvLine.Next() = 0;
-                            end;
+                        if PutAwayCount = 0 then begin
+                            PutAwayUOM := "Warehouse Receipt Line"."Unit of Measure Code";
+                            PutAwayQty := "Warehouse Receipt Line"."Qty. to Receive";
+                            PutAwayBin := "Warehouse Receipt Line"."Bin Code";
+                            exit;
                         end;
-                    end else if salesReturLine."Appl.-from Item Entry" <> 0 then begin
-                        // Shipment asal belum di-invoice: belum ada No Faktur, jadi No Shipment dipakai sbg pengganti sementara (prefix "S:" agar terlihat beda dari No Faktur asli).
-                        valueEntry.Reset();
-                        valueEntry.SetRange("Item Ledger Entry No.", salesReturLine."Appl.-from Item Entry");
-                        valueEntry.SetRange("Document Type", valueEntry."Document Type"::"Sales Shipment");
-                        if valueEntry.FindFirst() then begin
-                            ShptDocNo := valueEntry."Document No.";
-                            No_Faktur_Penjualan := CopyStr('S:' + ShptDocNo, 1, MaxStrLen(No_Faktur_Penjualan));
-                            if salesShptHeader.Get(ShptDocNo) then begin
-                                Tanggal_Dokumen := salesShptHeader."Document Date";
-                                No_Pelanggan := salesShptHeader."Sell-to Customer No.";
-                                Nama_Pelanggan := salesShptHeader."Sell-to Customer Name";
-                                Alamat_Pelanggan := salesShptHeader."Ship-to Address";
-                                if Alamat_Pelanggan = '' then
-                                    Alamat_Pelanggan := salesShptHeader."Bill-to Address";
 
-                                salesShptLine.SetRange("Document No.", ShptDocNo);
-                                if salesShptLine.FindSet() then begin
-                                    repeat
-                                        Total_Nominal_Faktur += salesShptLine."VAT Base Amount" * (1 + salesShptLine."VAT %" / 100);
-                                    until salesShptLine.Next() = 0;
-                                end;
-                            end;
-                        end;
+                        if Number = 1 then
+                            PutAwayStaging.FindSet()
+                        else
+                            PutAwayStaging.Next();
+
+                        PutAwayUOM := PutAwayStaging."Unit of Measure Code";
+                        PutAwayQty := PutAwayStaging."Qty. to Receive";
+                        PutAwayBin := PutAwayStaging."Bin Code 2";
                     end;
-                end;
+                }
             }
 
             trigger OnAfterGetRecord()
             var
                 LocationRec: Record Location;
+                ShippingAgentServ: Record "Shipping Agent Services";
             begin
                 Clear(Alamat_Gudang);
                 Clear(Nama_Cabang);
+                Clear(Plat_Nomor);
+                Clear(Nama_Supir);
+
+                PrintDateText := Format(Today, 0, '<Day,2>/<Month,2>/<Year,2>');
+
                 if LocationRec.Get("Location Code") then begin
                     Alamat_Gudang := LocationRec.Address;
                     Nama_Cabang := LocationRec.Name;
                 end;
+
+                if ShippingAgentServ.Get("Shipping Agent Code", "Shipping Agent Service Code") then begin
+                    Plat_Nomor := ShippingAgentServ."Plat Nomor";
+                    Nama_Supir := ShippingAgentServ."Nama Driver";
+                end;
+
+                SetCustomerAndInvoice();
             end;
         }
     }
@@ -138,15 +116,53 @@ report 52007 SuratJalanRetur
     }
 
     var
+        PutAwayStaging: Record "Whse. Splt PWay Line Staging";
+        PutAwayCount: Integer;
+        PutAwayUOM: Code[10];
+        PutAwayQty: Decimal;
+        PutAwayBin: Code[20];
+        RequestQty: Decimal;
         Plat_Nomor: Text[100];
         Nama_Supir: Text[100];
-        PrintDateText: Text[100];
+        PrintDateText: Text[30];
         Alamat_Gudang: Text[100];
         Nama_Cabang: Text[100];
         No_Faktur_Penjualan: Code[20];
-        Tanggal_Dokumen: Date;
         No_Pelanggan: Code[20];
         Nama_Pelanggan: Text[100];
         Alamat_Pelanggan: Text[100];
-        Total_Nominal_Faktur: Decimal;
+
+    local procedure SetCustomerAndInvoice()
+    var
+        whseRcptLine: Record "Warehouse Receipt Line";
+        returnHeader: Record "Sales Header";
+        returnLine: Record "Sales Line";
+        valueEntry: Record "Value Entry";
+    begin
+        Clear(No_Faktur_Penjualan);
+        Clear(No_Pelanggan);
+        Clear(Nama_Pelanggan);
+        Clear(Alamat_Pelanggan);
+
+        whseRcptLine.SetRange("No.", "Warehouse Receipt Header"."No.");
+        whseRcptLine.SetRange("Source Document", whseRcptLine."Source Document"::"Sales Return Order");
+        if not whseRcptLine.FindSet() then
+            exit;
+
+        if returnHeader.Get(returnHeader."Document Type"::"Return Order", whseRcptLine."Source No.") then begin
+            No_Pelanggan := returnHeader."Sell-to Customer No.";
+            Nama_Pelanggan := returnHeader."Sell-to Customer Name";
+            Alamat_Pelanggan := returnHeader."Sell-to Address";
+        end;
+
+        repeat
+            if returnLine.Get(returnLine."Document Type"::"Return Order", whseRcptLine."Source No.", whseRcptLine."Source Line No.") then
+                if returnLine."Appl.-from Item Entry" <> 0 then begin
+                    valueEntry.SetRange("Item Ledger Entry No.", returnLine."Appl.-from Item Entry");
+                    valueEntry.SetRange("Document Type", valueEntry."Document Type"::"Sales Invoice");
+                    if valueEntry.FindFirst() then
+                        No_Faktur_Penjualan := valueEntry."Document No.";
+                end;
+        until (No_Faktur_Penjualan <> '') or (whseRcptLine.Next() = 0);
+    end;
 }

@@ -231,7 +231,7 @@
                                         <Width>3.3cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>3cm</Width>
+                                        <Width>2.5cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
                                         <Width>1.2cm</Width>
@@ -243,7 +243,7 @@
                                         <Width>2.3cm</Width>
                                       </TablixColumn>
                                       <TablixColumn>
-                                        <Width>1.6cm</Width>
+                                        <Width>2.1cm</Width>
                                       </TablixColumn>
                                     </TablixColumns>
                                     <TablixRows>
@@ -810,7 +810,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value>=Sum(Fields!Total_Cubage.Value)</Value>
+                                                        <Value>=Fields!Total_Cubage.Value</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
                                                           <Format>=Fields!Total_CubageFormat.Value</Format>
@@ -840,7 +840,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value>=Sum(Fields!Total_Tonase.Value)</Value>
+                                                        <Value>=Fields!Total_Tonase.Value</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
                                                           <Format>=Fields!Total_TonaseFormat.Value</Format>
@@ -870,7 +870,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value>=First(Fields!InvoiceAmount.Value)</Value>
+                                                        <Value>=Fields!InvoiceAmount.Value</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
                                                           <Format>n2</Format>
@@ -941,19 +941,7 @@
                                         <RepeatOnNewPage>true</RepeatOnNewPage>
                                       </TablixMember>
                                       <TablixMember>
-                                        <Group Name="No_Faktur">
-                                          <GroupExpressions>
-                                            <GroupExpression>=Fields!No_Faktur.Value</GroupExpression>
-                                          </GroupExpressions>
-                                        </Group>
-                                        <SortExpressions>
-                                          <SortExpression>
-                                            <Value>=Fields!No_Faktur.Value</Value>
-                                          </SortExpression>
-                                        </SortExpressions>
-                                        <TablixMembers>
-                                          <TablixMember />
-                                        </TablixMembers>
+                                        <Group Name="Details" />
                                       </TablixMember>
                                     </TablixMembers>
                                   </TablixRowHierarchy>
@@ -1086,7 +1074,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value>=First(Fields!TotalAmount.Value)</Value>
+                                                        <Value>=Sum(Fields!InvoiceAmount.Value)</Value>
                                                         <Style>
                                                           <FontSize>9pt</FontSize>
                                                           <Format>n2</Format>
